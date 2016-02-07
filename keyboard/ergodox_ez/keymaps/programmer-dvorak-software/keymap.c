@@ -1,31 +1,33 @@
 #include "ergodox_ez.h"
 #include "debug.h"
 #include "action_layer.h"
+#include "keymap_extras/keymap_dvorak.h"
 
 #define BASE 0 // default layer
 #define SYMB 1 // symbols
 #define MDIA 2 // media keys
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-	
+
+// WARNING: It's a software-implemented layout so you have to install the Programmer Dvorak driver to use it
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
 // Otherwise, it needs KC_*
 [BASE] = KEYMAP(  // layer 0 : default
         // left hand
-        KC_1,           KC_2,       KC_3,       KC_4,       KC_5,       KC_6,       KC_DEL,
-        KC_GRV,         KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,       KC_BSPC,
-        KC_TAB,         KC_A,       KC_S,       KC_D,       KC_F,       KC_G,
-        KC_LSFT,        KC_Z,       KC_X,       KC_C,       KC_V,       KC_B,       SFT_T(KC_ESC),
-        KC_LCTL,    	MO(SYMB),	KC_LALT,    KC_DOWN,    KC_UP,
+        DV_1,           DV_2,       DV_3,       DV_4,       DV_5,       DV_6,       KC_DEL,
+        DV_GRV,         DV_QUOT,    DV_COMM,    DV_DOT,     DV_P,       DV_Y,       KC_BSPC,
+        KC_TAB,         DV_A,       DV_O,       DV_E,       DV_U,       DV_I,
+        KC_LSFT,        DV_SCLN,    DV_Q,       DV_J,       DV_K,       DV_X,       KC_ESC,
+        MO(SYMB),       KC_LCTL,    KC_LALT,    KC_DOWN,    KC_UP,
                                                                                     MO(SYMB),   KC_LGUI,
                                                                                                 KC_CALC,
                                                                             KC_ENT, KC_BSPC,    KC_PSCR,
         // right hand
-                    KC_DEL,         KC_7,       KC_8,       KC_9,       KC_0,       KC_MINS,    KC_EQL,
-                    KC_BSPC,        KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,       KC_LBRC,
-                                    KC_H,       KC_J,       KC_K,       KC_L,       KC_SCLN,    KC_QUOT,
-                    KC_CAPS,        KC_N,       KC_M,       KC_COMM,    KC_DOT,     KC_SLSH,    KC_RSFT,
-                                                KC_LEFT,    KC_RIGHT,   KC_BSLS,    KC_RBRC,    TG(MDIA),
+                    KC_CAPS,        DV_7,       DV_8,       DV_9,       DV_0,       DV_LBRC,    DV_RBRC,
+                    KC_BSPC,        DV_F,       DV_G,       DV_C,       DV_R,       DV_L,       DV_SLSH,
+                                    DV_D,       DV_H,       DV_T,       DV_N,       DV_S,       DV_MINS,
+                    SFT_T(KC_ENT),  DV_B,       DV_M,       DV_W,       DV_V,       DV_Z,       KC_RSFT,
+                                                KC_LEFT,    KC_RIGHT,   KC_BSLS,    DV_EQL,     TG(MDIA),
         KC_HOME,    KC_END,
         KC_PGUP,
         KC_PGDN,    KC_DEL, KC_SPC
@@ -34,10 +36,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // SYMBOLS
 [SYMB] = KEYMAP(
        // left hand
-        KC_TRNS,        KC_F1,      KC_F2,      KC_F3,      KC_F4,          KC_F5,      KC_INS,
-        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    LCTL(KC_DOT),   LCTL(KC_I), KC_TRNS,
+        KC_TRNS,        KC_F1,      KC_F2,      KC_F3,      KC_F4,          KC_F5,          KC_INS,
+        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    LSFT(KC_INS),   LCTL(KC_INS),   KC_TRNS,
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
-        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        LCTL(KC_B), KC_TRNS,
+        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        LSFT(KC_DEL),   KC_TRNS,
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
                                                                                         KC_TRNS,    KC_TRNS,
                                                                                                     KC_TRNS,
