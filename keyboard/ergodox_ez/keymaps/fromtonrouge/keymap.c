@@ -10,7 +10,7 @@
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-// WARNING: It's a software-implemented layout so you have to install the Programmer Dvorak driver to use it
+// WARNING: It's a software-implemented layout, you have to install the Programmer Dvorak driver to use it
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
 // Otherwise, it needs KC_*
 [BASE] = KEYMAP(  // layer 0 : default
@@ -19,17 +19,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         DV_GRV,         DV_QUOT,    DV_COMM,    DV_DOT,     DV_P,       DV_Y,       KC_BSPC,
         KC_TAB,         DV_A,       DV_O,       DV_E,       DV_U,       DV_I,
         KC_LSFT,        DV_SCLN,    DV_Q,       DV_J,       DV_K,       DV_X,       KC_ESC,
-        KC_LCTL,        TG(MDIA),   KC_LALT,    KC_DOWN,    KC_UP,
-                                                                                    MO(SYMB),   TG(SYMB),
+        KC_LCTL,        MO(SYMB),   KC_LALT,    KC_DOWN,    KC_UP,
+                                                                                    MO(SYMB),   MO(MDIA),
                                                                                                 KC_PSCR,
                                                                             KC_ENT, KC_BSPC,    KC_LGUI,
         // right hand
                     KC_CAPS,        DV_7,       DV_8,       DV_9,       DV_0,       DV_LBRC,    DV_RBRC,
                     KC_BSPC,        DV_F,       DV_G,       DV_C,       DV_R,       DV_L,       DV_SLSH,
                                     DV_D,       DV_H,       DV_T,       DV_N,       DV_S,       DV_MINS,
-                    SFT_T(KC_ENT),  DV_B,       DV_M,       DV_W,       DV_V,       DV_Z,       KC_RSFT,
+                    KC_ENT,         DV_B,       DV_M,       DV_W,       DV_V,       DV_Z,       KC_RSFT,
                                                 KC_LEFT,    KC_RIGHT,   KC_BSLS,    DV_EQL,     KC_RCTL,
-        KC_HOME,    KC_END,
+        TG(MDIA),   TG(SYMB),
         KC_PGUP,
         KC_PGDN,    KC_DEL, KC_SPC
     ),
@@ -37,26 +37,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // SYMBOLS
 [SYMB] = KEYMAP(
        // left hand
-        KC_TRNS,        KC_F1,      KC_F2,      KC_F3,      KC_F4,          KC_F5,          KC_INS,
+        KC_TRNS,        KC_F1,      KC_F2,      KC_F3,      KC_F4,          KC_F5,          KC_F6,
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    LSFT(KC_INS),   LCTL(KC_INS),   KC_TRNS,
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        LSFT(KC_DEL),   KC_TRNS,
-        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
+        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_PGDN,    KC_PGUP,
                                                                                         KC_TRNS,    KC_TRNS,
                                                                                                     KC_TRNS,
-                                                                            KC_TRNS,    KC_TRNS,    KC_TRNS,
+                                                                            KC_BSPC,    KC_TRNS,    KC_TRNS,
        // right hand
-                    KC_INS,         KC_F6,      KC_F7,      KC_F8,      KC_F9,          KC_F10,     KC_F11,
-                    KC_TRNS,        KC_TRNS,    KC_KP_7,    KC_KP_8,    KC_KP_9,        KC_TRNS,    KC_F12,
-                                    KC_TRNS,    KC_KP_4,    KC_KP_5,    KC_KP_6,        KC_TRNS,    KC_TRNS,
-                    KC_TRNS,        KC_TRNS,    KC_KP_1,    KC_KP_2,    KC_KP_3,        KC_TRNS,    KC_TRNS,
-                                                KC_KP_0,    KC_KP_DOT,  KC_TRNS,        KC_TRNS,    KC_TRNS,
+                    KC_F7,          KC_F8,      KC_F9,      KC_F10,     KC_F11,         KC_F12,     KC_TRNS,
+                    KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,    KC_TRNS,
+                                    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,    KC_TRNS,
+                    KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,    KC_TRNS,
+                                                KC_HOME,    KC_END,     KC_TRNS,        KC_TRNS,    KC_TRNS,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
-        KC_TRNS,    KC_INS, KC_TRNS
+        KC_TRNS,    KC_INS, KC_BSPC
 ),
 
-// MEDIA AND MOUSE
+// KEYPAD AND MOUSE
 [MDIA] = KEYMAP(
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_MS_U,    KC_TRNS,    KC_TRNS,        KC_TRNS,
@@ -68,10 +68,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                             KC_BTN1,    KC_TRNS,    KC_TRNS,
     // right hand
                     KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                    KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                                    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                    KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                                                KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
+                    KC_TRNS,        KC_TRNS,    KC_KP_7,    KC_KP_8,    KC_KP_9,    KC_TRNS,    KC_TRNS,
+                                    KC_TRNS,    KC_KP_4,    KC_KP_5,    KC_KP_6,    KC_TRNS,    KC_TRNS,
+                    KC_TRNS,        KC_TRNS,    KC_KP_1,    KC_KP_2,    KC_KP_3,    KC_TRNS,    KC_TRNS,
+                                                KC_KP_0,    KC_KP_DOT,  KC_TRNS,    KC_TRNS,    KC_TRNS,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
         KC_TRNS,    KC_TRNS,    KC_TRNS
@@ -119,16 +119,14 @@ void * matrix_scan_user(void) {
         case 2:
             ergodox_right_led_1_on();
             ergodox_right_led_2_on();
-            ergodox_right_led_3_on();
             break;
         default:
             // none
             break;
     }
 
-	// led 3: caps lock
     if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK))
-   	{
-		ergodox_right_led_1_on();
+    {
+        ergodox_right_led_1_on();
     }
 };
