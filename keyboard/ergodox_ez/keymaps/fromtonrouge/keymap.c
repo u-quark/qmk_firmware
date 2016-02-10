@@ -2,6 +2,7 @@
 #include "debug.h"
 #include "action_layer.h"
 #include "keymap_extras/keymap_dvorak.h"
+#include "led.h"
 
 #define BASE 0 // default layer
 #define SYMB 1 // symbols
@@ -18,16 +19,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         DV_GRV,         DV_QUOT,    DV_COMM,    DV_DOT,     DV_P,       DV_Y,       KC_BSPC,
         KC_TAB,         DV_A,       DV_O,       DV_E,       DV_U,       DV_I,
         KC_LSFT,        DV_SCLN,    DV_Q,       DV_J,       DV_K,       DV_X,       KC_ESC,
-        MO(SYMB),       KC_LCTL,    KC_LALT,    KC_DOWN,    KC_UP,
-                                                                                    MO(SYMB),   KC_LGUI,
-                                                                                                KC_CALC,
-                                                                            KC_ENT, KC_BSPC,    KC_PSCR,
+        KC_LCTL,        TG(MDIA),   KC_LALT,    KC_DOWN,    KC_UP,
+                                                                                    MO(SYMB),   TG(SYMB),
+                                                                                                KC_PSCR,
+                                                                            KC_ENT, KC_BSPC,    KC_LGUI,
         // right hand
                     KC_CAPS,        DV_7,       DV_8,       DV_9,       DV_0,       DV_LBRC,    DV_RBRC,
                     KC_BSPC,        DV_F,       DV_G,       DV_C,       DV_R,       DV_L,       DV_SLSH,
                                     DV_D,       DV_H,       DV_T,       DV_N,       DV_S,       DV_MINS,
                     SFT_T(KC_ENT),  DV_B,       DV_M,       DV_W,       DV_V,       DV_Z,       KC_RSFT,
-                                                KC_LEFT,    KC_RIGHT,   KC_BSLS,    DV_EQL,     TG(MDIA),
+                                                KC_LEFT,    KC_RIGHT,   KC_BSLS,    DV_EQL,     KC_RCTL,
         KC_HOME,    KC_END,
         KC_PGUP,
         KC_PGDN,    KC_DEL, KC_SPC
@@ -68,9 +69,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // right hand
                     KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
                     KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                                    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_MPLY,
-                    KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_MPRV,    KC_MNXT,    KC_TRNS,    KC_TRNS,
-                                                KC_VOLU,    KC_VOLD,    KC_MUTE,    KC_TRNS,    KC_TRNS,
+                                    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
+                    KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
+                                                KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
         KC_TRNS,    KC_TRNS,    KC_TRNS
@@ -125,4 +126,9 @@ void * matrix_scan_user(void) {
             break;
     }
 
+	// led 3: caps lock
+    if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK))
+   	{
+		ergodox_right_led_1_on();
+    }
 };
