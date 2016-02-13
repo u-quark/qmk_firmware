@@ -7,7 +7,6 @@
 #define SYMB 1 // symbols
 #define MDIA 2 // media keys
 #define SHIFTED_LAYER 3 // Shifted Layer
-#define UNSHIFTED_LAYER 4 // Unshifted Layer
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -98,26 +97,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TRNS,    KC_TRNS,    KC_TRNS
 ),
 
-// UNSHIFTED LAYER
-[UNSHIFTED_LAYER] = KEYMAP(
-        KC_TRNS,        KC_7,       KC_5,       KC_3,       KC_1,       KC_9,           KC_TRNS,
-        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
-        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
-        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                                                                                        KC_TRNS,    KC_TRNS,
-                                                                                                    KC_TRNS,
-                                                                            KC_TRNS,    KC_TRNS,    KC_TRNS,
-    // right hand
-                    KC_TRNS,        KC_0,       KC_2,       KC_4,       KC_6,       KC_8,       KC_GRV,
-                    KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                                    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                    KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                                                KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-        KC_TRNS,    KC_TRNS,
-        KC_TRNS,
-        KC_TRNS,    KC_TRNS,    KC_TRNS
-),
 };
 
 const uint16_t PROGMEM fn_actions[] = {
@@ -142,17 +121,132 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
             }
             break;
         }
-    case 1: // M(1) : Unapply SHIFT and go to UNSHIFTED_LAYER
+    case 1: // M(1) : Unapply SHIFT and register keycode on press
         {
+			uint16_t keycode = keymap_key_to_keycode(BASE, record->event.key);
             if (record->event.pressed)
             {
-                unregister_code(KC_LSFT);
-                layer_on(UNSHIFTED_LAYER);
+				unregister_code(KC_LSFT);
+				switch (keycode)
+				{
+				case KC_LBRC:
+					{
+						register_code(KC_7);
+						break;
+					}
+				case S(KC_LBRC):
+					{
+						register_code(KC_5);
+						break;
+					}
+				case S(KC_RBRC):
+					{
+						register_code(KC_3);
+						break;
+					}
+				case S(KC_9):
+					{
+						register_code(KC_1);
+						break;
+					}
+				case KC_EQL:
+					{
+						register_code(KC_9);
+						break;
+					}
+				case S(KC_8):
+					{
+						register_code(KC_0);
+						break;
+					}
+				case S(KC_0):
+					{
+						register_code(KC_2);
+						break;
+					}
+				case S(KC_EQL):
+					{
+						register_code(KC_4);
+						break;
+					}
+				case KC_RBRC:
+					{
+						register_code(KC_6);
+						break;
+					}
+				case S(KC_1):
+					{
+						register_code(KC_8);
+						break;
+					}
+				case S(KC_3):
+					{
+						register_code(KC_GRV);
+						break;
+					}
+				}
             }
             else
             {
+				switch (keycode)
+				{
+				case KC_LBRC:
+					{
+						unregister_code(KC_7);
+						break;
+					}
+				case S(KC_LBRC):
+					{
+						unregister_code(KC_5);
+						break;
+					}
+				case S(KC_RBRC):
+					{
+						unregister_code(KC_3);
+						break;
+					}
+				case S(KC_9):
+					{
+						unregister_code(KC_1);
+						break;
+					}
+				case KC_EQL:
+					{
+						unregister_code(KC_9);
+						break;
+					}
+				case S(KC_8):
+					{
+						unregister_code(KC_0);
+						break;
+					}
+				case S(KC_0):
+					{
+						unregister_code(KC_2);
+						break;
+					}
+				case S(KC_EQL):
+					{
+						unregister_code(KC_4);
+						break;
+					}
+				case KC_RBRC:
+					{
+						unregister_code(KC_6);
+						break;
+					}
+				case S(KC_1):
+					{
+						unregister_code(KC_8);
+						break;
+					}
+				case S(KC_3):
+					{
+						unregister_code(KC_GRV);
+						break;
+					}
+				}
                 register_code(KC_LSFT);
-                layer_off(UNSHIFTED_LAYER);
             }
             break;
         }
