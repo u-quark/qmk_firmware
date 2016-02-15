@@ -15,20 +15,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Otherwise, it needs KC_*
 [BASE] = KEYMAP(  // layer 0 : default
         // left hand
-        S(KC_7),        KC_LBRC,    S(KC_LBRC), S(KC_RBRC), S(KC_9),    KC_EQL,     KC_DEL,
-        S(KC_4),        KC_SCLN,    KC_COMM,    KC_DOT,     KC_P,       KC_Y,       KC_BSPC,
-        KC_TAB,         KC_A,       KC_O,       KC_E,       KC_U,       KC_I,
-        M(0),           KC_QUOT,    KC_Q,       KC_J,       KC_K,       KC_X,       KC_ESC,
-        KC_LCTL,        S(KC_7),    KC_LALT,    KC_DOWN,    KC_UP,
+        FR_AMP,         FR_LBRC,    FR_LCBR,    FR_RCBR,    FR_LPRN,    FR_EQL,     KC_DEL,
+        FR_DLR,         FR_SCLN,    FR_COMM,    FR_DOT,     KC_P,       KC_Y,       KC_BSPC,
+        KC_TAB,         FR_A,       KC_O,       KC_E,       KC_U,       KC_I,
+        M(0),           FR_QUOT,    FR_Q,       KC_J,       KC_K,       KC_X,       KC_ESC,
+        KC_LCTL,        FR_AMP,     KC_LALT,    KC_DOWN,    KC_UP,
                                                                                     KC_FN1,     KC_CLR,
                                                                                                 KC_PSCR,
                                                                             KC_ENT, KC_BSPC,    KC_LGUI,
         // right hand
-                    KC_CAPS,        S(KC_8),    S(KC_0),    S(KC_EQL),  KC_RBRC,    S(KC_1),    S(KC_3),
-                    KC_BSPC,        KC_F,       KC_G,       KC_C,       KC_R,       KC_L,       KC_SLSH,
-                                    KC_D,       KC_H,       KC_T,       KC_N,       KC_S,       KC_MINS,
-                    KC_ENT,         KC_B,       KC_M,       KC_W,       KC_V,       KC_Z,       M(0),
-                                                KC_LEFT,    KC_RIGHT,   KC_BSLS,    S(KC_2),    KC_RCTL,
+                    KC_CAPS,        FR_ASTR,    FR_RPRN,    FR_PLUS,    FR_RBRC,    FR_EXLM,    FR_HASH,
+                    KC_BSPC,        KC_F,       KC_G,       KC_C,       KC_R,       KC_L,       FR_SLSH,
+                                    KC_D,       KC_H,       KC_T,       KC_N,       KC_S,       FR_MINS,
+                    KC_ENT,         KC_B,       FR_M,       FR_W,       KC_V,       FR_Z,       M(0),
+                                                KC_LEFT,    KC_RIGHT,   FR_BSLS,    FR_AT,      KC_RCTL,
         KC_CLR,   KC_FN1,
         MO(LAYER_MEDIA),
         TG(LAYER_MEDIA),   KC_DEL, KC_SPC
@@ -46,10 +46,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                             KC_BTN1,    KC_TRNS,    KC_TRNS,
     // right hand
                     KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                    KC_TRNS,        KC_TRNS,    KC_1,       KC_2,       KC_3,       KC_TRNS,    KC_TRNS,
-                                    KC_TRNS,    KC_4,       KC_5,       KC_6,       KC_TRNS,    KC_TRNS,
-                    KC_TRNS,        KC_TRNS,    KC_7,       KC_8,       KC_9,       KC_TRNS,    KC_TRNS,
-                                                KC_0,       KC_DOT,     KC_TRNS,    KC_TRNS,    KC_TRNS,
+                    KC_TRNS,        KC_TRNS,    FR_1,       FR_2,       FR_3,       KC_TRNS,    KC_TRNS,
+                                    KC_TRNS,    FR_4,       FR_5,       FR_6,       KC_TRNS,    KC_TRNS,
+                    KC_TRNS,        KC_TRNS,    FR_7,       FR_8,       FR_9,       KC_TRNS,    KC_TRNS,
+                                                FR_0,       FR_DOT,     KC_TRNS,    KC_TRNS,    KC_TRNS,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
         KC_TRNS,    KC_TRNS,    KC_TRNS
@@ -57,20 +57,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // SHIFTED LAYER
 [LAYER_SHIFT] = KEYMAP(
-        KC_5,           M(1),       M(1),       M(1),       M(1),       M(1),           KC_TRNS,
-        KC_GRV,         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
+        FR_UGRV,        KC_7,       KC_5,       KC_3,       KC_1,       KC_9,           KC_TRNS,
+        M(1),           KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
-        KC_TRNS,        KC_5,    KC_TRNS,    KC_TRNS,    KC_TRNS,
+        KC_TRNS,        FR_UGRV,    KC_TRNS,    KC_TRNS,    KC_TRNS,
                                                                                         KC_TRNS,    KC_TRNS,
                                                                                                     KC_TRNS,
                                                                             KC_TRNS,    KC_TRNS,    KC_TRNS,
     // right hand
-                    KC_TRNS,        M(1),       M(1),       M(1),       M(1),       M(1),       M(1),
+                    KC_TRNS,        KC_0,       KC_2,       KC_4,       KC_6,       KC_8,       M(1),
+                    KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    FR_COMM,
+                                    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    M(1),
                     KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                                    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                    KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                                                KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_6,       KC_TRNS,
+                                                KC_TRNS,    KC_TRNS,    M(1),       M(1),       KC_TRNS,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
         KC_TRNS,    KC_TRNS,    KC_TRNS
@@ -108,7 +108,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
 {
     switch (macroId)
     {
-    case 0: // M(0) : Apply SHIFT and go toLAYER_SHIFT 
+    case 0: // M(0) : Apply SHIFT and go to LAYER_SHIFT 
         {
             if (record->event.pressed)
             {
@@ -130,59 +130,29 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                 unregister_code(KC_LSFT);
                 switch (keycode)
                 {
-                case KC_LBRC:
+                case FR_DLR:
                     {
-                        register_code(KC_7);
+                        register_code(FR_TILD);
                         break;
                     }
-                case S(KC_LBRC):
+                case FR_HASH:
                     {
-                        register_code(KC_5);
+                        register_code(FR_GRV);
                         break;
                     }
-                case S(KC_RBRC):
+                case FR_MINS:
                     {
-                        register_code(KC_3);
+                        register_code(FR_UNDS);
                         break;
                     }
-                case S(KC_9):
+                case FR_AT:
                     {
-                        register_code(KC_1);
+                        register_code(FR_CIRC);
                         break;
                     }
-                case KC_EQL:
+                case FR_BSLS:
                     {
-                        register_code(KC_9);
-                        break;
-                    }
-                case S(KC_8):
-                    {
-                        register_code(KC_0);
-                        break;
-                    }
-                case S(KC_0):
-                    {
-                        register_code(KC_2);
-                        break;
-                    }
-                case S(KC_EQL):
-                    {
-                        register_code(KC_4);
-                        break;
-                    }
-                case KC_RBRC:
-                    {
-                        register_code(KC_6);
-                        break;
-                    }
-                case S(KC_1):
-                    {
-                        register_code(KC_8);
-                        break;
-                    }
-                case S(KC_3):
-                    {
-                        register_code(KC_GRV);
+                        register_code(FR_PIPE);
                         break;
                     }
                 }
@@ -191,59 +161,29 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
             {
                 switch (keycode)
                 {
-                case KC_LBRC:
+                case FR_DLR:
                     {
-                        unregister_code(KC_7);
+                        unregister_code(FR_TILD);
                         break;
                     }
-                case S(KC_LBRC):
+                case FR_HASH:
                     {
-                        unregister_code(KC_5);
+                        unregister_code(FR_GRV);
                         break;
                     }
-                case S(KC_RBRC):
+                case FR_MINS:
                     {
-                        unregister_code(KC_3);
+                        unregister_code(FR_UNDS);
                         break;
                     }
-                case S(KC_9):
+                case FR_AT:
                     {
-                        unregister_code(KC_1);
+                        unregister_code(FR_CIRC);
                         break;
                     }
-                case KC_EQL:
+                case FR_BSLS:
                     {
-                        unregister_code(KC_9);
-                        break;
-                    }
-                case S(KC_8):
-                    {
-                        unregister_code(KC_0);
-                        break;
-                    }
-                case S(KC_0):
-                    {
-                        unregister_code(KC_2);
-                        break;
-                    }
-                case S(KC_EQL):
-                    {
-                        unregister_code(KC_4);
-                        break;
-                    }
-                case KC_RBRC:
-                    {
-                        unregister_code(KC_6);
-                        break;
-                    }
-                case S(KC_1):
-                    {
-                        unregister_code(KC_8);
-                        break;
-                    }
-                case S(KC_3):
-                    {
-                        unregister_code(KC_GRV);
+                        unregister_code(FR_PIPE);
                         break;
                     }
                 }
