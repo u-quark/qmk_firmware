@@ -18,7 +18,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         FR_AMP,         FR_LBRC,    FR_LCBR,    FR_RCBR,    FR_LPRN,    FR_EQL,     KC_DEL,
         FR_DLR,         FR_SCLN,    FR_COMM,    FR_DOT,     KC_P,       KC_Y,       KC_BSPC,
         KC_TAB,         FR_A,       KC_O,       KC_E,       KC_U,       KC_I,
-        M(0),           FR_QUOT,    FR_Q,       KC_J,       KC_K,       KC_X,       KC_ESC,
+        M(0),           FR_APOS,    FR_Q,       KC_J,       KC_K,       KC_X,       KC_ESC,
         KC_LCTL,        FR_AMP,     KC_LALT,    KC_DOWN,    KC_UP,
                                                                                     KC_FN1,     KC_CLR,
                                                                                                 KC_PSCR,
@@ -58,9 +58,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // SHIFTED LAYER
 [LAYER_SHIFT] = KEYMAP(
         FR_UGRV,        KC_7,       KC_5,       KC_3,       KC_1,       KC_9,           KC_TRNS,
-        M(1),           KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
+        M(1),           M(1),       M(1),       M(1),       KC_TRNS,    KC_TRNS,        KC_TRNS,
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
+        KC_TRNS,        M(1),       KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
         KC_TRNS,        FR_UGRV,    KC_TRNS,    KC_TRNS,    KC_TRNS,
                                                                                         KC_TRNS,    KC_TRNS,
                                                                                                     KC_TRNS,
@@ -130,13 +130,36 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                 unregister_code(KC_LSFT);
                 switch (keycode)
                 {
+                case FR_APOS:
+                    {
+                        register_code(FR_QUOT);
+                        break;
+                    }
+                case FR_SCLN:
+                    {
+                        register_code(FR_COLN);
+                        break;
+                    }
+                case FR_COMM:
+                    {
+                        register_code(FR_LESS);
+                        break;
+                    }
+                case FR_DOT:
+                    {
+                        register_code(KC_LSFT);
+                        register_code(FR_GRTR);
+                        break;
+                    }
                 case FR_DLR:
                     {
+                        register_code(KC_RALT);
                         register_code(FR_TILD);
                         break;
                     }
                 case FR_HASH:
                     {
+                        register_code(KC_RALT);
                         register_code(FR_GRV);
                         break;
                     }
@@ -147,11 +170,13 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                     }
                 case FR_AT:
                     {
+                        register_code(KC_RALT);
                         register_code(FR_CIRC);
                         break;
                     }
                 case FR_BSLS:
                     {
+                        register_code(KC_RALT);
                         register_code(FR_PIPE);
                         break;
                     }
@@ -161,13 +186,35 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
             {
                 switch (keycode)
                 {
+                case FR_APOS:
+                    {
+                        unregister_code(FR_QUOT);
+                        break;
+                    }
+                case FR_SCLN:
+                    {
+                        unregister_code(FR_COLN);
+                        break;
+                    }
+                case FR_COMM:
+                    {
+                        unregister_code(FR_LESS);
+                        break;
+                    }
+                case FR_DOT:
+                    {
+                        unregister_code(FR_GRTR);
+                        break;
+                    }
                 case FR_DLR:
                     {
+                        unregister_code(KC_RALT);
                         unregister_code(FR_TILD);
                         break;
                     }
                 case FR_HASH:
                     {
+                        unregister_code(KC_RALT);
                         unregister_code(FR_GRV);
                         break;
                     }
@@ -178,11 +225,13 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                     }
                 case FR_AT:
                     {
+                        unregister_code(KC_RALT);
                         unregister_code(FR_CIRC);
                         break;
                     }
                 case FR_BSLS:
                     {
+                        unregister_code(KC_RALT);
                         unregister_code(FR_PIPE);
                         break;
                     }
