@@ -252,22 +252,25 @@ void * matrix_scan_user(void)
 {
     uint8_t layer = biton32(layer_state);
 
-    ergodox_led_all_off();
+    ergodox_board_led_on();
+	ergodox_right_led_1_off();
+	ergodox_right_led_2_off();
+	ergodox_right_led_3_off();
+
+    if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK))
+    {
+        ergodox_right_led_1_on();
+    }
+
     switch (layer)
     {
     case LAYER_FN:
         ergodox_right_led_2_on();
         break;
     case LAYER_MEDIA:
-        ergodox_right_led_1_on();
-        ergodox_right_led_2_on();
+        ergodox_right_led_3_on();
         break;
     default:
         break;
-    }
-
-    if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK))
-    {
-        ergodox_right_led_1_on();
     }
 }
