@@ -3,32 +3,32 @@
 #include "action_layer.h"
 #include "led.h"
 
-#define BASE 0 // default layer
-#define LAYER_MEDIA 1 // media keys
-#define LAYER_SHIFT 2 // Shifted Layer
-#define LAYER_FN 3 // Fn Layer
+#define LAYER_DVORAK 0  // default layer
+#define LAYER_MEDIA 1   // media keys
+#define LAYER_SHIFT 2   // Shifted Layer
+#define LAYER_FN 3      // Fn Layer
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
 // Otherwise, it needs KC_*
-[BASE] = KEYMAP(  // layer 0 : default
+[LAYER_DVORAK] = KEYMAP(  // layer 0 : default
         // left hand
         S(KC_7),        KC_LBRC,    S(KC_LBRC), S(KC_RBRC), S(KC_9),    KC_EQL,     KC_DEL,
         S(KC_4),        KC_SCLN,    KC_COMM,    KC_DOT,     KC_P,       KC_Y,       KC_BSPC,
         KC_TAB,         KC_A,       KC_O,       KC_E,       KC_U,       KC_I,
         M(0),           KC_QUOT,    KC_Q,       KC_J,       KC_K,       KC_X,       KC_ESC,
         KC_LCTL,        S(KC_7),    KC_LALT,    KC_DOWN,    KC_UP,
-                                                                                    KC_FN1,     KC_CLR,
-                                                                                                KC_PSCR,
-                                                                            KC_ENT, KC_BSPC,    KC_LGUI,
+                                                                                    MO(LAYER_FN),       TG(LAYER_FN),
+                                                                                                        KC_PSCR,
+                                                                            KC_ENT, KC_BSPC,            KC_LGUI,
         // right hand
                     KC_CAPS,        S(KC_8),    S(KC_0),    S(KC_EQL),  KC_RBRC,    S(KC_1),    S(KC_3),
                     KC_BSPC,        KC_F,       KC_G,       KC_C,       KC_R,       KC_L,       KC_SLSH,
                                     KC_D,       KC_H,       KC_T,       KC_N,       KC_S,       KC_MINS,
                     KC_ENT,         KC_B,       KC_M,       KC_W,       KC_V,       KC_Z,       M(0),
                                                 KC_LEFT,    KC_RIGHT,   KC_BSLS,    S(KC_2),    KC_RCTL,
-        KC_CLR,   KC_FN1,
+        TG(LAYER_FN),     MO(LAYER_FN),
         MO(LAYER_MEDIA),
         TG(LAYER_MEDIA),   KC_DEL, KC_SPC
     ),
@@ -83,8 +83,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
         KC_LSFT,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,        KC_TRNS,
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_PGDN,    KC_PGUP,
-                                                                                        KC_TRNS,    LCTL(KC_INS),
-                                                                                                    LSFT(KC_DEL),
+                                                                                        KC_TRNS,    KC_TRNS,
+                                                                                                    LCTL(KC_INS),
                                                                             KC_TRNS,    KC_TRNS,    LSFT(KC_INS),
        // right hand
                     KC_F7,          KC_F8,      KC_F9,      KC_F10,     KC_F11,         KC_F12,     KC_TRNS,
@@ -123,7 +123,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
         }
     case 1: // M(1) : Unapply SHIFT and register keycode on press
         {
-            uint16_t keycode = keymap_key_to_keycode(BASE, record->event.key);
+            uint16_t keycode = keymap_key_to_keycode(LAYER_DVORAK, record->event.key);
             if (record->event.pressed)
             {
                 unregister_code(KC_LSFT);
@@ -262,22 +262,25 @@ void * matrix_scan_user(void)
 {
     uint8_t layer = biton32(layer_state);
 
-    ergodox_led_all_off();
+    ergodox_board_led_on();
+    ergodox_right_led_1_off();
+    ergodox_right_led_2_off();
+    ergodox_right_led_3_off();
+
+    if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK))
+    {
+        ergodox_right_led_1_on();
+    }
+
     switch (layer)
     {
     case LAYER_FN:
         ergodox_right_led_2_on();
         break;
     case LAYER_MEDIA:
-        ergodox_right_led_1_on();
-        ergodox_right_led_2_on();
+        ergodox_right_led_3_on();
         break;
     default:
         break;
-    }
-
-    if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK))
-    {
-        ergodox_right_led_1_on();
     }
 }
