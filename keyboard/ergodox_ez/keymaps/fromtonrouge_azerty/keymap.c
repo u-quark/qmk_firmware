@@ -15,7 +15,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Otherwise, it needs KC_*
 [BASE] = KEYMAP(  // layer 0 : default
         // left hand
-        FR_AMP,         FR_LBRC,    FR_LCBR,    FR_RCBR,    FR_LPRN,    FR_EQL,     KC_DEL,
+        FR_AMP,         FR_LBRC,    FR_LCBR,    FR_RCBR,    FR_LPRN,    FR_EQL,     KC_INS,
         FR_DLR,         FR_SCLN,    FR_COMM,    FR_DOT,     KC_P,       KC_Y,       KC_BSPC,
         KC_TAB,         FR_A,       KC_O,       KC_E,       KC_U,       KC_I,
         M(0),           FR_APOS,    FR_Q,       KC_J,       KC_K,       KC_X,       KC_ESC,
