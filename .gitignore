@@ -13,3 +13,9 @@ tags
 build/
 *.bak
 .vagrant/
+.DS_STORE
+
+# Eclipse Settings
+.cproject
+.project
+.settings/
