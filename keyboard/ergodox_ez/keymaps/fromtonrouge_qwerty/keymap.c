@@ -5,8 +5,9 @@
 
 #define LAYER_DVORAK 0      // Dvorak Default Layer
 #define LAYER_COLEMAK 1     // Colemak Layer
-#define LAYER_SHIFT 2       // Shifted Layer
-#define LAYER_FN 3          // Fn Layer
+#define LAYER_PLOVER 2      // Plover Layer
+#define LAYER_SHIFT 3       // Shifted Layer
+#define LAYER_FN 4          // Fn Layer
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -29,7 +30,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                     KC_ENT,         KC_B,       KC_M,       KC_W,       KC_V,       KC_Z,       M(0),
                                                 KC_LEFT,    KC_RIGHT,   KC_BSLS,    S(KC_2),    KC_RCTL,
         TG(LAYER_FN),     MO(LAYER_FN),
-        KC_CLR,
+        TG(LAYER_PLOVER),
         TG(LAYER_COLEMAK),   KC_DEL, KC_SPC
     ),
 
@@ -53,6 +54,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
         KC_TRNS,    KC_TRNS,    KC_TRNS
+),
+
+// PLOVER LAYER
+[LAYER_PLOVER] = KEYMAP(
+        // left hand
+        KC_NO,        KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,        KC_NO,
+        KC_NO,        KC_1,       KC_2,       KC_3,       KC_4,       KC_5,         KC_TRNS,
+        KC_NO,        KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,
+        KC_NO,        KC_A,       KC_S,       KC_D,       KC_F,       KC_G,         KC_TRNS,
+        KC_NO,        KC_NO,      KC_NO,      KC_TRNS,    KC_TRNS,
+                                                                                        KC_TRNS,    KC_TRNS,
+                                                                                                    KC_TRNS,
+                                                                            KC_C,       KC_V,       KC_TRNS,
+        // right hand
+                    KC_NO,          KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
+                    KC_TRNS,        KC_6,       KC_7,       KC_8,       KC_9,       KC_0,       KC_NO,
+                                    KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,       KC_LBRC,
+                    KC_TRNS,        KC_H,       KC_J,       KC_K,       KC_L,       KC_SCLN,    KC_QUOT,
+                                                KC_TRNS,    KC_TRNS,    KC_NO,      KC_NO,      KC_NO,
+        KC_TRNS,    KC_TRNS,
+        KC_TRNS,
+        KC_TRNS,    KC_N,    KC_M
 ),
 
 // SHIFTED LAYER
@@ -281,6 +304,10 @@ void * matrix_scan_user(void)
         break;
     case LAYER_COLEMAK:
         ergodox_right_led_3_on();
+        break;
+    case LAYER_PLOVER:
+        ergodox_right_led_1_on();
+        ergodox_right_led_2_on();
         break;
     default:
         break;
