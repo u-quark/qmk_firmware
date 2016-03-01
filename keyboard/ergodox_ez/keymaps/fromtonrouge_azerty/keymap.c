@@ -5,7 +5,7 @@
 #include "led.h"
 
 #define BASE 0 // default layer
-#define LAYER_MEDIA 1 // media keys
+#define LAYER_PLOVER 1 // Plover layer
 #define LAYER_SHIFT 2 // Shifted Layer
 #define LAYER_FN 3 // Fn Layer
 
@@ -30,29 +30,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                     KC_ENT,         KC_B,       FR_M,       FR_W,       KC_V,       FR_Z,       M(0),
                                                 KC_LEFT,    KC_RIGHT,   FR_BSLS,    FR_AT,      KC_RCTL,
         TG(LAYER_FN),     MO(LAYER_FN),
-        KC_CLR,
+        TG(LAYER_PLOVER),
         KC_RALT,   KC_DEL, KC_SPC
     ),
 
-// KEYPAD AND MOUSE
-[LAYER_MEDIA] = KEYMAP(
+// PLOVER
+[LAYER_PLOVER] = KEYMAP(
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
-        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_MS_U,    KC_TRNS,    KC_TRNS,        KC_TRNS,
-        KC_TRNS,        KC_TRNS,    KC_MS_L,    KC_MS_D,    KC_MS_R,    KC_MS_WH_UP,
-        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_MS_WH_DOWN,  KC_TRNS,
-        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_BTN2,
+        KC_TRNS,        KC_1,       KC_2,       KC_3,       KC_4,       KC_5,           KC_TRNS,
+        KC_TRNS,        KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,
+        KC_TRNS,        KC_A,       KC_S,       KC_D,       KC_F,       KC_G,           KC_TRNS,
+        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
                                                                                         KC_TRNS,    KC_TRNS,
                                                                                                     KC_TRNS,
-                                                                            KC_BTN1,    KC_TRNS,    KC_TRNS,
+                                                                            KC_C,       KC_V,    KC_TRNS,
     // right hand
                     KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                    KC_TRNS,        KC_TRNS,    FR_1,       FR_2,       FR_3,       KC_TRNS,    KC_TRNS,
-                                    KC_TRNS,    FR_4,       FR_5,       FR_6,       KC_TRNS,    KC_TRNS,
-                    KC_TRNS,        KC_TRNS,    FR_7,       FR_8,       FR_9,       KC_TRNS,    KC_TRNS,
-                                                FR_0,       FR_DOT,     KC_TRNS,    KC_TRNS,    KC_TRNS,
+                    KC_TRNS,        KC_6,       KC_7,       KC_8,       KC_9,       KC_0,       KC_TRNS,
+                                    KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,       KC_LBRC,
+                    KC_TRNS,        KC_H,       KC_J,       KC_K,       KC_L,       KC_SCLN,    KC_QUOT,
+                                                KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
-        KC_TRNS,    KC_TRNS,    KC_TRNS
+        KC_TRNS,    KC_N,    KC_M
 ),
 
 // SHIFTED LAYER
@@ -253,9 +253,9 @@ void * matrix_scan_user(void)
     uint8_t layer = biton32(layer_state);
 
     ergodox_board_led_on();
-	ergodox_right_led_1_off();
-	ergodox_right_led_2_off();
-	ergodox_right_led_3_off();
+    ergodox_right_led_1_off();
+    ergodox_right_led_2_off();
+    ergodox_right_led_3_off();
 
     if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK))
     {
@@ -267,7 +267,7 @@ void * matrix_scan_user(void)
     case LAYER_FN:
         ergodox_right_led_2_on();
         break;
-    case LAYER_MEDIA:
+    case LAYER_PLOVER:
         ergodox_right_led_3_on();
         break;
     default:
