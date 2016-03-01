@@ -30,8 +30,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                     KC_ENT,         KC_B,       FR_M,       FR_W,       KC_V,       FR_Z,       M(0),
                                                 KC_LEFT,    KC_RIGHT,   FR_BSLS,    FR_AT,      KC_RCTL,
         TG(LAYER_FN),     MO(LAYER_FN),
-        MO(LAYER_MEDIA),
-        TG(LAYER_MEDIA),   KC_DEL, KC_SPC
+        KC_CLR,
+        KC_RALT,   KC_DEL, KC_SPC
     ),
 
 // KEYPAD AND MOUSE
