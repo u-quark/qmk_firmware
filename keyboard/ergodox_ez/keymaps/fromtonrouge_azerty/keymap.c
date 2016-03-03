@@ -4,21 +4,28 @@
 #include "keymap_extras/keymap_french.h"
 #include "led.h"
 
-#define BASE 0 // default layer
-#define LAYER_PLOVER 1 // Plover layer
-#define LAYER_SHIFT 2 // Shifted Layer
-#define LAYER_FN 3 // Fn Layer
+#define LAYER_DVORAK 0      // default layer
+#define LAYER_COLEMAK 1     // Colemak layer
+#define LAYER_PLOVER 2      // Plover layer
+#define LAYER_SHIFT_DVORAK 3       // Shifted Layer
+#define LAYER_SHIFT_COLEMAK 4      // Shifted Layer
+#define LAYER_FN 5          // Fn Layer
+
+#define SFT_DVORAK 0
+#define UNAPPLY_SFT_DVORAK 1
+#define SFT_COLEMAK 2
+#define UNAPPLY_SFT_COLEMAK 3
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
 // Otherwise, it needs KC_*
-[BASE] = KEYMAP(  // layer 0 : default
+[LAYER_DVORAK] = KEYMAP(  // layer 0 : default
         // left hand
         FR_AMP,         FR_LBRC,    FR_LCBR,    FR_RCBR,    FR_LPRN,    FR_EQL,     KC_INS,
         FR_DLR,         FR_SCLN,    FR_COMM,    FR_DOT,     KC_P,       KC_Y,       KC_BSPC,
         KC_TAB,         FR_A,       KC_O,       KC_E,       KC_U,       KC_I,
-        M(0),           FR_APOS,    FR_Q,       KC_J,       KC_K,       KC_X,       KC_ESC,
+        M(SFT_DVORAK),  FR_APOS,    FR_Q,       KC_J,       KC_K,       KC_X,       KC_ESC,
         KC_LCTL,        FR_AMP,     KC_LALT,    KC_DOWN,    KC_UP,
                                                                                     MO(LAYER_FN),       TG(LAYER_FN),
                                                                                                         KC_PSCR,
@@ -27,12 +34,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                     KC_CAPS,        FR_ASTR,    FR_RPRN,    FR_PLUS,    FR_RBRC,    FR_EXLM,    FR_HASH,
                     KC_BSPC,        KC_F,       KC_G,       KC_C,       KC_R,       KC_L,       FR_SLSH,
                                     KC_D,       KC_H,       KC_T,       KC_N,       KC_S,       FR_MINS,
-                    KC_ENT,         KC_B,       FR_M,       FR_W,       KC_V,       FR_Z,       M(0),
+                    KC_ENT,         KC_B,       FR_M,       FR_W,       KC_V,       FR_Z,       M(SFT_DVORAK),
                                                 KC_LEFT,    KC_RIGHT,   FR_BSLS,    FR_AT,      KC_RCTL,
         TG(LAYER_FN),     MO(LAYER_FN),
         TG(LAYER_PLOVER),
-        KC_RALT,   KC_DEL, KC_SPC
+        TG(LAYER_COLEMAK),   KC_DEL, KC_SPC
     ),
+
+// COLEMAK
+[LAYER_COLEMAK] = KEYMAP(
+        // left hand
+        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
+        FR_DLR,         FR_Q,       FR_W,       KC_F,       KC_P,       KC_G,           KC_TRNS,
+        KC_TRNS,        FR_A,       KC_R,       KC_S,       KC_T,       KC_D,
+        M(SFT_COLEMAK), FR_Z,       KC_X,       KC_C,       KC_V,       KC_B,           KC_TRNS,
+        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
+                                                                                        KC_TRNS,    KC_TRNS,
+                                                                                                    KC_TRNS,
+                                                                            KC_TRNS,    KC_TRNS,    KC_TRNS,
+        // right hand
+                    KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    FR_HASH,
+                    KC_TRNS,        KC_J,       KC_L,       KC_U,       KC_Y,       FR_SCLN,    KC_TRNS,
+                                    KC_H,       KC_N ,      KC_E,       KC_I,       KC_O,       FR_MINS,
+                    KC_TRNS,        KC_K,       FR_M,       FR_COMM,    FR_DOT,     FR_SLSH,    M(SFT_COLEMAK),
+                                                KC_TRNS,    KC_TRNS,    FR_BSLS,    FR_AT,      KC_TRNS,
+        KC_TRNS,    KC_TRNS,
+        KC_TRNS,
+        KC_TRNS,    KC_TRNS,    KC_TRNS
+),
 
 // PLOVER
 [LAYER_PLOVER] = KEYMAP(
@@ -57,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 // SHIFTED LAYER
-[LAYER_SHIFT] = KEYMAP(
+[LAYER_SHIFT_DVORAK] = KEYMAP(
         FR_UGRV,        KC_7,       KC_5,       KC_3,       KC_1,       KC_9,           KC_TRNS,
         M(1),           M(1),       M(1),       M(1),       KC_TRNS,    KC_TRNS,        KC_TRNS,
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
@@ -72,6 +101,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                     KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    M(1),
                     KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
                                                 KC_TRNS,    KC_TRNS,    M(1),       M(1),       KC_TRNS,
+        KC_TRNS,    KC_TRNS,
+        KC_TRNS,
+        KC_TRNS,    KC_TRNS,    KC_TRNS
+),
+
+// SHIFTED LAYER
+[LAYER_SHIFT_COLEMAK] = KEYMAP(
+        FR_UGRV,        KC_7,       KC_5,       KC_3,       KC_1,       KC_9,           KC_TRNS,
+        M(3),           KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
+        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
+        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
+        KC_TRNS,        FR_UGRV,    KC_TRNS,    KC_TRNS,    KC_TRNS,
+                                                                                        KC_TRNS,    KC_TRNS,
+                                                                                                    KC_TRNS,
+                                                                            KC_TRNS,    KC_TRNS,    KC_TRNS,
+    // right hand
+                    KC_TRNS,        KC_0,       KC_2,       KC_4,       KC_6,       KC_8,       M(3),
+                    KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    M(3),       FR_COMM,
+                                    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    M(3),
+                    KC_TRNS,        KC_TRNS,    KC_TRNS,    M(3),       M(3),       FR_COMM,    KC_TRNS,
+                                                KC_TRNS,    KC_TRNS,    M(3),       M(3),       KC_TRNS,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
         KC_TRNS,    KC_TRNS,    KC_TRNS
@@ -109,23 +159,37 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
 {
     switch (macroId)
     {
-    case 0: // M(0) : Apply SHIFT and go to LAYER_SHIFT 
+    case SFT_DVORAK: // Apply SHIFT and go to LAYER_SHIFT_DVORAK 
         {
             if (record->event.pressed)
             {
                 register_code(KC_LSFT);
-                layer_on(LAYER_SHIFT);
+                layer_on(LAYER_SHIFT_DVORAK);
             }
             else
             {
                 unregister_code(KC_LSFT);
-                layer_off(LAYER_SHIFT);
+                layer_off(LAYER_SHIFT_DVORAK);
             }
             break;
         }
-    case 1: // M(1) : Unapply SHIFT and register keycode on press
+    case SFT_COLEMAK: // Apply SHIFT and go to LAYER_SHIFT_COLEMAK
         {
-            uint16_t keycode = keymap_key_to_keycode(BASE, record->event.key);
+            if (record->event.pressed)
+            {
+                register_code(KC_LSFT);
+                layer_on(LAYER_SHIFT_COLEMAK);
+            }
+            else
+            {
+                unregister_code(KC_LSFT);
+                layer_off(LAYER_SHIFT_COLEMAK);
+            }
+            break;
+        }
+    case UNAPPLY_SFT_DVORAK: // Unapply SHIFT and register keycode on press
+        {
+            uint16_t keycode = keymap_key_to_keycode(LAYER_DVORAK, record->event.key);
             if (record->event.pressed)
             {
                 unregister_code(KC_LSFT);
@@ -241,6 +305,115 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
             }
             break;
         }
+    case UNAPPLY_SFT_COLEMAK: // Unapply SHIFT and register keycode on press
+        {
+            uint16_t keycode = keymap_key_to_keycode(LAYER_COLEMAK, record->event.key);
+            if (record->event.pressed)
+            {
+                unregister_code(KC_LSFT);
+                switch (keycode)
+                {
+                case FR_DLR:
+                    {
+                        register_code(KC_RALT);
+                        register_code(FR_TILD);
+                        break;
+                    }
+                case FR_SCLN:
+                    {
+                        register_code(FR_COLN);
+                        break;
+                    }
+                case FR_COMM:
+                    {
+                        register_code(FR_LESS);
+                        break;
+                    }
+                case FR_DOT:
+                    {
+                        register_code(KC_LSFT);
+                        register_code(FR_GRTR);
+                        break;
+                    }
+                case FR_HASH:
+                    {
+                        register_code(KC_RALT);
+                        register_code(FR_GRV);
+                        break;
+                    }
+                case FR_MINS:
+                    {
+                        register_code(FR_UNDS);
+                        break;
+                    }
+                case FR_AT:
+                    {
+                        register_code(KC_RALT);
+                        register_code(FR_CIRC);
+                        break;
+                    }
+                case FR_BSLS:
+                    {
+                        register_code(KC_RALT);
+                        register_code(FR_PIPE);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                switch (keycode)
+                {
+                case FR_DLR:
+                    {
+                        unregister_code(KC_RALT);
+                        unregister_code(FR_TILD);
+                        break;
+                    }
+                case FR_SCLN:
+                    {
+                        unregister_code(FR_COLN);
+                        break;
+                    }
+                case FR_COMM:
+                    {
+                        unregister_code(FR_LESS);
+                        break;
+                    }
+                case FR_DOT:
+                    {
+                        unregister_code(KC_LSFT);
+                        unregister_code(FR_GRTR);
+                        break;
+                    }
+                case FR_HASH:
+                    {
+                        unregister_code(KC_RALT);
+                        unregister_code(FR_GRV);
+                        break;
+                    }
+                case FR_MINS:
+                    {
+                        unregister_code(FR_UNDS);
+                        break;
+                    }
+                case FR_AT:
+                    {
+                        unregister_code(KC_RALT);
+                        unregister_code(FR_CIRC);
+                        break;
+                    }
+                case FR_BSLS:
+                    {
+                        unregister_code(KC_RALT);
+                        unregister_code(FR_PIPE);
+                        break;
+                    }
+                }
+                register_code(KC_LSFT);
+            }
+            break;
+        }
     }
     return MACRO_NONE;
 }
@@ -269,6 +442,11 @@ void * matrix_scan_user(void)
         ergodox_right_led_2_on();
         break;
     case LAYER_PLOVER:
+        ergodox_right_led_1_on();
+        ergodox_right_led_2_on();
+        break;
+    case LAYER_COLEMAK:
+    case LAYER_SHIFT_COLEMAK:
         ergodox_right_led_3_on();
         break;
     default:
