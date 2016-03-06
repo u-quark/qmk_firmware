@@ -54,9 +54,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                             KC_TRNS,    KC_TRNS,    KC_TRNS,
         // right hand
                     KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    FR_HASH,
-                    KC_TRNS,        KC_J,       KC_L,       KC_U,       KC_Y,       FR_SCLN,    KC_TRNS,
+                    KC_TRNS,        KC_J,       KC_L,       KC_U,       KC_Y,       FR_SCLN,    FR_SLSH,
                                     KC_H,       KC_N ,      KC_E,       KC_I,       KC_O,       FR_MINS,
-                    KC_TRNS,        KC_K,       FR_M,       FR_COMM,    FR_DOT,     FR_SLSH,    M(SFT_COLEMAK),
+                    KC_TRNS,        KC_K,       FR_M,       FR_COMM,    FR_DOT,     FR_APOS,    M(SFT_COLEMAK),
                                                 KC_TRNS,    KC_TRNS,    FR_BSLS,    FR_AT,      KC_TRNS,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
@@ -120,7 +120,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                     KC_TRNS,        KC_0,       KC_2,       KC_4,       KC_6,       KC_8,       M(3),
                     KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    M(3),       FR_COMM,
                                     KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    M(3),
-                    KC_TRNS,        KC_TRNS,    KC_TRNS,    M(3),       M(3),       FR_COMM,    KC_TRNS,
+                    KC_TRNS,        KC_TRNS,    KC_TRNS,    M(3),       M(3),       M(3),    	KC_TRNS,
                                                 KC_TRNS,    KC_TRNS,    M(3),       M(3),       KC_TRNS,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
@@ -313,6 +313,11 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                 unregister_code(KC_LSFT);
                 switch (keycode)
                 {
+                case FR_APOS:
+                    {
+                        register_code(FR_QUOT);
+                        break;
+                    }
                 case FR_DLR:
                     {
                         register_code(KC_RALT);
@@ -364,6 +369,11 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
             {
                 switch (keycode)
                 {
+                case FR_APOS:
+                    {
+                        unregister_code(FR_QUOT);
+                        break;
+                    }
                 case FR_DLR:
                     {
                         unregister_code(KC_RALT);
