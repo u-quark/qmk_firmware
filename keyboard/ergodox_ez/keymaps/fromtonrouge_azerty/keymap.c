@@ -26,7 +26,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         FR_DLR,         FR_SCLN,    FR_COMM,    FR_DOT,     KC_P,       KC_Y,       KC_BSPC,
         KC_TAB,         FR_A,       KC_O,       KC_E,       KC_U,       KC_I,
         M(SFT_DVORAK),  FR_APOS,    FR_Q,       KC_J,       KC_K,       KC_X,       KC_ESC,
-        KC_LCTL,        FR_AMP,     KC_LALT,    KC_DOWN,    KC_UP,
+        KC_LCTL,        FR_AMP,     KC_LALT,    KC_UP,      KC_DOWN,
                                                                                     MO(LAYER_FN),       TG(LAYER_FN),
                                                                                                         KC_PSCR,
                                                                             KC_ENT, KC_BSPC,            KC_LGUI,
