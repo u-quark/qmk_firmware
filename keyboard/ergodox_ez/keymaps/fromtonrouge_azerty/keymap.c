@@ -17,6 +17,14 @@
 #define UNAPPLY_SFT_COLEMAK 3
 #define STENO 4
 
+uint32_t bitsKeysPressed = 0;
+uint32_t bitsKeysStroked = 0;
+
+#define L_A (1 << 0)
+#define L_C (1 << 1)
+#define L_W (1 << 2)
+
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
@@ -156,6 +164,11 @@ const uint16_t PROGMEM fn_actions[] = {
     [1] = ACTION_LAYER_TAP_TOGGLE(LAYER_FN)                // FN1 - Momentary Layer 1 (Symbols)
 };
 
+void stroke()
+{
+	bitsKeysStroked = 0;
+}
+
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t opt)
 {
     switch (macroId)
@@ -178,16 +191,20 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                         {
                         case 1: // Left hand
                             {
-                                register_code(KC_Q);
+								bitsKeysPressed |= L_A;
+								bitsKeysStroked |= L_A;
                                 break;
                             }
                         case 2:
                             {
-                                register_code(KC_C);
+								bitsKeysPressed |= L_C;
+								bitsKeysStroked |= L_C;
                                 break;
                             }
                         case 3:
                             {
+								bitsKeysPressed |= L_W;
+								bitsKeysStroked |= L_W;
                                 break;
                             }
                         case 4:
@@ -231,12 +248,10 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                         {
                         case 1: // Left hand
                             {
-                                register_code(KC_S);
                                 break;
                             }
                         case 2:
                             {
-                                register_code(KC_T);
                                 break;
                             }
                         case 3:
@@ -291,16 +306,17 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                         {
                         case 1: // Left hand
                             {
-                                unregister_code(KC_Q);
+								bitsKeysPressed &= ~L_A;
                                 break;
                             }
                         case 2:
                             {
-                                unregister_code(KC_C);
+								bitsKeysPressed &= ~L_C;
                                 break;
                             }
                         case 3:
                             {
+								bitsKeysPressed &= ~L_W;
                                 break;
                             }
                         case 4:
@@ -344,12 +360,10 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                         {
                         case 1: // Left hand
                             {
-                                unregister_code(KC_S);
                                 break;
                             }
                         case 2:
                             {
-                                unregister_code(KC_T);
                                 break;
                             }
                         case 3:
@@ -392,6 +406,11 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                         break;
                     }
                 }
+
+				if (bitsKeysPressed == 0)
+				{
+					stroke();
+				}
             }
             break;
         }
@@ -698,4 +717,11 @@ void * matrix_scan_user(void)
     default:
         break;
     }
+
+	if (bitsKeysStroked)
+	{
+        ergodox_right_led_1_on();
+        ergodox_right_led_2_on();
+        ergodox_right_led_3_on();
+	}
 }
