@@ -6,7 +6,7 @@
 
 #define LAYER_DVORAK 0      // default layer
 #define LAYER_COLEMAK 1     // Colemak layer
-#define LAYER_PLOVER 2      // Plover layer
+#define LAYER_STENO 2      // Steno layer
 #define LAYER_SHIFT_DVORAK 3       // Shifted Layer
 #define LAYER_SHIFT_COLEMAK 4      // Shifted Layer
 #define LAYER_FN 5          // Fn Layer
@@ -15,6 +15,7 @@
 #define UNAPPLY_SFT_DVORAK 1
 #define SFT_COLEMAK 2
 #define UNAPPLY_SFT_COLEMAK 3
+#define STENO 4
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -37,7 +38,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                     KC_ENT,         KC_B,       FR_M,       FR_W,       KC_V,       FR_Z,       M(SFT_DVORAK),
                                                 KC_LEFT,    KC_RIGHT,   FR_BSLS,    FR_AT,      KC_RCTL,
         TG(LAYER_FN),     MO(LAYER_FN),
-        TG(LAYER_PLOVER),
+        TG(LAYER_STENO),
         TG(LAYER_COLEMAK),   KC_DEL, KC_SPC
     ),
 
@@ -63,26 +64,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TRNS,    KC_TRNS,    KC_TRNS
 ),
 
-// PLOVER
-[LAYER_PLOVER] = KEYMAP(
+// STENO
+[LAYER_STENO] = KEYMAP(
         // left hand
         KC_NO,        KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,        KC_NO,
         KC_NO,        KC_1,       KC_2,       KC_3,       KC_4,       KC_5,         KC_TRNS,
-        KC_NO,        KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,
-        KC_NO,        KC_A,       KC_S,       KC_D,       KC_F,       KC_G,         KC_TRNS,
+        KC_NO,        M(4),       M(4),       M(4),       M(4),       M(4),
+        KC_NO,        M(4),       M(4),       M(4),       M(4),       M(4),         KC_TRNS,
         KC_NO,        KC_NO,      KC_NO,      KC_TRNS,    KC_TRNS,
                                                                                         KC_TRNS,    KC_TRNS,
                                                                                                     KC_TRNS,
-                                                                            KC_C,       KC_V,       KC_TRNS,
+                                                                            M(4),       M(4),       KC_TRNS,
         // right hand
                     KC_NO,          KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
                     KC_TRNS,        KC_6,       KC_7,       KC_8,       KC_9,       KC_0,       KC_NO,
-                                    KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,       KC_LBRC,
-                    KC_TRNS,        KC_H,       KC_J,       KC_K,       KC_L,       KC_SCLN,    KC_QUOT,
+                                    M(4),       M(4),       M(4),       M(4),       M(4),       M(4),
+                    KC_TRNS,        M(4),       M(4),       M(4),       M(4),       M(4),       M(4),
                                                 KC_TRNS,    KC_TRNS,    KC_NO,      KC_NO,      KC_NO,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
-        KC_TRNS,    KC_N,    KC_M
+        KC_TRNS,    M(4),    M(4)
 ),
 
 // SHIFTED LAYER
@@ -120,7 +121,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                     KC_TRNS,        KC_0,       KC_2,       KC_4,       KC_6,       KC_8,       M(3),
                     KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    M(3),       FR_COMM,
                                     KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    M(3),
-                    KC_TRNS,        KC_TRNS,    KC_TRNS,    M(3),       M(3),       M(3),    	KC_TRNS,
+                    KC_TRNS,        KC_TRNS,    KC_TRNS,    M(3),       M(3),       M(3),       KC_TRNS,
                                                 KC_TRNS,    KC_TRNS,    M(3),       M(3),       KC_TRNS,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
@@ -159,6 +160,241 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
 {
     switch (macroId)
     {
+    case STENO:
+        {
+            // Dothan L. Shelton Steno Layout
+            const int nPhysicalRow = record->event.key.col;
+            const int nPhysicalCol = record->event.key.row;
+            if (record->event.pressed)
+            {
+                // ? = (row, col)
+                // A = (2, 1)
+                // B = (3, 8)
+                switch (nPhysicalRow)
+                {
+                case 2:
+                    {
+                        switch (nPhysicalCol)
+                        {
+                        case 1: // Left hand
+                            {
+                                register_code(KC_Q);
+                                break;
+                            }
+                        case 2:
+                            {
+                                register_code(KC_C);
+                                break;
+                            }
+                        case 3:
+                            {
+                                break;
+                            }
+                        case 4:
+                            {
+                                break;
+                            }
+                        case 5:
+                            {
+                                break;
+                            }
+                        case 8: // Right hand
+                            {
+                                break;
+                            }
+                        case 9:
+                            {
+                                break;
+                            }
+                        case 10:
+                            {
+                                break;
+                            }
+                        case 11:
+                            {
+                                break;
+                            }
+                        case 12:
+                            {
+                                break;
+                            }
+                        case 13:
+                            {
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                case 3:
+                    {
+                        switch (nPhysicalCol)
+                        {
+                        case 1: // Left hand
+                            {
+                                register_code(KC_S);
+                                break;
+                            }
+                        case 2:
+                            {
+                                register_code(KC_T);
+                                break;
+                            }
+                        case 3:
+                            {
+                                break;
+                            }
+                        case 4:
+                            {
+                                break;
+                            }
+                        case 5:
+                            {
+                                break;
+                            }
+                        case 8: // Right hand
+                            {
+                                break;
+                            }
+                        case 9:
+                            {
+                                break;
+                            }
+                        case 10:
+                            {
+                                break;
+                            }
+                        case 11:
+                            {
+                                break;
+                            }
+                        case 12:
+                            {
+                                break;
+                            }
+                        case 13:
+                            {
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                // Stroke if all keys are released
+                switch (nPhysicalRow)
+                {
+                case 2:
+                    {
+                        switch (nPhysicalCol)
+                        {
+                        case 1: // Left hand
+                            {
+                                unregister_code(KC_Q);
+                                break;
+                            }
+                        case 2:
+                            {
+                                unregister_code(KC_C);
+                                break;
+                            }
+                        case 3:
+                            {
+                                break;
+                            }
+                        case 4:
+                            {
+                                break;
+                            }
+                        case 5:
+                            {
+                                break;
+                            }
+                        case 8: // Right hand
+                            {
+                                break;
+                            }
+                        case 9:
+                            {
+                                break;
+                            }
+                        case 10:
+                            {
+                                break;
+                            }
+                        case 11:
+                            {
+                                break;
+                            }
+                        case 12:
+                            {
+                                break;
+                            }
+                        case 13:
+                            {
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                case 3:
+                    {
+                        switch (nPhysicalCol)
+                        {
+                        case 1: // Left hand
+                            {
+                                unregister_code(KC_S);
+                                break;
+                            }
+                        case 2:
+                            {
+                                unregister_code(KC_T);
+                                break;
+                            }
+                        case 3:
+                            {
+                                break;
+                            }
+                        case 4:
+                            {
+                                break;
+                            }
+                        case 5:
+                            {
+                                break;
+                            }
+                        case 8: // Right hand
+                            {
+                                break;
+                            }
+                        case 9:
+                            {
+                                break;
+                            }
+                        case 10:
+                            {
+                                break;
+                            }
+                        case 11:
+                            {
+                                break;
+                            }
+                        case 12:
+                            {
+                                break;
+                            }
+                        case 13:
+                            {
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            break;
+        }
     case SFT_DVORAK: // Apply SHIFT and go to LAYER_SHIFT_DVORAK 
         {
             if (record->event.pressed)
@@ -451,7 +687,7 @@ void * matrix_scan_user(void)
     case LAYER_FN:
         ergodox_right_led_2_on();
         break;
-    case LAYER_PLOVER:
+    case LAYER_STENO:
         ergodox_right_led_1_on();
         ergodox_right_led_2_on();
         break;
