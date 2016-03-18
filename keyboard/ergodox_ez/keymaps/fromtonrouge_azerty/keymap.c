@@ -17,12 +17,38 @@
 #define UNAPPLY_SFT_COLEMAK 3
 #define STENO 4
 
-uint32_t bitsKeysPressed = 0;
-uint32_t bitsKeysStroked = 0;
+uint32_t bitsKeys = 0;
+uint32_t bitsLeftHand = 0;
+uint32_t bitsRightHand = 0;
+uint32_t bitsThumbs = 0;
 
-#define L_A (1 << 0)
-#define L_C (1 << 1)
-#define L_W (1 << 2)
+#define L_A (1L << 0)
+#define L_C (1L << 1)
+#define L_W (1L << 2)
+#define L_N (1L << 3)
+#define L_S (1L << 4)
+#define L_T (1L << 5)
+#define L_H (1L << 6)
+#define L_R (1L << 7)
+
+#define T_I (1L << 8)
+#define T_E (1L << 9)
+#define T_A (1L << 10)
+#define T_O (1L << 11)
+#define T_U (1L << 12)
+#define T_UO (1L << 13)
+#define T_EI (1L << 14)
+
+#define R_R (1L << 15)
+#define R_L (1L << 16)
+#define R_C (1L << 17)
+#define R_T (1L << 18)
+#define R_E (1L << 19)
+#define R_N (1L << 20)
+#define R_G (1L << 21)
+#define R_H (1L << 22)
+#define R_S (1L << 23)
+#define R_Y (1L << 24)
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -86,8 +112,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // right hand
                     KC_NO,          KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
                     KC_TRNS,        KC_6,       KC_7,       KC_8,       KC_9,       KC_0,       KC_NO,
-                                    M(4),       M(4),       M(4),       M(4),       M(4),       M(4),
-                    KC_TRNS,        M(4),       M(4),       M(4),       M(4),       M(4),       M(4),
+                                    M(4),       M(4),       M(4),       M(4),       M(4),       KC_NO,
+                    KC_TRNS,        M(4),       M(4),       M(4),       M(4),       M(4),       KC_NO,
                                                 KC_TRNS,    KC_TRNS,    KC_NO,      KC_NO,      KC_NO,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
@@ -164,9 +190,77 @@ const uint16_t PROGMEM fn_actions[] = {
     [1] = ACTION_LAYER_TAP_TOGGLE(LAYER_FN)                // FN1 - Momentary Layer 1 (Symbols)
 };
 
-void stroke()
+void stroke(void)
 {
-	bitsKeysStroked = 0;
+    switch (bitsLeftHand)
+    {
+    case L_A:                                           { register_code(FR_A); break; }
+    case L_S:                                           { register_code(KC_S); break; }
+    case L_C:                                           { register_code(KC_C); break; }
+    case L_T:                                           { register_code(KC_T); break; }
+    case L_W:                                           { register_code(FR_W); break; }
+    case L_H:                                           { register_code(KC_H); break; }
+    case L_N:                                           { register_code(KC_N); break; }
+    case L_R:                                           { register_code(KC_R); break; }
+    case L_S|L_C:                                       { register_code(KC_S); register_code(KC_C); break; }
+    case L_S|L_T:                                       { register_code(KC_S); register_code(KC_T); break; }
+    }
+
+    switch (bitsThumbs)
+    {
+    case T_I:                                           { register_code(KC_I); break; }
+    case T_E:                                           { register_code(KC_E); break; }
+    case T_A:                                           { register_code(FR_A); break; }
+    case T_O:                                           { register_code(KC_O); break; }
+    case T_U:                                           { register_code(KC_U); break; }
+    }
+
+    switch (bitsRightHand)
+    {
+    case R_R:                                           { register_code(KC_R); break; }
+    case R_L:                                           { register_code(KC_L); break; }
+    case R_C:                                           { register_code(KC_C); break; }
+    case R_T:                                           { register_code(KC_T); break; }
+    case R_E:                                           { register_code(KC_E); break; }
+    }
+
+    bitsLeftHand = 0;
+    bitsRightHand = 0;
+    bitsThumbs = 0;
+    clear_keyboard();
+}
+
+void registerLeftHand(uint32_t bit)
+{
+    bitsKeys |= bit;
+    bitsLeftHand |= bit;
+}
+
+void unregisterLeftHand(uint32_t bit)
+{
+    bitsKeys &= ~bit;
+}
+
+void registerRightHand(uint32_t bit)
+{
+    bitsKeys |= bit;
+    bitsRightHand |= bit;
+}
+
+void unregisterRightHand(uint32_t bit)
+{
+    bitsKeys &= ~bit;
+}
+
+void registerThumb(uint32_t bit)
+{
+    bitsKeys |= bit;
+    bitsThumbs |= bit;
+}
+
+void unregisterThumb(uint32_t bit)
+{
+    bitsKeys &= ~bit;
 }
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t opt)
@@ -180,9 +274,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
             const int nPhysicalCol = record->event.key.row;
             if (record->event.pressed)
             {
-                // ? = (row, col)
-                // A = (2, 1)
-                // B = (3, 8)
                 switch (nPhysicalRow)
                 {
                 case 2:
@@ -191,48 +282,51 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                         {
                         case 1: // Left hand
                             {
-								bitsKeysPressed |= L_A;
-								bitsKeysStroked |= L_A;
                                 break;
                             }
                         case 2:
                             {
-								bitsKeysPressed |= L_C;
-								bitsKeysStroked |= L_C;
+                                registerLeftHand(L_A);
                                 break;
                             }
                         case 3:
                             {
-								bitsKeysPressed |= L_W;
-								bitsKeysStroked |= L_W;
+                                registerLeftHand(L_C);
                                 break;
                             }
                         case 4:
                             {
+                                registerLeftHand(L_W);
                                 break;
                             }
                         case 5:
                             {
+                                registerLeftHand(L_N);
                                 break;
                             }
                         case 8: // Right hand
                             {
+                                registerRightHand(R_R);
                                 break;
                             }
                         case 9:
                             {
+                                registerRightHand(R_L);
                                 break;
                             }
                         case 10:
                             {
+                                registerRightHand(R_C);
                                 break;
                             }
                         case 11:
                             {
+                                registerRightHand(R_T);
                                 break;
                             }
                         case 12:
                             {
+                                registerRightHand(R_E);
                                 break;
                             }
                         case 13:
@@ -252,42 +346,78 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                             }
                         case 2:
                             {
+                                registerLeftHand(L_S);
                                 break;
                             }
                         case 3:
                             {
+                                registerLeftHand(L_T);
                                 break;
                             }
                         case 4:
                             {
+                                registerLeftHand(L_H);
                                 break;
                             }
                         case 5:
                             {
+                                registerLeftHand(L_R);
                                 break;
                             }
                         case 8: // Right hand
                             {
+                                registerRightHand(R_N);
                                 break;
                             }
                         case 9:
                             {
+                                registerRightHand(R_G);
                                 break;
                             }
                         case 10:
                             {
+                                registerRightHand(R_H);
                                 break;
                             }
                         case 11:
                             {
+                                registerRightHand(R_S);
                                 break;
                             }
                         case 12:
                             {
+                                registerRightHand(R_Y);
                                 break;
                             }
                         case 13:
                             {
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                case 5: // Thumb
+                    {
+                        switch (nPhysicalCol)
+                        {
+                        case 3:
+                            {
+                                registerThumb(T_I);
+                                break;
+                            }
+                        case 2:
+                            {
+                                registerThumb(T_E);
+                                break;
+                            }
+                        case 11:
+                            {
+                                registerThumb(T_O);
+                                break;
+                            }
+                        case 10:
+                            {
+                                registerThumb(T_U);
                                 break;
                             }
                         }
@@ -306,45 +436,51 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                         {
                         case 1: // Left hand
                             {
-								bitsKeysPressed &= ~L_A;
                                 break;
                             }
                         case 2:
                             {
-								bitsKeysPressed &= ~L_C;
+                                unregisterLeftHand(L_A);
                                 break;
                             }
                         case 3:
                             {
-								bitsKeysPressed &= ~L_W;
+                                unregisterLeftHand(L_C);
                                 break;
                             }
                         case 4:
                             {
+                                unregisterLeftHand(L_W);
                                 break;
                             }
                         case 5:
                             {
+                                unregisterLeftHand(L_N);
                                 break;
                             }
                         case 8: // Right hand
                             {
+                                unregisterRightHand(R_R);
                                 break;
                             }
                         case 9:
                             {
+                                unregisterRightHand(R_L);
                                 break;
                             }
                         case 10:
                             {
+                                unregisterRightHand(R_C);
                                 break;
                             }
                         case 11:
                             {
+                                unregisterRightHand(R_T);
                                 break;
                             }
                         case 12:
                             {
+                                unregisterRightHand(R_E);
                                 break;
                             }
                         case 13:
@@ -364,38 +500,47 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                             }
                         case 2:
                             {
+                                unregisterLeftHand(L_S);
                                 break;
                             }
                         case 3:
                             {
+                                unregisterLeftHand(L_T);
                                 break;
                             }
                         case 4:
                             {
+                                unregisterLeftHand(L_H);
                                 break;
                             }
                         case 5:
                             {
+                                unregisterLeftHand(L_R);
                                 break;
                             }
                         case 8: // Right hand
                             {
+                                unregisterRightHand(R_N);
                                 break;
                             }
                         case 9:
                             {
+                                unregisterRightHand(R_G);
                                 break;
                             }
                         case 10:
                             {
+                                unregisterRightHand(R_H);
                                 break;
                             }
                         case 11:
                             {
+                                unregisterRightHand(R_S);
                                 break;
                             }
                         case 12:
                             {
+                                unregisterRightHand(R_Y);
                                 break;
                             }
                         case 13:
@@ -405,12 +550,39 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                         }
                         break;
                     }
+                case 5: // Thumb
+                    {
+                        switch (nPhysicalCol)
+                        {
+                        case 3:
+                            {
+                                unregisterThumb(T_I);
+                                break;
+                            }
+                        case 2:
+                            {
+                                unregisterThumb(T_E);
+                                break;
+                            }
+                        case 11:
+                            {
+                                unregisterThumb(T_O);
+                                break;
+                            }
+                        case 10:
+                            {
+                                unregisterThumb(T_U);
+                                break;
+                            }
+                        }
+                        break;
+                    }
                 }
 
-				if (bitsKeysPressed == 0)
-				{
-					stroke();
-				}
+                if (bitsKeys == 0)
+                {
+                    stroke();
+                }
             }
             break;
         }
@@ -718,10 +890,10 @@ void * matrix_scan_user(void)
         break;
     }
 
-	if (bitsKeysStroked)
-	{
+    if (bitsLeftHand || bitsRightHand || bitsThumbs)
+    {
         ergodox_right_led_1_on();
         ergodox_right_led_2_on();
         ergodox_right_led_3_on();
-	}
+    }
 }
