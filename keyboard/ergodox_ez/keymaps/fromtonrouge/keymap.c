@@ -6,7 +6,7 @@
 
 #define LAYER_DVORAK 0      // default layer
 #define LAYER_COLEMAK 1     // Colemak layer
-#define LAYER_STENO 2      // Steno layer
+#define LAYER_JACKDAW 2     // Jackdaw layer
 #define LAYER_SHIFT_DVORAK 3       // Shifted Layer
 #define LAYER_SHIFT_COLEMAK 4      // Shifted Layer
 #define LAYER_FN 5          // Fn Layer
@@ -31,24 +31,21 @@ uint32_t bitsThumbs = 0;
 #define L_H (1L << 6)
 #define L_R (1L << 7)
 
-#define T_I (1L << 8)
-#define T_E (1L << 9)
-#define T_A (1L << 10)
-#define T_O (1L << 11)
-#define T_U (1L << 12)
-#define T_UO (1L << 13)
-#define T_EI (1L << 14)
+#define T_A (1L << 8)
+#define T_O (1L << 9)
+#define T_E (1L << 10)
+#define T_U (1L << 11)
 
-#define R_R (1L << 15)
-#define R_L (1L << 16)
-#define R_C (1L << 17)
-#define R_T (1L << 18)
-#define R_E (1L << 19)
-#define R_N (1L << 20)
-#define R_G (1L << 21)
-#define R_H (1L << 22)
-#define R_S (1L << 23)
-#define R_Y (1L << 24)
+#define R_R (1L << 12)
+#define R_L (1L << 13)
+#define R_C (1L << 14)
+#define R_T (1L << 15)
+#define R_E (1L << 16)
+#define R_N (1L << 17)
+#define R_G (1L << 18)
+#define R_H (1L << 19)
+#define R_S (1L << 20)
+#define R_Y (1L << 21)
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -72,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                     KC_ENT,         KC_B,       FR_M,       FR_W,       KC_V,       FR_Z,       M(SFT_DVORAK),
                                                 KC_LEFT,    KC_RIGHT,   FR_BSLS,    FR_AT,      KC_RCTL,
         TG(LAYER_FN),     MO(LAYER_FN),
-        TG(LAYER_STENO),
+        TG(LAYER_JACKDAW),
         TG(LAYER_COLEMAK),   KC_DEL, KC_SPC
     ),
 
@@ -98,8 +95,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TRNS,    KC_TRNS,    KC_TRNS
 ),
 
-// STENO
-[LAYER_STENO] = KEYMAP(
+// JACKDAW LAYER
+[LAYER_JACKDAW] = KEYMAP(
         // left hand
         KC_NO,        KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,        KC_NO,
         KC_NO,        KC_1,       KC_2,       KC_3,       KC_4,       KC_5,         KC_TRNS,
@@ -112,8 +109,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // right hand
                     KC_NO,          KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
                     KC_TRNS,        KC_6,       KC_7,       KC_8,       KC_9,       KC_0,       KC_NO,
-                                    M(4),       M(4),       M(4),       M(4),       M(4),       KC_NO,
-                    KC_TRNS,        M(4),       M(4),       M(4),       M(4),       M(4),       KC_NO,
+                                    M(4),       M(4),       M(4),       M(4),       M(4),       M(4),
+                    KC_TRNS,        M(4),       M(4),       M(4),       M(4),       M(4),       M(4),
                                                 KC_TRNS,    KC_TRNS,    KC_NO,      KC_NO,      KC_NO,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
@@ -190,44 +187,101 @@ const uint16_t PROGMEM fn_actions[] = {
     [1] = ACTION_LAYER_TAP_TOGGLE(LAYER_FN)                // FN1 - Momentary Layer 1 (Symbols)
 };
 
+void reg(uint8_t code)
+{
+    register_code(code);
+}
+
+void double_reg(uint8_t code)
+{
+    register_code(code);
+    unregister_code(code);
+    register_code(code);
+}
+
 void stroke(void)
 {
+    // Left hand lookup table
     switch (bitsLeftHand)
     {
-    case L_A:                                           { register_code(FR_A); break; }
-    case L_S:                                           { register_code(KC_S); break; }
-    case L_C:                                           { register_code(KC_C); break; }
-    case L_T:                                           { register_code(KC_T); break; }
-    case L_W:                                           { register_code(FR_W); break; }
-    case L_H:                                           { register_code(KC_H); break; }
-    case L_N:                                           { register_code(KC_N); break; }
-    case L_R:                                           { register_code(KC_R); break; }
-    case L_S|L_C:                                       { register_code(KC_S); register_code(KC_C); break; }
-    case L_S|L_T:                                       { register_code(KC_S); register_code(KC_T); break; }
+    case L_A:                                           { reg(FR_A); break; }
+    case L_S:                                           { reg(KC_S); break; }
+    case L_C:                                           { reg(KC_C); break; }
+    case L_T:                                           { reg(KC_T); break; }
+    case L_W:                                           { reg(FR_W); break; }
+    case L_H:                                           { reg(KC_H); break; }
+    case L_N:                                           { reg(KC_N); break; }
+    case L_R:                                           { reg(KC_R); break; }
+    case L_S|L_C:                                       { reg(KC_S); reg(KC_C); break; }
+    case L_S|L_T:                                       { reg(KC_S); reg(KC_T); break; }
+    case L_S|L_W:                                       { reg(KC_S); reg(FR_W); break; }
+    case L_S|L_H:                                       { reg(KC_S); reg(KC_H); break; }
+    case L_S|L_N:                                       { reg(KC_S); reg(KC_N); break; }
+    case L_S|L_R:                                       { reg(KC_S); reg(KC_E); reg(KC_R); break; }
+    case L_C|L_T:                                       { reg(KC_D); break; }
+    case L_C|L_W:                                       { reg(KC_P); break; }
+    case L_C|L_H:                                       { reg(KC_C); reg(KC_H); break; }
+    case L_C|L_N:                                       { reg(FR_Z); break; }
+    case L_C|L_R:                                       { reg(KC_C); reg(KC_R); break; }
+    case L_T|L_W:                                       { reg(KC_T); reg(FR_W); break; }
+    case L_T|L_H:                                       { reg(KC_T); reg(KC_H); break; }
+    case L_T|L_N:                                       { reg(KC_V); break; }
+    case L_T|L_R:                                       { reg(KC_T); reg(KC_R); break; }
+    case L_W|L_H:                                       { reg(FR_W); reg(KC_H); break; }
+    case L_W|L_N:                                       { reg(FR_M); break; }
+    case L_W|L_R:                                       { reg(FR_W); reg(KC_R); break; }
+    case L_H|L_N:                                       { reg(KC_Y); break; }
+    case L_H|L_R:                                       { reg(KC_R); reg(KC_H); break; }
+    case L_N|L_R:                                       { reg(KC_L); break; }
+    case L_S|L_C|L_T:                                   { reg(KC_G); break; }
+    case L_S|L_C|L_W:                                   { reg(KC_S); reg(KC_P); break; }
+    case L_S|L_C|L_H:                                   { reg(KC_S); reg(KC_C); reg(KC_H); break; }
+    case L_S|L_C|L_N:                                   { double_reg(KC_S); break; }
+    case L_S|L_C|L_R:                                   { reg(KC_S); reg(KC_C); reg(KC_R); break; }
+    case L_S|L_T|L_W:                                   { reg(KC_X); break; }
+    case L_S|L_T|L_N:                                   { reg(KC_S); reg(KC_V); break; }
+    case L_S|L_T|L_R:                                   { reg(KC_S); reg(KC_T); reg(KC_R); break; }
+    case L_S|L_W|L_N:                                   { reg(KC_S); reg(FR_M); break; }
     }
 
+    // Thumb lookup table
     switch (bitsThumbs)
     {
-    case T_I:                                           { register_code(KC_I); break; }
-    case T_E:                                           { register_code(KC_E); break; }
-    case T_A:                                           { register_code(FR_A); break; }
-    case T_O:                                           { register_code(KC_O); break; }
-    case T_U:                                           { register_code(KC_U); break; }
+    case T_A:                                           { reg(FR_A); break; }
+    case T_O:                                           { reg(KC_O); break; }
+    case T_E:                                           { reg(KC_E); break; }
+    case T_U:                                           { reg(KC_U); break; }
+    case T_A|T_O:                                       { reg(KC_I); reg(KC_O); break; }
+    case T_A|T_E:                                       { reg(KC_E); reg(FR_A); break; }
+    case T_O|T_E:                                       { reg(KC_I); reg(KC_E); break; }
+    case T_O|T_U:                                       { reg(KC_O); reg(KC_U); break; }
+    case T_E|T_U:                                       { reg(KC_I); break; }
+    case T_A|T_O|T_E:                                   { double_reg(KC_E); break; }
+    case T_O|T_E|T_U:                                   { reg(KC_O); reg(KC_I); break; }
+    case T_A|T_O|T_U:                                   { double_reg(KC_O); break; }
     }
 
+    // Right hand lookup table
     switch (bitsRightHand)
     {
-    case R_R:                                           { register_code(KC_R); break; }
-    case R_L:                                           { register_code(KC_L); break; }
-    case R_C:                                           { register_code(KC_C); break; }
-    case R_T:                                           { register_code(KC_T); break; }
-    case R_E:                                           { register_code(KC_E); break; }
+    case R_R:                                           { reg(KC_R); break; }
+    case R_N:                                           { reg(KC_N); break; }
+    case R_L:                                           { reg(KC_L); break; }
+    case R_G:                                           { reg(KC_G); break; }
+    case R_C:                                           { reg(KC_C); break; }
+    case R_H:                                           { reg(KC_H); break; }
+    case R_T:                                           { reg(KC_T); break; }
+    case R_S:                                           { reg(KC_S); break; }
+    case R_E:                                           { reg(KC_E); break; }
+    case R_Y:                                           { reg(KC_Y); break; }
+    case R_R|R_N:                                       { reg(KC_R); reg(KC_N); break; }
     }
 
+    // Clear bits and keyboard
     bitsLeftHand = 0;
     bitsRightHand = 0;
     bitsThumbs = 0;
-    clear_keyboard();
+    clear_keyboard_but_mods();
 }
 
 void registerLeftHand(uint32_t bit)
@@ -269,7 +323,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
     {
     case STENO:
         {
-            // Dothan L. Shelton Steno Layout
             const int nPhysicalRow = record->event.key.col;
             const int nPhysicalCol = record->event.key.row;
             if (record->event.pressed)
@@ -282,55 +335,55 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                         {
                         case 1: // Left hand
                             {
+                                registerLeftHand(L_A);
                                 break;
                             }
                         case 2:
                             {
-                                registerLeftHand(L_A);
+                                registerLeftHand(L_C);
                                 break;
                             }
                         case 3:
                             {
-                                registerLeftHand(L_C);
+                                registerLeftHand(L_W);
                                 break;
                             }
                         case 4:
                             {
-                                registerLeftHand(L_W);
+                                registerLeftHand(L_N);
                                 break;
                             }
                         case 5:
                             {
-                                registerLeftHand(L_N);
                                 break;
                             }
                         case 8: // Right hand
                             {
-                                registerRightHand(R_R);
                                 break;
                             }
                         case 9:
                             {
-                                registerRightHand(R_L);
+                                registerRightHand(R_R);
                                 break;
                             }
                         case 10:
                             {
-                                registerRightHand(R_C);
+                                registerRightHand(R_L);
                                 break;
                             }
                         case 11:
                             {
-                                registerRightHand(R_T);
+                                registerRightHand(R_C);
                                 break;
                             }
                         case 12:
                             {
-                                registerRightHand(R_E);
+                                registerRightHand(R_T);
                                 break;
                             }
                         case 13:
                             {
+                                registerRightHand(R_E);
                                 break;
                             }
                         }
@@ -342,55 +395,55 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                         {
                         case 1: // Left hand
                             {
+                                registerLeftHand(L_S);
                                 break;
                             }
                         case 2:
                             {
-                                registerLeftHand(L_S);
+                                registerLeftHand(L_T);
                                 break;
                             }
                         case 3:
                             {
-                                registerLeftHand(L_T);
+                                registerLeftHand(L_H);
                                 break;
                             }
                         case 4:
                             {
-                                registerLeftHand(L_H);
+                                registerLeftHand(L_R);
                                 break;
                             }
                         case 5:
                             {
-                                registerLeftHand(L_R);
                                 break;
                             }
                         case 8: // Right hand
                             {
-                                registerRightHand(R_N);
                                 break;
                             }
                         case 9:
                             {
-                                registerRightHand(R_G);
+                                registerRightHand(R_N);
                                 break;
                             }
                         case 10:
                             {
-                                registerRightHand(R_H);
+                                registerRightHand(R_G);
                                 break;
                             }
                         case 11:
                             {
-                                registerRightHand(R_S);
+                                registerRightHand(R_H);
                                 break;
                             }
                         case 12:
                             {
-                                registerRightHand(R_Y);
+                                registerRightHand(R_S);
                                 break;
                             }
                         case 13:
                             {
+                                registerRightHand(R_Y);
                                 break;
                             }
                         }
@@ -402,17 +455,17 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                         {
                         case 3:
                             {
-                                registerThumb(T_I);
+                                registerThumb(T_A);
                                 break;
                             }
                         case 2:
                             {
-                                registerThumb(T_E);
+                                registerThumb(T_O);
                                 break;
                             }
                         case 11:
                             {
-                                registerThumb(T_O);
+                                registerThumb(T_E);
                                 break;
                             }
                         case 10:
@@ -427,7 +480,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
             }
             else
             {
-                // Stroke if all keys are released
                 switch (nPhysicalRow)
                 {
                 case 2:
@@ -436,55 +488,55 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                         {
                         case 1: // Left hand
                             {
+                                unregisterLeftHand(L_A);
                                 break;
                             }
                         case 2:
                             {
-                                unregisterLeftHand(L_A);
+                                unregisterLeftHand(L_C);
                                 break;
                             }
                         case 3:
                             {
-                                unregisterLeftHand(L_C);
+                                unregisterLeftHand(L_W);
                                 break;
                             }
                         case 4:
                             {
-                                unregisterLeftHand(L_W);
+                                unregisterLeftHand(L_N);
                                 break;
                             }
                         case 5:
                             {
-                                unregisterLeftHand(L_N);
                                 break;
                             }
                         case 8: // Right hand
                             {
-                                unregisterRightHand(R_R);
                                 break;
                             }
                         case 9:
                             {
-                                unregisterRightHand(R_L);
+                                unregisterRightHand(R_R);
                                 break;
                             }
                         case 10:
                             {
-                                unregisterRightHand(R_C);
+                                unregisterRightHand(R_L);
                                 break;
                             }
                         case 11:
                             {
-                                unregisterRightHand(R_T);
+                                unregisterRightHand(R_C);
                                 break;
                             }
                         case 12:
                             {
-                                unregisterRightHand(R_E);
+                                unregisterRightHand(R_T);
                                 break;
                             }
                         case 13:
                             {
+                                unregisterRightHand(R_E);
                                 break;
                             }
                         }
@@ -496,55 +548,55 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                         {
                         case 1: // Left hand
                             {
+                                unregisterLeftHand(L_S);
                                 break;
                             }
                         case 2:
                             {
-                                unregisterLeftHand(L_S);
+                                unregisterLeftHand(L_T);
                                 break;
                             }
                         case 3:
                             {
-                                unregisterLeftHand(L_T);
+                                unregisterLeftHand(L_H);
                                 break;
                             }
                         case 4:
                             {
-                                unregisterLeftHand(L_H);
+                                unregisterLeftHand(L_R);
                                 break;
                             }
                         case 5:
                             {
-                                unregisterLeftHand(L_R);
                                 break;
                             }
                         case 8: // Right hand
                             {
-                                unregisterRightHand(R_N);
                                 break;
                             }
                         case 9:
                             {
-                                unregisterRightHand(R_G);
+                                unregisterRightHand(R_N);
                                 break;
                             }
                         case 10:
                             {
-                                unregisterRightHand(R_H);
+                                unregisterRightHand(R_G);
                                 break;
                             }
                         case 11:
                             {
-                                unregisterRightHand(R_S);
+                                unregisterRightHand(R_H);
                                 break;
                             }
                         case 12:
                             {
-                                unregisterRightHand(R_Y);
+                                unregisterRightHand(R_S);
                                 break;
                             }
                         case 13:
                             {
+                                unregisterRightHand(R_Y);
                                 break;
                             }
                         }
@@ -556,17 +608,17 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                         {
                         case 3:
                             {
-                                unregisterThumb(T_I);
+                                unregisterThumb(T_A);
                                 break;
                             }
                         case 2:
                             {
-                                unregisterThumb(T_E);
+                                unregisterThumb(T_O);
                                 break;
                             }
                         case 11:
                             {
-                                unregisterThumb(T_O);
+                                unregisterThumb(T_E);
                                 break;
                             }
                         case 10:
@@ -579,6 +631,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                     }
                 }
 
+                // Stroke if all keys are released
                 if (bitsKeys == 0)
                 {
                     stroke();
@@ -878,7 +931,7 @@ void * matrix_scan_user(void)
     case LAYER_FN:
         ergodox_right_led_2_on();
         break;
-    case LAYER_STENO:
+    case LAYER_JACKDAW:
         ergodox_right_led_1_on();
         ergodox_right_led_2_on();
         break;
