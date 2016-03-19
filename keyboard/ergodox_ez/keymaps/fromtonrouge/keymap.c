@@ -13,10 +13,10 @@
 #define USFT_CMAK 1
 #define STENO 2
 
-uint32_t bitsKeys = 0;
-uint32_t bitsLeftHand = 0;
-uint32_t bitsRightHand = 0;
-uint32_t bitsThumbs = 0;
+uint32_t bits_keys = 0;
+uint32_t bits_left_hand = 0;
+uint32_t bits_right_hand = 0;
+uint32_t bits_thumbs = 0;
 
 #define L_A (1L << 0)
 #define L_C (1L << 1)
@@ -42,6 +42,16 @@ uint32_t bitsThumbs = 0;
 #define R_H (1L << 19)
 #define R_S (1L << 20)
 #define R_Y (1L << 21)
+
+const unsigned long PROGMEM lookup_left[256] =
+{
+	// TODO
+};
+
+const unsigned long PROGMEM lookup_right[256] =
+{
+	// TODO
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -140,18 +150,22 @@ const uint16_t PROGMEM fn_actions[] = {
     [1] = ACTION_LAYER_TAP_TOGGLE(LAYER_FN)                // FN1 - Momentary Layer 1 (Symbols)
 };
 
+void stroke(void)
+{
+	const uint8_t index_left = bits_left_hand % 256;
+	const uint8_t index_right = bits_right_hand % 256;
+	const unsigned long left_keys = pgm_read_dword(&(lookup_left[index_left]));
+	const unsigned long right_keys = pgm_read_dword(&(lookup_right[index_right]));
+
+	/* TOO BIG FIRMWARE !
 #define REGISTER1(bits, c1) case bits: register_code(c1); break
 #define REGISTER2(bits, c1, c2) case bits: register_code(c1); unregister_code(c1); register_code(c2); break
 #define REGISTER3(bits, c1, c2, c3) case bits: register_code(c1); unregister_code(c1); register_code(c2); unregister_code(c2); register_code(c3); break
 #define REGISTER4(bits, c1, c2, c3, c4) case bits: register_code(c1); unregister_code(c1); register_code(c2); unregister_code(c2); register_code(c3); unregister_code(c3); register_code(c4); break
 #define REGISTER5(bits, c1, c2, c3, c4, c5) case bits: register_code(c1); unregister_code(c1); register_code(c2); unregister_code(c2); register_code(c3); unregister_code(c3); register_code(c4); unregister_code(c4); register_code(c5); break
 
-void stroke(void)
-{
-    uint8_t array[5] = {0};
-
     // Left hand lookup table
-    switch (bitsLeftHand)
+    switch (bits_left_hand)
     {
         REGISTER1(  L_A,                           FR_A);
         REGISTER1(  L_S,                           KC_S);
@@ -161,7 +175,6 @@ void stroke(void)
         REGISTER1(  L_H,                           KC_H);
         REGISTER1(  L_N,                           KC_N);
         REGISTER1(  L_R,                           KC_R);
-	/*
         REGISTER2(  L_S|L_C,                       KC_S, KC_C);
         REGISTER2(  L_S|L_T,                       KC_S, KC_T);
         REGISTER2(  L_S|L_W,                       KC_S, FR_W);
@@ -335,11 +348,10 @@ void stroke(void)
         REGISTER4(  L_A|L_S|L_C|L_T|L_W|L_N|L_R,   FR_A, KC_G, KC_G, KC_L);
         REGISTER4(  L_A|L_S|L_C|L_T|L_H|L_N|L_R,   FR_A, KC_F, KC_F, KC_L);
         REGISTER3(  L_A|L_C|L_T|L_W|L_H|L_N|L_R,   FR_A, KC_B, KC_L);
-		*/
     }
 
     // Thumb lookup table
-    switch (bitsThumbs)
+    switch (bits_thumbs)
     {
         REGISTER1(  T_A,                           FR_A);
         REGISTER1(  T_O,                           KC_O);
@@ -356,7 +368,7 @@ void stroke(void)
     }
 
     // Right hand lookup table
-    switch (bitsRightHand)
+    switch (bits_right_hand)
     {
         REGISTER1(  R_R,                           KC_R);
         REGISTER1(  R_N,                           KC_N);
@@ -366,7 +378,6 @@ void stroke(void)
         REGISTER1(  R_H,                           KC_H);
         REGISTER1(  R_T,                           KC_T);
         REGISTER1(  R_S,                           KC_S);
-	/*
         REGISTER2(  R_R|R_N,                       KC_R, KC_N);
         REGISTER2(  R_R|R_L,                       KC_R, KC_L);
         REGISTER2(  R_R|R_G,                       KC_R, KC_G);
@@ -512,47 +523,47 @@ void stroke(void)
         REGISTER3(  R_N|R_G|R_C|R_H|R_S,           FR_M, KC_B, KC_S);
         REGISTER3(  R_N|R_G|R_C|R_T|R_S,           KC_B, KC_T, KC_S);
         REGISTER5(  R_N|R_G|R_H|R_T|R_S,           KC_N, KC_G, KC_T, KC_H, KC_S);
-*/
     }
+	*/
 
     // Clear bits and keyboard
-    bitsLeftHand = 0;
-    bitsRightHand = 0;
-    bitsThumbs = 0;
+    bits_left_hand = 0;
+    bits_right_hand = 0;
+    bits_thumbs = 0;
     clear_keyboard_but_mods();
 }
 
 void registerLeftHand(uint32_t bit)
 {
-    bitsKeys |= bit;
-    bitsLeftHand |= bit;
+    bits_keys |= bit;
+    bits_left_hand |= bit;
 }
 
 void unregisterLeftHand(uint32_t bit)
 {
-    bitsKeys &= ~bit;
+    bits_keys &= ~bit;
 }
 
 void registerRightHand(uint32_t bit)
 {
-    bitsKeys |= bit;
-    bitsRightHand |= bit;
+    bits_keys |= bit;
+    bits_right_hand |= bit;
 }
 
 void unregisterRightHand(uint32_t bit)
 {
-    bitsKeys &= ~bit;
+    bits_keys &= ~bit;
 }
 
 void registerThumb(uint32_t bit)
 {
-    bitsKeys |= bit;
-    bitsThumbs |= bit;
+    bits_keys |= bit;
+    bits_thumbs |= bit;
 }
 
 void unregisterThumb(uint32_t bit)
 {
-    bitsKeys &= ~bit;
+    bits_keys &= ~bit;
 }
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t opt)
@@ -870,7 +881,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                 }
 
                 // Stroke if all keys are released
-                if (bitsKeys == 0)
+                if (bits_keys == 0)
                 {
                     stroke();
                 }
@@ -1044,7 +1055,7 @@ void * matrix_scan_user(void)
         break;
     }
 
-    if (bitsLeftHand || bitsRightHand || bitsThumbs)
+    if (bits_left_hand || bits_right_hand || bits_thumbs)
     {
         ergodox_right_led_2_on();
     }
