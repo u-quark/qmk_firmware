@@ -56,6 +56,22 @@ void del_thumb(uint8_t bit)            { bits_keys_pressed &= ~(bit << OFFSET_TH
 void add_right_hand(uint8_t bit)       { bits_keys_pressed |= (bit << OFFSET_RIGHT_HAND); bits_right_hand |= bit; }
 void del_right_hand(uint8_t bit)       { bits_keys_pressed &= ~(bit << OFFSET_RIGHT_HAND); }
 
+#define ENCODING_SIZE 5
+#define ENCODE1(c1) c1
+#define ENCODE2(c1, c2) c1 | (c2 << 5)
+#define ENCODE3(c1, c2, c3) c1 | (c2 << ENCODING_SIZE) | (c3 << 2*ENCODING_SIZE)
+#define ENCODE4(c1, c2, c3, c4) c1 | (c2 << ENCODING_SIZE) | (c3 << 2*ENCODING_SIZE) | (c4 << 3*ENCODING_SIZE)
+#define ENCODE5(c1, c2, c3, c4, c5) c1 | (c2 << ENCODING_SIZE) | (c3 << 2*ENCODING_SIZE) | (c4 << 3*ENCODING_SIZE) | ((uint32_t)(c5) << 4*ENCODING_SIZE)
+#define ENCODE6(c1, c2, c3, c4, c5, c6) c1 | (c2 << ENCODING_SIZE) | (c3 << 2*ENCODING_SIZE) | (c4 << 3*ENCODING_SIZE) | ((uint32_t)(c5) << 4*ENCODING_SIZE) | ((uint32_t)(c6) << 5*ENCODING_SIZE)
+
+#define DECODING_MASK 0x1F
+#define DECODE1(encoded) ((encoded >> 0*ENCODING_SIZE) & DECODING_MASK)
+#define DECODE2(encoded) ((encoded >> 1*ENCODING_SIZE) & DECODING_MASK)
+#define DECODE3(encoded) ((encoded >> 2*ENCODING_SIZE) & DECODING_MASK)
+#define DECODE4(encoded) ((encoded >> 3*ENCODING_SIZE) & DECODING_MASK)
+#define DECODE5(encoded) ((encoded >> 4*ENCODING_SIZE) & DECODING_MASK)
+#define DECODE6(encoded) ((encoded >> 5*ENCODING_SIZE) & DECODING_MASK)
+
 // Lookup tables for the steno layer
 const unsigned long PROGMEM left_hand_table[256] =
 {
@@ -694,19 +710,47 @@ const uint16_t PROGMEM fn_actions[] = {
     [1] = ACTION_LAYER_TAP_TOGGLE(LAYER_FN)                // FN1 - Momentary Layer 1 (Symbols)
 };
 
+void send_letters(uint32_t encoded)
+{
+#define SEND(c) if (c) { register_code(c); unregister_code(c);} else { return;}
+
+    const uint8_t c1 = DECODE1(encoded);
+    SEND(c1);
+
+    const uint8_t c2 = DECODE2(encoded);
+    SEND(c2);
+
+    const uint8_t c3 = DECODE3(encoded);
+    SEND(c3);
+
+    const uint8_t c4 = DECODE4(encoded);
+    SEND(c4);
+
+    const uint8_t c5 = DECODE5(encoded);
+    SEND(c5);
+
+    const uint8_t c6 = DECODE6(encoded);
+    SEND(c6);
+}
+
 void stroke(void)
 {
-    const unsigned long left_letters = pgm_read_dword(&(left_hand_table[bits_left_hand]));
-    const unsigned long thumbs_letters = pgm_read_dword(&(thumbs_table[bits_thumbs]));
-    const unsigned long right_letters = pgm_read_dword(&(right_hand_table[bits_right_hand]));
+    // Send letters of the left hand
+    const uint32_t left_letters = pgm_read_dword(&(left_hand_table[bits_left_hand]));
+    send_letters(left_letters);
 
-    // TODO
+    // Send letters of the thumb cluster
+    const uint32_t thumbs_letters = pgm_read_dword(&(thumbs_table[bits_thumbs]));
+    send_letters(thumbs_letters);
 
-    // Clear bits and keyboard
+    // Send letters of the right hand
+    const uint32_t right_letters = pgm_read_dword(&(right_hand_table[bits_right_hand]));
+    send_letters(right_letters);
+
+    // Clear bits
     bits_left_hand = 0;
     bits_thumbs = 0;
     bits_right_hand = 0;
-    clear_keyboard_but_mods();
 }
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t opt)
@@ -1019,7 +1063,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                     }
                 }
 
-                // Stroke if all keys are released
+                // Stroke if all steno keys are released
                 if (bits_keys_pressed == 0)
                 {
                     stroke();
