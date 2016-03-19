@@ -148,6 +148,8 @@ const uint16_t PROGMEM fn_actions[] = {
 
 void stroke(void)
 {
+    uint8_t array[5] = {0};
+
     // Left hand lookup table
     switch (bitsLeftHand)
     {
@@ -159,6 +161,7 @@ void stroke(void)
         REGISTER1(  L_H,                           KC_H);
         REGISTER1(  L_N,                           KC_N);
         REGISTER1(  L_R,                           KC_R);
+	/*
         REGISTER2(  L_S|L_C,                       KC_S, KC_C);
         REGISTER2(  L_S|L_T,                       KC_S, KC_T);
         REGISTER2(  L_S|L_W,                       KC_S, FR_W);
@@ -332,6 +335,7 @@ void stroke(void)
         REGISTER4(  L_A|L_S|L_C|L_T|L_W|L_N|L_R,   FR_A, KC_G, KC_G, KC_L);
         REGISTER4(  L_A|L_S|L_C|L_T|L_H|L_N|L_R,   FR_A, KC_F, KC_F, KC_L);
         REGISTER3(  L_A|L_C|L_T|L_W|L_H|L_N|L_R,   FR_A, KC_B, KC_L);
+		*/
     }
 
     // Thumb lookup table
@@ -362,9 +366,153 @@ void stroke(void)
         REGISTER1(  R_H,                           KC_H);
         REGISTER1(  R_T,                           KC_T);
         REGISTER1(  R_S,                           KC_S);
-        REGISTER1(  R_E,                           KC_E);
-        REGISTER1(  R_Y,                           KC_Y);
+	/*
         REGISTER2(  R_R|R_N,                       KC_R, KC_N);
+        REGISTER2(  R_R|R_L,                       KC_R, KC_L);
+        REGISTER2(  R_R|R_G,                       KC_R, KC_G);
+        REGISTER2(  R_R|R_C,                       KC_R, KC_C);
+        REGISTER1(  R_R|R_H,                       FR_W);
+        REGISTER2(  R_R|R_T,                       KC_R, KC_T);
+        REGISTER2(  R_R|R_S,                       KC_R, KC_S);
+        REGISTER1(  R_N|R_L,                       KC_S);
+        REGISTER2(  R_N|R_G,                       KC_N, KC_G);
+        REGISTER2(  R_N|R_C,                       KC_N, KC_C);
+        REGISTER1(  R_N|R_H,                       KC_V);
+        REGISTER2(  R_N|R_T,                       KC_N, KC_T);
+        REGISTER2(  R_N|R_S,                       KC_N, KC_S);
+        REGISTER2(  R_L|R_G,                       KC_L, KC_G);
+        REGISTER1(  R_L|R_C,                       KC_P);
+        REGISTER1(  R_L|R_H,                       FR_Z);
+        REGISTER2(  R_L|R_T,                       KC_L, KC_T);
+        REGISTER2(  R_L|R_S,                       KC_L, KC_S);
+        REGISTER1(  R_G|R_C,                       KC_B);
+        REGISTER2(  R_G|R_H,                       KC_G, KC_H);
+        REGISTER1(  R_G|R_T,                       KC_K);
+        REGISTER2(  R_G|R_S,                       KC_G, KC_S);
+        REGISTER2(  R_C|R_H,                       KC_C, KC_H);
+        REGISTER2(  R_C|R_T,                       KC_C, KC_T);
+        REGISTER2(  R_C|R_S,                       KC_C, KC_S);
+        REGISTER2(  R_H|R_T,                       KC_T, KC_H);
+        REGISTER2(  R_H|R_S,                       KC_H, KC_S);
+        REGISTER2(  R_T|R_S,                       KC_T, KC_S);
+        REGISTER2(  R_R|R_N|R_L,                   KC_L, KC_L);
+        REGISTER2(  R_R|R_N|R_G,                   KC_G, KC_N);
+        REGISTER2(  R_R|R_N|R_H,                   KC_W, KC_N);
+        REGISTER3(  R_R|R_N|R_T,                   KC_R, KC_N, KC_T);
+        REGISTER3(  R_R|R_N|R_S,                   KC_R, KC_N, KC_S);
+        REGISTER2(  R_R|R_L|R_C,                   KC_R, KC_P);
+        REGISTER2(  R_R|R_L|R_H,                   FR_W, KC_L);
+        REGISTER3(  R_R|R_L|R_S,                   KC_R, KC_L, KC_S);
+        REGISTER2(  R_R|R_G|R_C,                   KC_R, KC_B);
+        REGISTER3(  R_R|R_G|R_H,                   KC_R, KC_G, KC_H);
+        REGISTER2(  R_R|R_G|R_T,                   KC_R, KC_K);
+        REGISTER3(  R_R|R_G|R_S,                   KC_R, KC_G, KC_S);
+        REGISTER3(  R_R|R_C|R_H,                   KC_R, KC_C, KC_H);
+        REGISTER3(  R_R|R_C|R_S,                   KC_R, KC_C, KC_S);
+        REGISTER3(  R_R|R_H|R_T,                   KC_R, KC_T, KC_H);
+        REGISTER2(  R_R|R_H|R_S,                   FR_W, KC_S);
+        REGISTER3(  R_R|R_T|R_S,                   KC_R, KC_T, KC_S);
+        REGISTER1(  R_N|R_L|R_G,                   KC_D);
+        REGISTER2(  R_N|R_L|R_C,                   KC_S, KC_P);
+        REGISTER2(  R_N|R_L|R_H,                   KC_S, KC_H);
+        REGISTER2(  R_N|R_L|R_T,                   KC_S, KC_T);
+        REGISTER2(  R_N|R_L|R_S,                   KC_S, KC_S);
+        REGISTER2(  R_N|R_G|R_C,                   KC_G, KC_G);
+        REGISTER1(  R_N|R_G|R_H,                   FR_M);
+        REGISTER2(  R_N|R_G|R_T,                   KC_N, KC_K);
+        REGISTER3(  R_N|R_G|R_S,                   KC_N, KC_G, KC_S);
+        REGISTER3(  R_N|R_C|R_H,                   KC_N, KC_C, KC_H);
+        REGISTER4(  R_N|R_C|R_T,                   KC_T, KC_I, KC_O, KC_N);
+        REGISTER4(  R_N|R_C|R_S,                   KC_N, KC_C, KC_E, KC_S);
+        REGISTER3(  R_N|R_H|R_T,                   KC_N, KC_T, KC_H);
+        REGISTER3(  R_N|R_H|R_S,                   KC_V, KC_E, KC_S);
+        REGISTER3(  R_N|R_T|R_S,                   KC_N, KC_T, KC_S);
+        REGISTER2(  R_L|R_G|R_C,                   KC_B, KC_L);
+        REGISTER1(  R_L|R_G|R_H,                   KC_X);
+        REGISTER2(  R_L|R_G|R_T,                   KC_K, KC_L);
+        REGISTER2(  R_L|R_C|R_H,                   KC_P, KC_H);
+        REGISTER2(  R_L|R_C|R_T,                   KC_P, KC_T);
+        REGISTER2(  R_L|R_C|R_S,                   KC_P, KC_S);
+        REGISTER3(  R_L|R_H|R_T,                   KC_L, KC_T, KC_H);
+        REGISTER3(  R_L|R_H|R_S,                   FR_Z, KC_E, KC_S);
+        REGISTER3(  R_L|R_T|R_S,                   KC_L, KC_T, KC_S);
+        REGISTER1(  R_G|R_C|R_H,                   KC_F);
+        REGISTER2(  R_G|R_C|R_T,                   KC_C, KC_K);
+        REGISTER2(  R_G|R_C|R_S,                   KC_B, KC_S);
+        REGISTER3(  R_G|R_H|R_T,                   KC_G, KC_H, KC_T);
+        REGISTER3(  R_G|R_H|R_S,                   KC_G, KC_H, KC_S);
+        REGISTER2(  R_G|R_T|R_S,                   KC_K, KC_S);
+        REGISTER3(  R_C|R_H|R_T,                   KC_T, KC_C, KC_H);
+        REGISTER1(  R_C|R_H|R_S,                   KC_D);
+        REGISTER3(  R_C|R_T|R_S,                   KC_C, KC_T, KC_S);
+        REGISTER3(  R_H|R_T|R_S,                   KC_T, KC_H, KC_S);
+        REGISTER2(  R_R|R_N|R_L|R_G,               KC_D, KC_L);
+        REGISTER2(  R_R|R_N|R_L|R_C,               KC_P, KC_L);
+        REGISTER2(  R_R|R_N|R_L|R_H,               KC_L, KC_V);
+        REGISTER3(  R_R|R_N|R_L|R_T,               KC_R, KC_S, KC_T);
+        REGISTER3(  R_R|R_N|R_L|R_S,               KC_L, KC_L, KC_S);
+        REGISTER2(  R_R|R_N|R_G|R_H,               KC_R, FR_M);
+        REGISTER3(  R_R|R_N|R_G|R_S,               KC_G, KC_N, KC_S);
+        REGISTER2(  R_R|R_N|R_C|R_H,               KC_R, KC_V);
+        REGISTER3(  R_R|R_N|R_H|R_T,               FR_W, KC_T, KC_H);
+        REGISTER3(  R_R|R_N|R_H|R_S,               FR_W, KC_N, KC_S);
+        REGISTER3(  R_R|R_L|R_C|R_S,               KC_R, KC_P, KC_S);
+        REGISTER3(  R_R|R_L|R_H|R_S,               FR_W, KC_L, KC_S);
+        REGISTER2(  R_R|R_G|R_C|R_H,               KC_R, KC_F);
+        REGISTER3(  R_R|R_G|R_C|R_S,               KC_R, KC_B, KC_S);
+        REGISTER2(  R_R|R_G|R_H|R_T,               FR_W, KC_K);
+        REGISTER3(  R_R|R_G|R_T|R_S,               KC_R, KC_K, KC_S);
+        REGISTER2(  R_R|R_C|R_H|R_S,               KC_R, KC_D);
+        REGISTER4(  R_R|R_H|R_T|R_S,               KC_R, KC_T, KC_H, KC_S);
+        REGISTER2(  R_N|R_L|R_G|R_H,               KC_S, FR_M);
+        REGISTER2(  R_N|R_L|R_G|R_T,               KC_S, KC_K);
+        REGISTER2(  R_N|R_L|R_G|R_S,               KC_D, KC_S);
+        REGISTER3(  R_N|R_L|R_C|R_T,               KC_N, KC_S, KC_T);
+        REGISTER3(  R_N|R_L|R_C|R_S,               KC_S, KC_P, KC_S);
+        REGISTER4(  R_N|R_L|R_H|R_S,               KC_S, KC_H, KC_E, KC_S);
+        REGISTER3(  R_N|R_L|R_T|R_S,               KC_S, KC_T, KC_S);
+        REGISTER2(  R_N|R_G|R_C|R_H,               FR_M, KC_B);
+        REGISTER2(  R_N|R_G|R_C|R_T,               KC_B, KC_T);
+        REGISTER3(  R_N|R_G|R_C|R_S,               KC_G, KC_G, KC_S);
+        REGISTER4(  R_N|R_G|R_T|R_H,               KC_N, KC_G, KC_T, KC_H);
+        REGISTER2(  R_N|R_G|R_H|R_S,               FR_M, KC_S);
+        REGISTER3(  R_N|R_G|R_T|R_S,               KC_N, KC_K, KC_S);
+        REGISTER2(  R_N|R_C|R_H|R_S,               KC_N, KC_D);
+        REGISTER4(  R_N|R_H|R_T|R_S,               KC_N, KC_T, KC_H, KC_S);
+        REGISTER2(  R_L|R_G|R_C|R_H,               KC_L, KC_F);
+        REGISTER3(  R_L|R_G|R_C|R_T,               KC_C, KC_K, KC_L);
+        REGISTER4(  R_L|R_G|R_C|R_S,               KC_B, KC_L, KC_E, KC_S);
+        REGISTER2(  R_L|R_G|R_H|R_T,               KC_X, KC_T);
+        REGISTER3(  R_L|R_G|R_H|R_S,               KC_X, KC_E, KC_S);
+        REGISTER3(  R_L|R_C|R_H|R_T,               KC_P, KC_T, KC_H);
+        REGISTER3(  R_L|R_C|R_H|R_S,               KC_P, KC_H, KC_S);
+        REGISTER2(  R_G|R_C|R_H|R_T,               KC_F, KC_T);
+        REGISTER2(  R_G|R_C|R_H|R_S,               KC_D, KC_G);
+        REGISTER3(  R_G|R_C|R_T|R_S,               KC_C, KC_K, KC_S);
+        REGISTER4(  R_G|R_H|R_T|R_S,               KC_G, KC_H, KC_T, KC_S);
+        REGISTER2(  R_C|R_H|R_T|R_S,               KC_D, KC_S);
+        REGISTER2(  R_R|R_N|R_L|R_G|R_C,           KC_L, KC_B);
+        REGISTER2(  R_R|R_N|R_L|R_G|R_H,           KC_L, FR_M);
+        REGISTER2(  R_R|R_N|R_L|R_G|R_T,           KC_L, KC_K);
+        REGISTER3(  R_R|R_N|R_L|R_C|R_H,           KC_L, KC_C, KC_H);
+        REGISTER2(  R_R|R_N|R_L|R_C|R_T,           KC_L, KC_P);
+        REGISTER4(  R_R|R_N|R_L|R_C|R_S,           KC_P, KC_L, KC_E, KC_S);
+        REGISTER4(  R_R|R_N|R_L|R_H|R_S,           KC_L, KC_V, KC_E, KC_S);
+        REGISTER4(  R_R|R_N|R_L|R_T|R_S,           KC_R, KC_S, KC_T, KC_S);
+        REGISTER3(  R_R|R_N|R_G|R_H|R_S,           KC_R, FR_M, KC_S);
+        REGISTER2(  R_R|R_N|R_C|R_H|R_S,           FR_W, KC_D);
+        REGISTER4(  R_R|R_N|R_H|R_T|R_S,           FR_W, KC_T, KC_H, KC_S);
+        REGISTER3(  R_R|R_L|R_G|R_H|R_S,           KC_R, KC_L, KC_D);
+        REGISTER3(  R_R|R_G|R_H|R_T|R_S,           FR_W, KC_K, KC_S);
+        REGISTER3(  R_R|R_C|R_H|R_T|R_S,           KC_R, KC_D, KC_S);
+        REGISTER2(  R_N|R_L|R_G|R_C|R_H,           FR_M, KC_P);
+        REGISTER3(  R_N|R_L|R_G|R_H|R_T,           KC_D, KC_T, KC_H);
+        REGISTER3(  R_N|R_L|R_G|R_H|R_S,           KC_S, KC_M, KC_S);
+        REGISTER3(  R_N|R_L|R_G|R_T|R_S,           KC_S, KC_K, KC_S);
+        REGISTER3(  R_N|R_G|R_C|R_H|R_S,           FR_M, KC_B, KC_S);
+        REGISTER3(  R_N|R_G|R_C|R_T|R_S,           KC_B, KC_T, KC_S);
+        REGISTER5(  R_N|R_G|R_H|R_T|R_S,           KC_N, KC_G, KC_T, KC_H, KC_S);
+*/
     }
 
     // Clear bits and keyboard
