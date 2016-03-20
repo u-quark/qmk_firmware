@@ -1,13 +1,7 @@
 #include "ergodox_ez.h"
 
-#define USE_SHELTON_TABLE   0
-#define AZERTY              1
-
-#if USE_SHELTON_TABLE
+#define AZERTY 1
 #include "lookup_tables/shelton_table.h"
-#else
-#include "lookup_tables/jackdaw_table.h"
-#endif
 
 #include "debug.h"
 #include "action_layer.h"
@@ -52,19 +46,38 @@
 #define R_T (1L << 6)
 #define R_S (1L << 7)
 
+// 3 bits for punctuations (;: ,< .>)
+#define OFFSET_PUNCTUATIONS 20
+#define P_SCOL  (1L << 0)
+#define P_COMA  (1L << 1)
+#define P_DOT   (1L << 2)
+
+// 4 bits for space control keys (space, backspace, tab, return)
+#define OFFSET_SPACE_CONTROLS 23
+#define S_SP    (1L << 0)
+#define S_BSP   (1L << 1)
+#define S_TAB   (1L << 2)
+#define S_RET   (1L << 3)
+
 // Global vars for the steno layer
 uint32_t    g_bits_keys_pressed = 0;
 uint8_t     g_bits_left_hand = 0;
 uint8_t     g_bits_thumbs = 0;
 uint8_t     g_bits_right_hand = 0;
+uint8_t     g_bits_punctuations = 0;
+uint8_t     g_bits_space_controls = 0;
 
 // Utility functions for the steno layer
-void add_left_hand(uint8_t bit)        { g_bits_keys_pressed |= (bit << OFFSET_LEFT_HAND); g_bits_left_hand |= bit; }
-void del_left_hand(uint8_t bit)        { g_bits_keys_pressed &= ~(bit << OFFSET_LEFT_HAND); }
-void add_thumb(uint8_t bit)            { g_bits_keys_pressed |= (bit << OFFSET_THUMBS); g_bits_thumbs |= bit; }
-void del_thumb(uint8_t bit)            { g_bits_keys_pressed &= ~(bit << OFFSET_THUMBS); }
-void add_right_hand(uint8_t bit)       { g_bits_keys_pressed |= (bit << OFFSET_RIGHT_HAND); g_bits_right_hand |= bit; }
-void del_right_hand(uint8_t bit)       { g_bits_keys_pressed &= ~(bit << OFFSET_RIGHT_HAND); }
+void add_left_hand(uint8_t bit)         { g_bits_keys_pressed |= (bit << OFFSET_LEFT_HAND); g_bits_left_hand |= bit; }
+void del_left_hand(uint8_t bit)         { g_bits_keys_pressed &= ~(bit << OFFSET_LEFT_HAND); }
+void add_thumb(uint8_t bit)             { g_bits_keys_pressed |= (bit << OFFSET_THUMBS); g_bits_thumbs |= bit; }
+void del_thumb(uint8_t bit)             { g_bits_keys_pressed &= ~(bit << OFFSET_THUMBS); }
+void add_right_hand(uint8_t bit)        { g_bits_keys_pressed |= (bit << OFFSET_RIGHT_HAND); g_bits_right_hand |= bit; }
+void del_right_hand(uint8_t bit)        { g_bits_keys_pressed &= ~(bit << OFFSET_RIGHT_HAND); }
+void add_punctuation(uint8_t bit)       { g_bits_keys_pressed |= (bit << OFFSET_PUNCTUATIONS); g_bits_punctuations |= bit; }
+void del_punctuation(uint8_t bit)       { g_bits_keys_pressed &= ~(bit << OFFSET_PUNCTUATIONS); }
+void add_space_ctl(uint8_t bit)         { g_bits_keys_pressed |= (bit << OFFSET_SPACE_CONTROLS); g_bits_space_controls |= bit; }
+void del_space_ctl(uint8_t bit)         { g_bits_keys_pressed &= ~(bit << OFFSET_SPACE_CONTROLS); }
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -99,7 +112,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_NO,        KC_1,       KC_2,       KC_3,       KC_4,       KC_5,         KC_TRNS,
         KC_NO,        M(STENO),   M(STENO),   M(STENO),   M(STENO),   M(STENO),
         KC_LSFT,      M(STENO),   M(STENO),   M(STENO),   M(STENO),   M(STENO),     KC_TRNS,
-        KC_NO,        KC_NO,      KC_NO,      KC_TRNS,    KC_TRNS,
+        KC_TRNS,      M(STENO),   KC_TRNS,    KC_TRNS,    KC_TRNS,
                                                                                         KC_TRNS,    KC_TRNS,
                                                                                                     KC_TRNS,
                                                                             M(STENO),   M(STENO),   KC_TRNS,
@@ -108,7 +121,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                     KC_TRNS,        KC_6,       KC_7,       KC_8,       KC_9,       KC_0,       KC_NO,
                                     M(STENO),   M(STENO),   M(STENO),   M(STENO),   M(STENO),   M(STENO),
                     KC_TRNS,        M(STENO),   M(STENO),   M(STENO),   M(STENO),   M(STENO),   M(STENO),
-                                                KC_TRNS,    KC_TRNS,    KC_NO,      KC_NO,      KC_NO,
+                                                KC_TRNS,    KC_TRNS,    M(STENO),   M(STENO),   KC_TRNS,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
         KC_TRNS,    M(STENO),    M(STENO)
@@ -193,6 +206,8 @@ void stroke(void)
     g_bits_left_hand = 0;
     g_bits_thumbs = 0;
     g_bits_right_hand = 0;
+    g_bits_punctuations = 0;
+    g_bits_space_controls = 0;
 }
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t opt)
@@ -680,7 +695,7 @@ void * matrix_scan_user(void)
         break;
     }
 
-    if (g_bits_left_hand || g_bits_thumbs || g_bits_right_hand)
+    if (g_bits_left_hand || g_bits_thumbs || g_bits_right_hand || g_bits_space_controls || g_bits_punctuations)
     {
         ergodox_right_led_2_on();
     }
