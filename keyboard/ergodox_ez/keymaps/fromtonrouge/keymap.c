@@ -17,80 +17,70 @@
 #define USFT_CMAK 1
 #define STENO 2
 
-#define ID_LEFT_HAND       1
-#define ID_THUMBS          2
-#define ID_RIGHT_HAND      3
-#define ID_PUNCTUATIONS    4
-#define ID_SPACES          5
+// Keys family
+enum key_family
+{
+    FAMILY_UNKNOWN,
+    FAMILY_LEFT_HAND,
+    FAMILY_THUMBS,
+    FAMILY_RIGHT_HAND,
+    FAMILY_PUNCTUATIONS, 
+    FAMILY_SPACES,
+    NB_FAMILY
+};
 
 // 8 bits for the left hand
 #define OFFSET_LEFT_HAND 0
-#define BIT_L_A (1L << 0)
-#define BIT_L_S (1L << 1)
-#define BIT_L_C (1L << 2)
-#define BIT_L_T (1L << 3)
-#define BIT_L_W (1L << 4)
-#define BIT_L_H (1L << 5)
-#define BIT_L_N (1L << 6)
-#define BIT_L_R (1L << 7)
-#define L_A (0 | (ID_LEFT_HAND << 4))
-#define L_S (1 | (ID_LEFT_HAND << 4))
-#define L_C (2 | (ID_LEFT_HAND << 4))
-#define L_T (3 | (ID_LEFT_HAND << 4))
-#define L_W (4 | (ID_LEFT_HAND << 4))
-#define L_H (5 | (ID_LEFT_HAND << 4))
-#define L_N (6 | (ID_LEFT_HAND << 4))
-#define L_R (7 | (ID_LEFT_HAND << 4))
+#define L_A (0 | (FAMILY_LEFT_HAND << 4))
+#define L_S (1 | (FAMILY_LEFT_HAND << 4))
+#define L_C (2 | (FAMILY_LEFT_HAND << 4))
+#define L_T (3 | (FAMILY_LEFT_HAND << 4))
+#define L_W (4 | (FAMILY_LEFT_HAND << 4))
+#define L_H (5 | (FAMILY_LEFT_HAND << 4))
+#define L_N (6 | (FAMILY_LEFT_HAND << 4))
+#define L_R (7 | (FAMILY_LEFT_HAND << 4))
 
 // 4 bits for the thumbs
 #define OFFSET_THUMBS 8
-#define BIT_T_A (1L << 0)
-#define BIT_T_O (1L << 1)
-#define BIT_T_E (1L << 2)
-#define BIT_T_U (1L << 3)
-#define T_A (0 | (ID_THUMBS << 4))
-#define T_O (1 | (ID_THUMBS << 4))
-#define T_E (2 | (ID_THUMBS << 4))
-#define T_U (3 | (ID_THUMBS << 4))
+#define T_A (0 | (FAMILY_THUMBS << 4))
+#define T_O (1 | (FAMILY_THUMBS << 4))
+#define T_E (2 | (FAMILY_THUMBS << 4))
+#define T_U (3 | (FAMILY_THUMBS << 4))
 
 // 8 bits for the right hand
 #define OFFSET_RIGHT_HAND 12
-#define BIT_R_R (1L << 0)
-#define BIT_R_N (1L << 1)
-#define BIT_R_L (1L << 2)
-#define BIT_R_G (1L << 3)
-#define BIT_R_C (1L << 4)
-#define BIT_R_H (1L << 5)
-#define BIT_R_T (1L << 6)
-#define BIT_R_S (1L << 7)
-#define R_R (0 | (ID_RIGHT_HAND << 4))
-#define R_N (1 | (ID_RIGHT_HAND << 4))
-#define R_L (2 | (ID_RIGHT_HAND << 4))
-#define R_G (3 | (ID_RIGHT_HAND << 4))
-#define R_C (4 | (ID_RIGHT_HAND << 4))
-#define R_H (5 | (ID_RIGHT_HAND << 4))
-#define R_T (6 | (ID_RIGHT_HAND << 4))
-#define R_S (7 | (ID_RIGHT_HAND << 4))
+#define R_R (0 | (FAMILY_RIGHT_HAND << 4))
+#define R_N (1 | (FAMILY_RIGHT_HAND << 4))
+#define R_L (2 | (FAMILY_RIGHT_HAND << 4))
+#define R_G (3 | (FAMILY_RIGHT_HAND << 4))
+#define R_C (4 | (FAMILY_RIGHT_HAND << 4))
+#define R_H (5 | (FAMILY_RIGHT_HAND << 4))
+#define R_T (6 | (FAMILY_RIGHT_HAND << 4))
+#define R_S (7 | (FAMILY_RIGHT_HAND << 4))
 
 // 3 bits for punctuations (;: ,< .>)
 #define OFFSET_PUNCTUATIONS 20
-#define BIT_P_SCOL  (1L << 0)
-#define BIT_P_COMA  (1L << 1)
-#define BIT_P_DOT   (1L << 2)
-#define P_SCOL (0 | (ID_PUNCTUATIONS << 4))
-#define P_COMA (1 | (ID_PUNCTUATIONS << 4))
-#define P_DOT  (2 | (ID_PUNCTUATIONS << 4))
+#define P_SCOL (0 | (FAMILY_PUNCTUATIONS << 4))
+#define P_COMA (1 | (FAMILY_PUNCTUATIONS << 4))
+#define P_DOT  (2 | (FAMILY_PUNCTUATIONS << 4))
 
 // 4 bits for space control keys (space, backspace, tab, return)
 #define OFFSET_SPACE_CONTROLS 23
-#define BIT_S_SP    (1L << 0)
-#define BIT_S_BSP   (1L << 1)
-#define BIT_S_TAB   (1L << 2)
-#define BIT_S_RET   (1L << 3)
-#define S_SP   (0 | (ID_SPACES << 4))
-#define S_BSP  (1 | (ID_SPACES << 4))
-#define S_TAB  (2 | (ID_SPACES << 4))
-#define S_RET  (3 | (ID_SPACES << 4))
+#define S_SP   (0 | (FAMILY_SPACES << 4))
+#define S_BSP  (1 | (FAMILY_SPACES << 4))
+#define S_TAB  (2 | (FAMILY_SPACES << 4))
+#define S_RET  (3 | (FAMILY_SPACES << 4))
+
+// Table to convert family id to bit offset
+const uint8_t g_family_to_bit_offset[NB_FAMILY] =
+{
+    0,
+    OFFSET_LEFT_HAND,
+    OFFSET_THUMBS,
+    OFFSET_RIGHT_HAND,
+    OFFSET_PUNCTUATIONS,
+    OFFSET_SPACE_CONTROLS
+};
 
 // Global vars for the steno layer
 uint32_t    g_bits_keys_pressed = 0;
@@ -99,18 +89,6 @@ uint8_t     g_bits_thumbs = 0;
 uint8_t     g_bits_right_hand = 0;
 uint8_t     g_bits_punctuations = 0;
 uint8_t     g_bits_space_controls = 0;
-
-// Utility functions for the steno layer
-void add_left_hand(uint8_t bit)         { g_bits_keys_pressed |= (bit << OFFSET_LEFT_HAND); g_bits_left_hand |= bit; }
-void del_left_hand(uint8_t bit)         { g_bits_keys_pressed &= ~(bit << OFFSET_LEFT_HAND); }
-void add_thumb(uint8_t bit)             { g_bits_keys_pressed |= (bit << OFFSET_THUMBS); g_bits_thumbs |= bit; }
-void del_thumb(uint8_t bit)             { g_bits_keys_pressed &= ~(bit << OFFSET_THUMBS); }
-void add_right_hand(uint8_t bit)        { g_bits_keys_pressed |= (bit << OFFSET_RIGHT_HAND); g_bits_right_hand |= bit; }
-void del_right_hand(uint8_t bit)        { g_bits_keys_pressed &= ~(bit << OFFSET_RIGHT_HAND); }
-void add_punctuation(uint8_t bit)       { g_bits_keys_pressed |= ((uint32_t)(bit) << OFFSET_PUNCTUATIONS); g_bits_punctuations |= bit; }
-void del_punctuation(uint8_t bit)       { g_bits_keys_pressed &= ~((uint32_t)(bit) << OFFSET_PUNCTUATIONS); }
-void add_space_ctl(uint8_t bit)         { g_bits_keys_pressed |= ((uint32_t)(bit) << OFFSET_SPACE_CONTROLS); g_bits_space_controls |= bit; }
-void del_space_ctl(uint8_t bit)         { g_bits_keys_pressed &= ~((uint32_t)(bit) << OFFSET_SPACE_CONTROLS); }
 
 // Steno keymap
 const uint8_t PROGMEM g_steno_keymap[1][MATRIX_ROWS][MATRIX_COLS] =
@@ -122,9 +100,9 @@ const uint8_t PROGMEM g_steno_keymap[1][MATRIX_ROWS][MATRIX_COLS] =
                 S_TAB,  L_A,    L_C,  L_W,  L_N,  S_BSP,
                 0,      L_S,    L_T,  L_H,  L_R,  S_RET,    0,
                 0,      P_SCOL, 0,    0,    0,
-                                                                 0,       0,
-                                                                          0,
-                                                                 T_A, T_O,    0,
+                                                                 0,     0,
+                                                                        0,
+                                                          T_A,   T_O,   0,
                 // right hand
                             0,     0,      0,    0,    0,      0,     0,
                             0,     0,      0,    0,    0,      0,     0,
@@ -133,7 +111,7 @@ const uint8_t PROGMEM g_steno_keymap[1][MATRIX_ROWS][MATRIX_COLS] =
                                            0,    0,    P_COMA, P_DOT, 0,
                 0,     0,
                 0,
-                0,     T_E,    T_U
+                0,     T_E,   T_U
           )
 };
 
@@ -295,14 +273,14 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
     {
     case STENO:
         {
-            const uint8_t c = pgm_read_byte(&(g_steno_keymap[0][record->event.key.row][record->event.key.col]));
-            const uint8_t key_offset = c & 0x0F;
+            const uint8_t byte = pgm_read_byte(&(g_steno_keymap[0][record->event.key.row][record->event.key.col]));
+            const uint8_t key_offset = byte & 0x0F;
             const uint8_t bit_key = 1L << key_offset;
-            const uint8_t family = (c >> 4) & 0x0F;
-            const uint8_t family_offset = 0;
+            const uint8_t family = (byte >> 4) & 0x0F;
+            const uint8_t family_offset = g_family_to_bit_offset[family];
             if (record->event.pressed)
             {
-                if (c)
+                if (byte)
                 {
                     g_bits_keys_pressed |= (bit_key << family_offset);
                     g_bits_left_hand |= bit_key;
@@ -310,7 +288,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
             }
             else
             {
-                if (c)
+                if (byte)
                 {
                     g_bits_keys_pressed &= ~(bit_key << family_offset);
                 }
