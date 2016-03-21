@@ -117,23 +117,23 @@ const uint8_t PROGMEM g_steno_keymap[1][MATRIX_ROWS][MATRIX_COLS] =
 {
     KEYMAP(
                 // left hand
-                0,        0,      0,    0,    0,    0,         0,
-                0,        0,      0,    0,    0,    0,         0,
-                0,        0,      0,    0,    L_N,    0,
-                0,        0,      0,    0,    L_R,    0,         0,
-                0,        0,      0,    0,    0,
-                                                                  0,       0,
-                                                                           0,
-                                                                  0, 0,    0,
+                0,      0,      0,    0,    0,    0,        0,
+                0,      0,      0,    0,    0,    0,        0,
+                S_TAB,  L_A,    L_C,  L_W,  L_N,  S_BSP,
+                0,      L_S,    L_T,  L_H,  L_R,  S_RET,    0,
+                0,      P_SCOL, 0,    0,    0,
+                                                                 0,       0,
+                                                                          0,
+                                                                 T_A, T_O,    0,
                 // right hand
-                            0,        0,    0,    0,    0,    0,    0,
-                            0,        0,    0,    0,    0,    0,    0,
-                                      0,    0,    0,    0,    0,    0,
-                            0,        0,    0,    0,    0,    0,    0,
-                                            0,    0,    0,    0,    0,
+                            0,     0,      0,    0,    0,      0,     0,
+                            0,     0,      0,    0,    0,      0,     0,
+                                   S_BSP,  R_R,  R_L,  R_C,    R_T,   0,
+                            0,     S_SP,   R_N,  R_G,  R_H,    R_S,   0,
+                                           0,    0,    P_COMA, P_DOT, 0,
                 0,     0,
                 0,
-                0,     0,    0
+                0,     T_E,    T_U
           )
 };
 
@@ -295,17 +295,24 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
     {
     case STENO:
         {
-            uint8_t c = pgm_read_byte(&(g_steno_keymap[0][record->event.key.row][record->event.key.col]));
+            const uint8_t c = pgm_read_byte(&(g_steno_keymap[0][record->event.key.row][record->event.key.col]));
+            const uint8_t key_offset = c & 0x0F;
+            const uint8_t bit_key = 1L << key_offset;
+            const uint8_t family = (c >> 4) & 0x0F;
+            const uint8_t family_offset = 0;
             if (record->event.pressed)
             {
                 if (c)
                 {
+                    g_bits_keys_pressed |= (bit_key << family_offset);
+                    g_bits_left_hand |= bit_key;
                 }
             }
             else
             {
                 if (c)
                 {
+                    g_bits_keys_pressed &= ~(bit_key << family_offset);
                 }
 
                 // Stroke if all steno keys are released
@@ -314,317 +321,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                     stroke();
                 }
             }
-
-            /*
-            if (record->event.pressed)
-            {
-                switch (physical_row)
-                {
-                case 2:
-                    {
-                        switch (physical_col)
-                        {
-                        case 1: // Left hand
-                            {
-                                add_left_hand(L_A);
-                                break;
-                            }
-                        case 2:
-                            {
-                                add_left_hand(L_C);
-                                break;
-                            }
-                        case 3:
-                            {
-                                add_left_hand(L_W);
-                                break;
-                            }
-                        case 4:
-                            {
-                                add_left_hand(L_N);
-                                break;
-                            }
-                        case 5:
-                            {
-                                break;
-                            }
-                        case 8: // Right hand
-                            {
-                                break;
-                            }
-                        case 9:
-                            {
-                                add_right_hand(R_R);
-                                break;
-                            }
-                        case 10:
-                            {
-                                add_right_hand(R_L);
-                                break;
-                            }
-                        case 11:
-                            {
-                                add_right_hand(R_C);
-                                break;
-                            }
-                        case 12:
-                            {
-                                add_right_hand(R_T);
-                                break;
-                            }
-                        case 13:
-                            {
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                case 3:
-                    {
-                        switch (physical_col)
-                        {
-                        case 1: // Left hand
-                            {
-                                add_left_hand(L_S);
-                                break;
-                            }
-                        case 2:
-                            {
-                                add_left_hand(L_T);
-                                break;
-                            }
-                        case 3:
-                            {
-                                add_left_hand(L_H);
-                                break;
-                            }
-                        case 4:
-                            {
-                                add_left_hand(L_R);
-                                break;
-                            }
-                        case 5:
-                            {
-                                break;
-                            }
-                        case 8: // Right hand
-                            {
-                                break;
-                            }
-                        case 9:
-                            {
-                                add_right_hand(R_N);
-                                break;
-                            }
-                        case 10:
-                            {
-                                add_right_hand(R_G);
-                                break;
-                            }
-                        case 11:
-                            {
-                                add_right_hand(R_H);
-                                break;
-                            }
-                        case 12:
-                            {
-                                add_right_hand(R_S);
-                                break;
-                            }
-                        case 13:
-                            {
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                case 5: // Thumb
-                    {
-                        switch (physical_col)
-                        {
-                        case 3:
-                            {
-                                add_thumb(T_A);
-                                break;
-                            }
-                        case 2:
-                            {
-                                add_thumb(T_O);
-                                break;
-                            }
-                        case 11:
-                            {
-                                add_thumb(T_E);
-                                break;
-                            }
-                        case 10:
-                            {
-                                add_thumb(T_U);
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                switch (physical_row)
-                {
-                case 2:
-                    {
-                        switch (physical_col)
-                        {
-                        case 1: // Left hand
-                            {
-                                del_left_hand(L_A);
-                                break;
-                            }
-                        case 2:
-                            {
-                                del_left_hand(L_C);
-                                break;
-                            }
-                        case 3:
-                            {
-                                del_left_hand(L_W);
-                                break;
-                            }
-                        case 4:
-                            {
-                                del_left_hand(L_N);
-                                break;
-                            }
-                        case 5:
-                            {
-                                break;
-                            }
-                        case 8: // Right hand
-                            {
-                                break;
-                            }
-                        case 9:
-                            {
-                                del_right_hand(R_R);
-                                break;
-                            }
-                        case 10:
-                            {
-                                del_right_hand(R_L);
-                                break;
-                            }
-                        case 11:
-                            {
-                                del_right_hand(R_C);
-                                break;
-                            }
-                        case 12:
-                            {
-                                del_right_hand(R_T);
-                                break;
-                            }
-                        case 13:
-                            {
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                case 3:
-                    {
-                        switch (physical_col)
-                        {
-                        case 1: // Left hand
-                            {
-                                del_left_hand(L_S);
-                                break;
-                            }
-                        case 2:
-                            {
-                                del_left_hand(L_T);
-                                break;
-                            }
-                        case 3:
-                            {
-                                del_left_hand(L_H);
-                                break;
-                            }
-                        case 4:
-                            {
-                                del_left_hand(L_R);
-                                break;
-                            }
-                        case 5:
-                            {
-                                break;
-                            }
-                        case 8: // Right hand
-                            {
-                                break;
-                            }
-                        case 9:
-                            {
-                                del_right_hand(R_N);
-                                break;
-                            }
-                        case 10:
-                            {
-                                del_right_hand(R_G);
-                                break;
-                            }
-                        case 11:
-                            {
-                                del_right_hand(R_H);
-                                break;
-                            }
-                        case 12:
-                            {
-                                del_right_hand(R_S);
-                                break;
-                            }
-                        case 13:
-                            {
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                case 5: // Thumb
-                    {
-                        switch (physical_col)
-                        {
-                        case 3:
-                            {
-                                del_thumb(T_A);
-                                break;
-                            }
-                        case 2:
-                            {
-                                del_thumb(T_O);
-                                break;
-                            }
-                        case 11:
-                            {
-                                del_thumb(T_E);
-                                break;
-                            }
-                        case 10:
-                            {
-                                del_thumb(T_U);
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
-
-                // Stroke if all steno keys are released
-                if (g_bits_keys_pressed == 0)
-                {
-                    stroke();
-                }
-            }
-            */
             break;
         }
     case SFT_CMAK: // Apply SHIFT and go to LAYER_SHIFT_COLEMAK
