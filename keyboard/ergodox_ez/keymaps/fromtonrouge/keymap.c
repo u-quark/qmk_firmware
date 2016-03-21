@@ -17,47 +17,80 @@
 #define USFT_CMAK 1
 #define STENO 2
 
+#define ID_LEFT_HAND       1
+#define ID_THUMBS          2
+#define ID_RIGHT_HAND      3
+#define ID_PUNCTUATIONS    4
+#define ID_SPACES          5
+
 // 8 bits for the left hand
 #define OFFSET_LEFT_HAND 0
-#define L_A (1L << 0)
-#define L_S (1L << 1)
-#define L_C (1L << 2)
-#define L_T (1L << 3)
-#define L_W (1L << 4)
-#define L_H (1L << 5)
-#define L_N (1L << 6)
-#define L_R (1L << 7)
+#define BIT_L_A (1L << 0)
+#define BIT_L_S (1L << 1)
+#define BIT_L_C (1L << 2)
+#define BIT_L_T (1L << 3)
+#define BIT_L_W (1L << 4)
+#define BIT_L_H (1L << 5)
+#define BIT_L_N (1L << 6)
+#define BIT_L_R (1L << 7)
+#define L_A (0 | (ID_LEFT_HAND << 4))
+#define L_S (1 | (ID_LEFT_HAND << 4))
+#define L_C (2 | (ID_LEFT_HAND << 4))
+#define L_T (3 | (ID_LEFT_HAND << 4))
+#define L_W (4 | (ID_LEFT_HAND << 4))
+#define L_H (5 | (ID_LEFT_HAND << 4))
+#define L_N (6 | (ID_LEFT_HAND << 4))
+#define L_R (7 | (ID_LEFT_HAND << 4))
 
 // 4 bits for the thumbs
 #define OFFSET_THUMBS 8
-#define T_A (1L << 0)
-#define T_O (1L << 1)
-#define T_E (1L << 2)
-#define T_U (1L << 3)
+#define BIT_T_A (1L << 0)
+#define BIT_T_O (1L << 1)
+#define BIT_T_E (1L << 2)
+#define BIT_T_U (1L << 3)
+#define T_A (0 | (ID_THUMBS << 4))
+#define T_O (1 | (ID_THUMBS << 4))
+#define T_E (2 | (ID_THUMBS << 4))
+#define T_U (3 | (ID_THUMBS << 4))
 
 // 8 bits for the right hand
 #define OFFSET_RIGHT_HAND 12
-#define R_R (1L << 0)
-#define R_N (1L << 1)
-#define R_L (1L << 2)
-#define R_G (1L << 3)
-#define R_C (1L << 4)
-#define R_H (1L << 5)
-#define R_T (1L << 6)
-#define R_S (1L << 7)
+#define BIT_R_R (1L << 0)
+#define BIT_R_N (1L << 1)
+#define BIT_R_L (1L << 2)
+#define BIT_R_G (1L << 3)
+#define BIT_R_C (1L << 4)
+#define BIT_R_H (1L << 5)
+#define BIT_R_T (1L << 6)
+#define BIT_R_S (1L << 7)
+#define R_R (0 | (ID_RIGHT_HAND << 4))
+#define R_N (1 | (ID_RIGHT_HAND << 4))
+#define R_L (2 | (ID_RIGHT_HAND << 4))
+#define R_G (3 | (ID_RIGHT_HAND << 4))
+#define R_C (4 | (ID_RIGHT_HAND << 4))
+#define R_H (5 | (ID_RIGHT_HAND << 4))
+#define R_T (6 | (ID_RIGHT_HAND << 4))
+#define R_S (7 | (ID_RIGHT_HAND << 4))
 
 // 3 bits for punctuations (;: ,< .>)
 #define OFFSET_PUNCTUATIONS 20
-#define P_SCOL  (1L << 0)
-#define P_COMA  (1L << 1)
-#define P_DOT   (1L << 2)
+#define BIT_P_SCOL  (1L << 0)
+#define BIT_P_COMA  (1L << 1)
+#define BIT_P_DOT   (1L << 2)
+#define P_SCOL (0 | (ID_PUNCTUATIONS << 4))
+#define P_COMA (1 | (ID_PUNCTUATIONS << 4))
+#define P_DOT  (2 | (ID_PUNCTUATIONS << 4))
 
 // 4 bits for space control keys (space, backspace, tab, return)
 #define OFFSET_SPACE_CONTROLS 23
-#define S_SP    (1L << 0)
-#define S_BSP   (1L << 1)
-#define S_TAB   (1L << 2)
-#define S_RET   (1L << 3)
+#define BIT_S_SP    (1L << 0)
+#define BIT_S_BSP   (1L << 1)
+#define BIT_S_TAB   (1L << 2)
+#define BIT_S_RET   (1L << 3)
+#define S_SP   (0 | (ID_SPACES << 4))
+#define S_BSP  (1 | (ID_SPACES << 4))
+#define S_TAB  (2 | (ID_SPACES << 4))
+#define S_RET  (3 | (ID_SPACES << 4))
 
 // Global vars for the steno layer
 uint32_t    g_bits_keys_pressed = 0;
@@ -78,6 +111,31 @@ void add_punctuation(uint8_t bit)       { g_bits_keys_pressed |= ((uint32_t)(bit
 void del_punctuation(uint8_t bit)       { g_bits_keys_pressed &= ~((uint32_t)(bit) << OFFSET_PUNCTUATIONS); }
 void add_space_ctl(uint8_t bit)         { g_bits_keys_pressed |= ((uint32_t)(bit) << OFFSET_SPACE_CONTROLS); g_bits_space_controls |= bit; }
 void del_space_ctl(uint8_t bit)         { g_bits_keys_pressed &= ~((uint32_t)(bit) << OFFSET_SPACE_CONTROLS); }
+
+// Steno keymap
+const uint8_t PROGMEM g_steno_keymap[1][MATRIX_ROWS][MATRIX_COLS] =
+{
+    KEYMAP(
+                // left hand
+                0,        0,      0,    0,    0,    0,         0,
+                0,        0,      0,    0,    0,    0,         0,
+                0,        0,      0,    0,    L_N,    0,
+                0,        0,      0,    0,    L_R,    0,         0,
+                0,        0,      0,    0,    0,
+                                                                  0,       0,
+                                                                           0,
+                                                                  0, 0,    0,
+                // right hand
+                            0,        0,    0,    0,    0,    0,    0,
+                            0,        0,    0,    0,    0,    0,    0,
+                                      0,    0,    0,    0,    0,    0,
+                            0,        0,    0,    0,    0,    0,    0,
+                                            0,    0,    0,    0,    0,
+                0,     0,
+                0,
+                0,     0,    0
+          )
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -237,8 +295,27 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
     {
     case STENO:
         {
-            const int physical_row = record->event.key.col;
-            const int physical_col = record->event.key.row;
+            uint8_t c = pgm_read_byte(&(g_steno_keymap[0][record->event.key.row][record->event.key.col]));
+            if (record->event.pressed)
+            {
+                if (c)
+                {
+                }
+            }
+            else
+            {
+                if (c)
+                {
+                }
+
+                // Stroke if all steno keys are released
+                if (g_bits_keys_pressed == 0)
+                {
+                    stroke();
+                }
+            }
+
+            /*
             if (record->event.pressed)
             {
                 switch (physical_row)
@@ -547,6 +624,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                     stroke();
                 }
             }
+            */
             break;
         }
     case SFT_CMAK: // Apply SHIFT and go to LAYER_SHIFT_COLEMAK
