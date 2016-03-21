@@ -74,10 +74,10 @@ void add_thumb(uint8_t bit)             { g_bits_keys_pressed |= (bit << OFFSET_
 void del_thumb(uint8_t bit)             { g_bits_keys_pressed &= ~(bit << OFFSET_THUMBS); }
 void add_right_hand(uint8_t bit)        { g_bits_keys_pressed |= (bit << OFFSET_RIGHT_HAND); g_bits_right_hand |= bit; }
 void del_right_hand(uint8_t bit)        { g_bits_keys_pressed &= ~(bit << OFFSET_RIGHT_HAND); }
-void add_punctuation(uint8_t bit)       { g_bits_keys_pressed |= (bit << OFFSET_PUNCTUATIONS); g_bits_punctuations |= bit; }
-void del_punctuation(uint8_t bit)       { g_bits_keys_pressed &= ~(bit << OFFSET_PUNCTUATIONS); }
-void add_space_ctl(uint8_t bit)         { g_bits_keys_pressed |= (bit << OFFSET_SPACE_CONTROLS); g_bits_space_controls |= bit; }
-void del_space_ctl(uint8_t bit)         { g_bits_keys_pressed &= ~(bit << OFFSET_SPACE_CONTROLS); }
+void add_punctuation(uint8_t bit)       { g_bits_keys_pressed |= ((uint32_t)(bit) << OFFSET_PUNCTUATIONS); g_bits_punctuations |= bit; }
+void del_punctuation(uint8_t bit)       { g_bits_keys_pressed &= ~((uint32_t)(bit) << OFFSET_PUNCTUATIONS); }
+void add_space_ctl(uint8_t bit)         { g_bits_keys_pressed |= ((uint32_t)(bit) << OFFSET_SPACE_CONTROLS); g_bits_space_controls |= bit; }
+void del_space_ctl(uint8_t bit)         { g_bits_keys_pressed &= ~((uint32_t)(bit) << OFFSET_SPACE_CONTROLS); }
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -176,31 +176,52 @@ const uint16_t PROGMEM fn_actions[] = {
     [1] = ACTION_LAYER_TAP_TOGGLE(LAYER_FN)                // FN1 - Momentary Layer 1 (Symbols)
 };
 
-void send_letters(uint32_t encoded)
-{
-#define SEND(decoded) { const uint8_t c = decoded; if (c) { register_code(c); unregister_code(c);} else { return;}}
-
-    SEND(DECODE1(encoded));
-    SEND(DECODE2(encoded));
-    SEND(DECODE3(encoded));
-    SEND(DECODE4(encoded));
-    SEND(DECODE5(encoded));
-    SEND(DECODE6(encoded));
-}
-
 void stroke(void)
 {
     // Send letters of the left hand
-    const uint32_t left_letters = pgm_read_dword(&(g_left_hand_table[g_bits_left_hand]));
-    send_letters(left_letters);
+    for (int i = 0; i < ENCODE_SIZE; ++i)
+    {
+        uint8_t c = pgm_read_byte(&(g_left_hand_table[g_bits_left_hand][i]));
+        if (c)
+        {
+            register_code(c);
+            unregister_code(c);
+        }
+        else
+        {
+            break;
+        }
+    }
 
     // Send letters of the thumb cluster
-    const uint32_t thumbs_letters = pgm_read_dword(&(g_thumbs_table[g_bits_thumbs]));
-    send_letters(thumbs_letters);
+    for (int i = 0; i < 2; ++i)
+    {
+        uint8_t c = pgm_read_byte(&(g_thumbs_table[g_bits_thumbs][i]));
+        if (c)
+        {
+            register_code(c);
+            unregister_code(c);
+        }
+        else
+        {
+            break;
+        }
+    }
 
     // Send letters of the right hand
-    const uint32_t right_letters = pgm_read_dword(&(g_right_hand_table[g_bits_right_hand]));
-    send_letters(right_letters);
+    for (int i = 0; i < ENCODE_SIZE; ++i)
+    {
+        uint8_t c = pgm_read_byte(&(g_right_hand_table[g_bits_right_hand][i]));
+        if (c)
+        {
+            register_code(c);
+            unregister_code(c);
+        }
+        else
+        {
+            break;
+        }
+    }
 
     // Clear bits
     g_bits_left_hand = 0;
@@ -666,7 +687,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
 }
 
 // Runs just one time when the keyboard initializes.
-void * matrix_init_user(void) {}
+void * matrix_init_user(void) { return 0; }
 
 // Runs constantly in the background, in a loop.
 void * matrix_scan_user(void)
@@ -699,4 +720,5 @@ void * matrix_scan_user(void)
     {
         ergodox_right_led_2_on();
     }
+    return 0;
 }

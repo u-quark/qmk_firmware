@@ -1,21 +1,13 @@
 #ifndef ENCODE_H
 #define ENCODE_H
 
-#define ENCODING_SIZE 5
-#define ENCODE1(c1) c1
-#define ENCODE2(c1, c2) c1 | (c2 << 5)
-#define ENCODE3(c1, c2, c3) c1 | (c2 << ENCODING_SIZE) | (c3 << 2*ENCODING_SIZE)
-#define ENCODE4(c1, c2, c3, c4) c1 | (c2 << ENCODING_SIZE) | (c3 << 2*ENCODING_SIZE) | (c4 << 3*ENCODING_SIZE)
-#define ENCODE5(c1, c2, c3, c4, c5) c1 | (c2 << ENCODING_SIZE) | (c3 << 2*ENCODING_SIZE) | (c4 << 3*ENCODING_SIZE) | ((uint32_t)(c5) << 4*ENCODING_SIZE)
-#define ENCODE6(c1, c2, c3, c4, c5, c6) c1 | (c2 << ENCODING_SIZE) | (c3 << 2*ENCODING_SIZE) | (c4 << 3*ENCODING_SIZE) | ((uint32_t)(c5) << 4*ENCODING_SIZE) | ((uint32_t)(c6) << 5*ENCODING_SIZE)
-
-#define DECODING_MASK 0x1F
-#define DECODE1(encoded) ((encoded >> 0*ENCODING_SIZE) & DECODING_MASK)
-#define DECODE2(encoded) ((encoded >> 1*ENCODING_SIZE) & DECODING_MASK)
-#define DECODE3(encoded) ((encoded >> 2*ENCODING_SIZE) & DECODING_MASK)
-#define DECODE4(encoded) ((encoded >> 3*ENCODING_SIZE) & DECODING_MASK)
-#define DECODE5(encoded) ((encoded >> 4*ENCODING_SIZE) & DECODING_MASK)
-#define DECODE6(encoded) ((encoded >> 5*ENCODING_SIZE) & DECODING_MASK)
+#define ENCODE_SIZE 5
+#define NO_ENTRY {0}
+#define ENCODE1(c1) {c1, 0, 0, 0, 0}
+#define ENCODE2(c1, c2) {c1, c2, 0, 0, 0}
+#define ENCODE3(c1, c2, c3) {c1, c2, c3, 0, 0}
+#define ENCODE4(c1, c2, c3, c4) {c1, c2, c3, c4, 0}
+#define ENCODE5(c1, c2, c3, c4, c5) {c1, c2, c3, c4, c5}
 
 #ifdef AZERTY
 

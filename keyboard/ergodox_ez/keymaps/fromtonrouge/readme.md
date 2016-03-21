@@ -4,6 +4,12 @@ It's a firmware-implemented Programmer Colemak layout and a firmware-implemented
 
 The OS must be in AZERTY
 
+# Orthographic Steno Layout
+
+	ACWN    RLCT
+	STHR    NGHS
+        AOEU
+
 # Lookup table for the left hand
 
     A               =       A                   [1]
