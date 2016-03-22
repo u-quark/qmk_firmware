@@ -21,6 +21,7 @@
 enum key_family
 {
     FAMILY_UNKNOWN,
+    FAMILY_CASE_CONTROL,
     FAMILY_LEFT_HAND,
     FAMILY_THUMBS,
     FAMILY_RIGHT_HAND,
@@ -60,21 +61,27 @@ enum key_family
 
 // 3 bits for punctuations (;: ,< .>)
 #define OFFSET_PUNCTUATIONS 20
-#define P_SCOL (0 | (FAMILY_PUNCTUATIONS << 4))
-#define P_COMA (1 | (FAMILY_PUNCTUATIONS << 4))
+#define P_SCLN (0 | (FAMILY_PUNCTUATIONS << 4))
+#define P_COMM (1 | (FAMILY_PUNCTUATIONS << 4))
 #define P_DOT  (2 | (FAMILY_PUNCTUATIONS << 4))
 
 // 4 bits for space control keys (space, backspace, tab, return)
 #define OFFSET_SPACE_CONTROLS 23
-#define S_SP   (0 | (FAMILY_SPACES << 4))
-#define S_BSP  (1 | (FAMILY_SPACES << 4))
+#define S_SPC  (0 | (FAMILY_SPACES << 4))
+#define S_BSPC (1 | (FAMILY_SPACES << 4))
 #define S_TAB  (2 | (FAMILY_SPACES << 4))
 #define S_RET  (3 | (FAMILY_SPACES << 4))
+
+// 2 bits for case control keys (upper case, initial case)
+#define OFFSET_CASE_CONTROLS 27
+#define C_UP   (0 | (FAMILY_CASE_CONTROL << 4))
+#define C_IUP  (1 | (FAMILY_CASE_CONTROL << 4))
 
 // Table to convert family id to bit offset
 const uint8_t g_family_to_bit_offset[NB_FAMILY] =
 {
     0,
+    OFFSET_CASE_CONTROLS,
     OFFSET_LEFT_HAND,
     OFFSET_THUMBS,
     OFFSET_RIGHT_HAND,
@@ -89,6 +96,7 @@ typedef const uint8_t lookup_table_t[ENCODE_SIZE];
 lookup_table_t* g_family_tables[NB_FAMILY] = 
 {
     0,
+    0,
     g_left_hand_table,
     g_thumbs_table,
     g_right_hand_table,
@@ -100,21 +108,21 @@ lookup_table_t* g_family_tables[NB_FAMILY] =
 const uint8_t PROGMEM g_steno_keymap[1][MATRIX_ROWS][MATRIX_COLS] =
 {
     KEYMAP(
-                // left hand
+                // Left hand
                 0,      0,      0,    0,    0,    0,        0,
-                0,      0,      0,    0,    0,    0,        0,
-                S_TAB,  L_A,    L_C,  L_W,  L_N,  S_BSP,
-                0,      L_S,    L_T,  L_H,  L_R,  S_RET,    0,
-                0,      P_SCOL, 0,    0,    0,
+                S_TAB,  0,      0,    0,    0,    0,        0,
+                C_IUP,  L_A,    L_C,  L_W,  L_N,  S_BSPC,
+                C_UP,   L_S,    L_T,  L_H,  L_R,  S_RET,    0,
+                0,      P_SCLN, 0,    0,    0,
                                                                  0,     0,
                                                                         0,
                                                           T_A,   T_O,   0,
-                // right hand
+                // Right hand
                             0,     0,      0,    0,    0,      0,     0,
                             0,     0,      0,    0,    0,      0,     0,
-                                   S_BSP,  R_R,  R_L,  R_C,    R_T,   0,
-                            0,     S_SP,   R_N,  R_G,  R_H,    R_S,   0,
-                                           0,    0,    P_COMA, P_DOT, 0,
+                                   S_SPC,  R_R,  R_L,  R_C,    R_T,   0,
+                            0,     S_RET,  R_N,  R_G,  R_H,    R_S,   0,
+                                           0,    0,    P_COMM, P_DOT, 0,
                 0,     0,
                 0,
                 0,     T_E,   T_U
@@ -151,9 +159,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [LAYER_STENO] = KEYMAP(
         // left hand
         KC_NO,        KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,        KC_NO,
-        KC_NO,        KC_1,       KC_2,       KC_3,       KC_4,       KC_5,         KC_TRNS,
-        KC_NO,        M(STENO),   M(STENO),   M(STENO),   M(STENO),   M(STENO),
-        KC_LSFT,      M(STENO),   M(STENO),   M(STENO),   M(STENO),   M(STENO),     KC_TRNS,
+        M(STENO),     KC_1,       KC_2,       KC_3,       KC_4,       KC_5,         KC_TRNS,
+        M(STENO),     M(STENO),   M(STENO),   M(STENO),   M(STENO),   M(STENO),
+        M(STENO),     M(STENO),   M(STENO),   M(STENO),   M(STENO),   M(STENO),     KC_TRNS,
         KC_TRNS,      M(STENO),   KC_TRNS,    KC_TRNS,    KC_TRNS,
                                                                                         KC_TRNS,    KC_TRNS,
                                                                                                     KC_TRNS,
@@ -221,18 +229,42 @@ const uint16_t PROGMEM fn_actions[] = {
 void stroke(void)
 {
     // Send characters for each key family
+    bool initial_shift_state = false; // TODO
+    bool upper_case = false;
+    bool initial_case_1 = false;
+    bool initial_case_2 = false;
     for (int family_id = 0; family_id < NB_FAMILY; ++family_id)
     {
+        const uint8_t family_bits = g_family_bits[family_id];
+        if (family_id == FAMILY_CASE_CONTROL)
+        {
+            upper_case = family_bits == 1;
+            initial_case_1 = family_bits == 2;
+            initial_case_2 = family_bits == 3;
+
+            if (upper_case || initial_case_1 || initial_case_2)
+            {
+                register_code(KC_LSFT);
+            }
+        }
+
         lookup_table_t* lookup_table = g_family_tables[family_id];
+        uint8_t sent_count = 0;
         if (lookup_table)
         {
             for (int char_pos = 0; char_pos < ENCODE_SIZE; ++char_pos)
             {
-                const uint8_t byte = pgm_read_byte(&(lookup_table[g_family_bits[family_id]][char_pos]));
+                const uint8_t byte = pgm_read_byte(&(lookup_table[family_bits][char_pos]));
                 if (byte)
                 {
                     register_code(byte);
                     unregister_code(byte);
+                    sent_count++;
+
+                    if (initial_case_1 && sent_count == 1 || initial_case_2 && sent_count == 2)
+                    {
+                        unregister_code(KC_LSFT);
+                    }
                 }
                 else
                 {
@@ -240,6 +272,11 @@ void stroke(void)
                 }
             }
         }
+    }
+
+    if ((upper_case || initial_case_1 || initial_case_2) && !initial_shift_state)
+    {
+        unregister_code(KC_LSFT);
     }
 
     // Clear bits
@@ -257,7 +294,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
         {
             const uint8_t byte = pgm_read_byte(&(g_steno_keymap[0][record->event.key.row][record->event.key.col]));
             const uint8_t key_offset = byte & 0x0F;
-            const uint8_t bit_key = 1L << key_offset;
+            const uint32_t bit_key = 1L << key_offset;
             const uint8_t family = (byte >> 4) & 0x0F;
             const uint8_t family_offset = g_family_to_bit_offset[family];
             if (record->event.pressed)
@@ -448,6 +485,11 @@ void * matrix_scan_user(void)
         break;
     default:
         break;
+    }
+
+    if (g_bits_keys_pressed)
+    {
+        ergodox_right_led_2_on();
     }
     return 0;
 }

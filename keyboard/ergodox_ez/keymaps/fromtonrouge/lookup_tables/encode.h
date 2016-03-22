@@ -3,19 +3,24 @@
 
 #define ENCODE_SIZE 5
 #define NO_ENTRY {0}
-#define ENCODE1(c1) {c1, 0, 0, 0, 0}
-#define ENCODE2(c1, c2) {c1, c2, 0, 0, 0}
-#define ENCODE3(c1, c2, c3) {c1, c2, c3, 0, 0}
-#define ENCODE4(c1, c2, c3, c4) {c1, c2, c3, c4, 0}
-#define ENCODE5(c1, c2, c3, c4, c5) {c1, c2, c3, c4, c5}
+#define _1(c1) {c1, 0, 0, 0, 0}
+#define _2(c1, c2) {c1, c2, 0, 0, 0}
+#define _3(c1, c2, c3) {c1, c2, c3, 0, 0}
+#define _4(c1, c2, c3, c4) {c1, c2, c3, c4, 0}
+#define _5(c1, c2, c3, c4, c5) {c1, c2, c3, c4, c5}
 
 #ifdef AZERTY
 
-#define _A      KC_Q
-#define _M      KC_SCLN
-#define _Q      KC_A
-#define _W      KC_Z
-#define _Z      KC_W
+#include "keymap_extras/keymap_french.h"
+
+#define _A      FR_A
+#define _M      FR_M
+#define _Q      FR_Q
+#define _W      FR_W
+#define _Z      FR_Z
+#define _SCLN   FR_SCLN
+#define _COMM   FR_COMM
+#define _DOT    FR_DOT
 
 #else
 
@@ -24,6 +29,9 @@
 #define _W      KC_W
 #define _Z      KC_Z
 #define _M      KC_M
+#define _SCLN   KC_SCLN
+#define _COMM   KC_COMM
+#define _DOT    KC_DOT
 
 #endif
 
