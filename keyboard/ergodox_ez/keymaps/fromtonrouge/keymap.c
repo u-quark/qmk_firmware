@@ -83,12 +83,18 @@ const uint8_t g_family_to_bit_offset[NB_FAMILY] =
 };
 
 // Global vars for the steno layer
-uint32_t    g_bits_keys_pressed = 0;
-uint8_t     g_bits_left_hand = 0;
-uint8_t     g_bits_thumbs = 0;
-uint8_t     g_bits_right_hand = 0;
-uint8_t     g_bits_punctuations = 0;
-uint8_t     g_bits_space_controls = 0;
+uint32_t g_bits_keys_pressed = 0;
+uint8_t g_family_bits[NB_FAMILY] = {0};
+typedef const uint8_t lookup_table_t[ENCODE_SIZE];
+lookup_table_t* g_family_tables[NB_FAMILY] = 
+{
+    0,
+    g_left_hand_table,
+    g_thumbs_table,
+    g_right_hand_table,
+    g_punctuations_table,
+    g_spaces_ctl_table
+};
 
 // Steno keymap
 const uint8_t PROGMEM g_steno_keymap[1][MATRIX_ROWS][MATRIX_COLS] =
@@ -214,57 +220,33 @@ const uint16_t PROGMEM fn_actions[] = {
 
 void stroke(void)
 {
-    // Send letters of the left hand
-    for (int i = 0; i < ENCODE_SIZE; ++i)
+    // Send characters for each key family
+    for (int family_id = 0; family_id < NB_FAMILY; ++family_id)
     {
-        uint8_t c = pgm_read_byte(&(g_left_hand_table[g_bits_left_hand][i]));
-        if (c)
+        lookup_table_t* lookup_table = g_family_tables[family_id];
+        if (lookup_table)
         {
-            register_code(c);
-            unregister_code(c);
-        }
-        else
-        {
-            break;
-        }
-    }
-
-    // Send letters of the thumb cluster
-    for (int i = 0; i < 2; ++i)
-    {
-        uint8_t c = pgm_read_byte(&(g_thumbs_table[g_bits_thumbs][i]));
-        if (c)
-        {
-            register_code(c);
-            unregister_code(c);
-        }
-        else
-        {
-            break;
-        }
-    }
-
-    // Send letters of the right hand
-    for (int i = 0; i < ENCODE_SIZE; ++i)
-    {
-        uint8_t c = pgm_read_byte(&(g_right_hand_table[g_bits_right_hand][i]));
-        if (c)
-        {
-            register_code(c);
-            unregister_code(c);
-        }
-        else
-        {
-            break;
+            for (int char_pos = 0; char_pos < ENCODE_SIZE; ++char_pos)
+            {
+                const uint8_t byte = pgm_read_byte(&(lookup_table[g_family_bits[family_id]][char_pos]));
+                if (byte)
+                {
+                    register_code(byte);
+                    unregister_code(byte);
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
     }
 
     // Clear bits
-    g_bits_left_hand = 0;
-    g_bits_thumbs = 0;
-    g_bits_right_hand = 0;
-    g_bits_punctuations = 0;
-    g_bits_space_controls = 0;
+    for (int i = 0; i < NB_FAMILY; ++i)
+    {
+        g_family_bits[i] = 0;
+    }
 }
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t opt)
@@ -283,7 +265,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                 if (byte)
                 {
                     g_bits_keys_pressed |= (bit_key << family_offset);
-                    g_bits_left_hand |= bit_key;
+                    g_family_bits[family] |= bit_key;
                 }
             }
             else
@@ -466,11 +448,6 @@ void * matrix_scan_user(void)
         break;
     default:
         break;
-    }
-
-    if (g_bits_left_hand || g_bits_thumbs || g_bits_right_hand || g_bits_space_controls || g_bits_punctuations)
-    {
-        ergodox_right_led_2_on();
     }
     return 0;
 }

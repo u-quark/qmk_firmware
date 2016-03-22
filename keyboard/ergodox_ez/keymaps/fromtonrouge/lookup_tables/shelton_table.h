@@ -544,4 +544,34 @@ const uint8_t PROGMEM g_right_hand_table[256][ENCODE_SIZE] =
     NO_ENTRY                                // [255]
 };
 
+const uint8_t PROGMEM g_punctuations_table[7][ENCODE_SIZE] =
+{
+    NO_ENTRY,                               // [0]
+    NO_ENTRY,                               // [1]
+    NO_ENTRY,                               // [2]
+    NO_ENTRY,                               // [3]
+    NO_ENTRY,                               // [4]
+    NO_ENTRY,                               // [5]
+    NO_ENTRY                                // [6]
+};
+
+const uint8_t PROGMEM g_spaces_ctl_table[15][ENCODE_SIZE] =
+{
+    NO_ENTRY,                               // [0]
+    ENCODE1(KC_SPC),                        // [1]
+    NO_ENTRY,                               // [2]
+    NO_ENTRY,                               // [3]
+    NO_ENTRY,                               // [4]
+    NO_ENTRY,                               // [5]
+    NO_ENTRY,                               // [6]
+    NO_ENTRY,                               // [7]
+    NO_ENTRY,                               // [8]
+    NO_ENTRY,                               // [9]
+    NO_ENTRY,                               // [10]
+    NO_ENTRY,                               // [11]
+    NO_ENTRY,                               // [12]
+    NO_ENTRY,                               // [13]
+    NO_ENTRY                                // [14]
+};
+
 #endif
