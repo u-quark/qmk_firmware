@@ -544,17 +544,6 @@ const uint8_t PROGMEM g_right_hand_table[256][ENCODE_SIZE] =
     NO_ENTRY                                // [255]
 };
 
-const uint8_t PROGMEM g_punctuations_table[7][ENCODE_SIZE] =
-{
-    NO_ENTRY,                               // [0]
-    _1(_SCLN),                              // [1]
-    _1(_COMM),                              // [2]
-    NO_ENTRY,                               // [3]
-    _1(_DOT),                               // [4]
-    NO_ENTRY,                               // [5]
-    NO_ENTRY                                // [6]
-};
-
 const uint8_t PROGMEM g_spaces_ctl_table[15][ENCODE_SIZE] =
 {
     NO_ENTRY,                               // [0]
