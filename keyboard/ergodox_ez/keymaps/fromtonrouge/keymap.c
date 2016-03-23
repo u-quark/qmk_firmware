@@ -103,20 +103,20 @@ const uint32_t PROGMEM g_steno_keymap[1][MATRIX_ROWS][MATRIX_COLS] =
 {
     KEYMAP(
                 // Left hand
-                0,      0,      0,    0,    0,    0,        0,
-                S_TAB,  0,      0,    0,    0,    0,        0,
-                C_IUP,  L_A,    L_C,  L_W,  L_N,  KC_BSPC,
-                C_UP,   L_S,    L_T,  L_H,  L_R,  KC_ENT,   0,
-                0,      0,      0,    0,    0,
+                0,      0,         0,    0,    0,    0,        0,
+                S_TAB,  0,         0,    0,    0,    0,        0,
+                C_IUP,  L_A,       L_C,  L_W,  L_N,  KC_BSPC,
+                C_UP,   L_S,       L_T,  L_H,  L_R,  KC_ENT,   0,
+                0,      FR_SCLN,   0,    0,    0,
                                                                  0,     0,
                                                                         0,
                                                           T_A,   T_O,   0,
                 // Right hand
-                            0,     0,      0,    0,    0,      0,     0,
-                            0,     0,      0,    0,    0,      0,     0,
-                                   S_SPC,  R_R,  R_L,  R_C,    R_T,   C_IUP,
-                            0,     KC_DEL, R_N,  R_G,  R_H,    R_S,   C_UP,
-                                           0,    0,    0,      0, 0,
+                            0,     0,      0,    0,    0,        0,       0,
+                            0,     0,      0,    0,    0,        0,       0,
+                                   S_SPC,  R_R,  R_L,  R_C,      R_T,     C_IUP,
+                            0,     KC_DEL, R_N,  R_G,  R_H,      R_S,     C_UP,
+                                           0,    0,    FR_COMM,  FR_DOT,  0,
                 0,     0,
                 0,
                 0,     T_E,   T_U
@@ -318,15 +318,18 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
             }
             else
             {
-                // TODO: apply mods if any
+                // Send mods and key code
                 const uint16_t word = dword & 0xFFFF;
+                const uint8_t mod_bits = (word >> 8) & 0xFF;
                 const uint8_t code = word & 0xFF;
                 if (record->event.pressed)
                 {
+                    add_mods(mod_bits);
                     register_code(code);
                 }
                 else
                 {
+                    del_mods(mod_bits);
                     unregister_code(code);
                 }
             }
