@@ -251,6 +251,7 @@ void stroke(void)
     bool upper_case = false;
     bool initial_case_1 = false;
     bool initial_case_2 = false;
+	uint8_t sent_count = 0;
     for (int family_id = 0; family_id < NB_FAMILY; ++family_id)
     {
         const uint8_t family_bits = g_family_bits[family_id];
@@ -267,7 +268,6 @@ void stroke(void)
         }
 
         lookup_table_t* lookup_table = g_family_tables[family_id];
-        uint8_t sent_count = 0;
         if (lookup_table)
         {
             for (int char_pos = 0; char_pos < ENCODE_SIZE; ++char_pos)
