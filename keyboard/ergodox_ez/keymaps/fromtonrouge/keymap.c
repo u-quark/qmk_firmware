@@ -154,19 +154,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [LAYER_STENO] = KEYMAP(
         // left hand
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
-        ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
+        ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        KC_TRNS,
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
-        ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
-        ST_ON,        ST_ON,      ST_ON,      KC_TRNS,    KC_TRNS,
+        ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        KC_TRNS,
+        KC_TRNS,      ST_ON,      KC_TRNS,    KC_TRNS,    KC_TRNS,
                                                                                         KC_TRNS,    KC_TRNS,
                                                                                                     KC_TRNS,
                                                                             ST_ON,      ST_ON,      KC_TRNS,
         // right hand
                     ST_ON,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
-                    ST_ON,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
+                    KC_TRNS,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
                                     ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
-                    ST_ON,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
-                                                KC_TRNS,    KC_TRNS,    ST_ON,      ST_ON,      ST_ON,
+                    KC_TRNS,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
+                                                KC_TRNS,    KC_TRNS,    ST_ON,      ST_ON,      KC_TRNS,
         KC_TRNS,      KC_TRNS,
         KC_TRNS,
         KC_TRNS,      ST_ON,      ST_ON    
@@ -318,7 +318,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
             }
             else
             {
-                // TODO: handle mods
+                // TODO: apply mods if any
                 const uint16_t word = dword & 0xFFFF;
                 const uint8_t code = word & 0xFF;
                 if (record->event.pressed)
