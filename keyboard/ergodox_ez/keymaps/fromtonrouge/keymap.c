@@ -99,14 +99,15 @@ lookup_table_t* g_family_tables[NB_FAMILY] =
 };
 
 // Steno keymap
-const uint32_t PROGMEM g_steno_keymap[1][MATRIX_ROWS][MATRIX_COLS] =
-{
-    KEYMAP(
+const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
+
+// BASE
+KEYMAP(
                 // Left hand
                 0,      0,         0,    0,    0,    0,        0,
                 S_TAB,  0,         0,    0,    0,    0,        0,
-                C_IUP,  L_A,       L_C,  L_W,  L_N,  KC_BSPC,
-                C_UP,   L_S,       L_T,  L_H,  L_R,  KC_ENT,   0,
+                C_UP,   L_A,       L_C,  L_W,  L_N,  KC_BSPC,
+                C_IUP,  L_S,       L_T,  L_H,  L_R,  KC_ENT,   0,
                 0,      FR_SCLN,   0,    0,    0,
                                                                  0,     0,
                                                                         0,
@@ -114,13 +115,35 @@ const uint32_t PROGMEM g_steno_keymap[1][MATRIX_ROWS][MATRIX_COLS] =
                 // Right hand
                             0,     0,      0,    0,    0,        0,       0,
                             0,     0,      0,    0,    0,        0,       0,
-                                   S_SPC,  R_R,  R_L,  R_C,      R_T,     C_IUP,
-                            0,     KC_DEL, R_N,  R_G,  R_H,      R_S,     C_UP,
+                                   S_SPC,  R_R,  R_L,  R_C,      R_T,     C_UP,
+                            0,     KC_DEL, R_N,  R_G,  R_H,      R_S,     C_IUP,
                                            0,    0,    FR_COMM,  FR_DOT,  0,
                 0,     0,
                 0,
                 0,     T_E,   T_U
-          )
+),
+
+// SHIFT
+KEYMAP(
+                // Left hand
+                0,      0,         0,    0,    0,    0,        0,
+                0,      0,         0,    0,    0,    0,        0,
+                0,      0,         0,    0,    0,    0,
+                0,      0,         0,    0,    0,    0,        0,
+                0,      0,         0,    0,    0,
+                                                                 0,     0,
+                                                                        0,
+                                                            0,   0,     0,
+                // Right hand
+                            0,     0,      0,    0,    0,        0,       0,
+                            0,     0,      0,    0,    0,        0,       0,
+                                   0,      0,    0,    0,        0,       0,
+                            0,     0,      0,    0,    0,        0,       0,
+                                           0,    0,    0,        0,       0,
+                0,     0,
+                0,
+                0,     0,   0
+)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -224,7 +247,7 @@ const uint16_t PROGMEM fn_actions[] = {
 void stroke(void)
 {
     // Send characters for each key family
-    bool initial_shift_state = false; // TODO
+    const uint8_t original_mods = get_mods();
     bool upper_case = false;
     bool initial_case_1 = false;
     bool initial_case_2 = false;
@@ -239,7 +262,7 @@ void stroke(void)
 
             if (upper_case || initial_case_1 || initial_case_2)
             {
-                register_code(KC_LSFT);
+                add_mods(MOD_LSFT);
             }
         }
 
@@ -258,7 +281,7 @@ void stroke(void)
 
                     if ((initial_case_1 && sent_count == 1) || (initial_case_2 && sent_count == 2))
                     {
-                        unregister_code(KC_LSFT);
+                        del_mods(MOD_LSFT);
                     }
                 }
                 else
@@ -269,9 +292,9 @@ void stroke(void)
         }
     }
 
-    if ((upper_case || initial_case_1 || initial_case_2) && !initial_shift_state)
+    if (upper_case || initial_case_1 || initial_case_2)
     {
-        unregister_code(KC_LSFT);
+        set_mods(original_mods);
     }
 
     // Clear bits
@@ -288,49 +311,49 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
     case STENO:
         {
             const uint32_t dword = pgm_read_dword(&(g_steno_keymap[0][record->event.key.row][record->event.key.col]));
-            if (dword & STENO_BIT)
+            if (dword)
             {
-                const uint8_t key_offset = dword & 0x0F;
-                const uint32_t bit_key = 1L << key_offset;
-                const uint8_t family = (dword >> 4) & 0x0F;
-                const uint8_t family_offset = g_family_to_bit_offset[family];
-                if (record->event.pressed)
+                if (dword & STENO_BIT)
                 {
-                    if (dword)
+                    const uint8_t key_offset = dword & 0x0F;
+                    const uint32_t bit_key = 1L << key_offset;
+                    const uint8_t family = (dword >> 4) & 0x0F;
+                    const uint8_t family_offset = g_family_to_bit_offset[family];
+                    if (record->event.pressed)
                     {
                         g_bits_keys_pressed |= (bit_key << family_offset);
                         g_family_bits[family] |= bit_key;
                     }
-                }
-                else
-                {
-                    if (dword)
+                    else
                     {
                         g_bits_keys_pressed &= ~(bit_key << family_offset);
-                    }
 
-                    // Stroke if all steno keys are released
-                    if (g_bits_keys_pressed == 0)
-                    {
-                        stroke();
+                        // Stroke if all steno keys are released
+                        if (g_bits_keys_pressed == 0)
+                        {
+                            stroke();
+                        }
                     }
-                }
-            }
-            else
-            {
-                // Send mods and key code
-                const uint16_t word = dword & 0xFFFF;
-                const uint8_t mod_bits = (word >> 8) & 0xFF;
-                const uint8_t code = word & 0xFF;
-                if (record->event.pressed)
-                {
-                    add_mods(mod_bits);
-                    register_code(code);
                 }
                 else
                 {
-                    del_mods(mod_bits);
-                    unregister_code(code);
+                    // TODO: const uint32_t dword_shift = pgm_read_dword(&(g_steno_keymap[1][record->event.key.row][record->event.key.col]));
+
+                    // Send mods and key code
+                    const uint16_t word = dword & 0xFFFF;
+                    const uint8_t mod_bits = (word >> 8) & 0xFF;
+                    const uint8_t code = word & 0xFF;
+                    if (record->event.pressed)
+                    {
+                        const uint8_t original_mods = get_mods();
+                        add_mods(mod_bits);
+                        register_code(code);
+                        set_mods(original_mods);
+                    }
+                    else
+                    {
+                        unregister_code(code);
+                    }
                 }
             }
             break;
