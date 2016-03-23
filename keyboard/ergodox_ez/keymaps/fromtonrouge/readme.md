@@ -202,12 +202,14 @@ The OS must be in AZERTY
     U               =       U                   [8]
     A|O             =       IO                  [3]
     A|E             =       EA                  [5]
+    A|U             =       AU                  [9]
     O|E             =       IE                  [6]
     O|U             =       OU                  [10]
     E|U             =       I                   [12]
     A|O|E           =       EE                  [7]
-    O|E|U           =       OI                  [14]
     A|O|U           =       OO                  [11]
+    A|E|U           =       AI                  [13]
+    O|E|U           =       OI                  [14]
 
 
 # Lookup table for the right hand
