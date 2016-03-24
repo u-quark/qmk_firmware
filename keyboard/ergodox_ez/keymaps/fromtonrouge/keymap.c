@@ -154,16 +154,16 @@ KEYMAP(
                 0,      0,         0,    0,    0,    0,        0,
                 0,      0,         0,    0,    0,    0,
                 0,      0,         0,    0,    0,    0,        0,
-                0,      0,         0,    0,    0,
+                0,      FR_COLN,   0,    0,    0,
                                                                  0,     0,
                                                                         0,
                                                             0,   0,     0,
                 // Right hand
-                            0,     0,      0,    0,    0,        0,       0,
-                            0,     0,      0,    0,    0,        0,       0,
-                                   0,      0,    0,    0,        0,       0,
-                            0,     0,      0,    0,    0,        0,       0,
-                                           0,    0,    0,        0,       0,
+                            0,     0,      0,    0,    0,        0,        0,
+                            0,     0,      0,    0,    0,        0,        0,
+                                   0,      0,    0,    0,        0,        0,
+                            0,     0,      0,    0,    0,        0,        0,
+                                           0,    0,    FR_LESS,  FR_GRTR,  0,
                 0,     0,
                 0,
                 0,     0,   0
@@ -367,19 +367,50 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                 }
                 else
                 {
-                    // TODO: const uint32_t dword_shift = pgm_read_dword(&(g_steno_keymap[1][record->event.key.row][record->event.key.col]));
-
-                    // Send mods and key code
-                    const uint16_t word = dword & 0xFFFF;
-                    const uint8_t mods = (word >> 8) & 0xFF;
-                    const uint8_t code = word & 0xFF;
-                    if (record->event.pressed)
+                    const uint16_t base_word = dword & 0xFFFF;
+                    const uint8_t base_code = base_word & 0xFF;
+                    const uint32_t dword_shift = pgm_read_dword(&(g_steno_keymap[1][record->event.key.row][record->event.key.col]));
+                    const uint16_t word_shift = dword_shift & 0xFFFF;
+                    bool send_shift_code = false;
+                    uint8_t shift_code = 0;
+                    if (dword_shift)
                     {
-                        send_mods_and_code(mods, code);
+                        shift_code = word_shift & 0xFF;
+                        if (g_bits_keys_pressed & ((uint32_t)(3) << OFFSET_CASE_CONTROLS))
+                        {
+                            send_shift_code = true;
+                        }
+                    }
+
+                    if (send_shift_code)
+                    {
+                        if (record->event.pressed)
+                        {
+                            const uint8_t mods = (word_shift >> 8) & 0xFF;
+                            send_mods_and_code(mods, shift_code);
+                        }
+                        else
+                        {
+                            unregister_code(base_code);
+                            unregister_code(shift_code);
+                        }
                     }
                     else
                     {
-                        unregister_code(code);
+                        // Send mods and key code
+                        if (record->event.pressed)
+                        {
+                            const uint8_t mods = (base_word >> 8) & 0xFF;
+                            send_mods_and_code(mods, base_code);
+                        }
+                        else
+                        {
+                            unregister_code(base_code);
+                            if (shift_code)
+                            {
+                                unregister_code(shift_code);
+                            }
+                        }
                     }
                 }
             }
