@@ -98,6 +98,29 @@ lookup_table_t* g_family_tables[NB_FAMILY] =
     g_spaces_ctl_table
 };
 
+#define SPECIAL_SHIFT_TABLE_SIZE 18
+const uint16_t g_special_shift_table[SPECIAL_SHIFT_TABLE_SIZE] =
+{
+    FR_COLN,    // [0] FR_SCLN
+    0,          // [1]
+    0,          // [2]
+    0,          // [3]
+    FR_GRV,     // [4] FR_HASH
+    0,          // [5]
+    0,          // [6]
+    0,          // [7]
+    FR_GRTR,    // [8] FR_DOT
+    FR_PIPE,    // [9] FR_BSLS
+    0,          // [10]
+    FR_CIRC,    // [11] FR_AT
+    FR_TILD,    // [12] FR_DLR
+    0,          // [13]
+    0,          // [14]
+    FR_QUOT,    // [15] FR_APOS
+    FR_LESS,    // [16] FR_COMM
+    FR_UNDS     // [17] FR_MINS
+};
+
 // Steno keymap
 const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -302,6 +325,14 @@ void stroke(void)
     }
 }
 
+void send_mods_and_code(uint8_t mods, uint8_t code)
+{
+    const uint8_t original_mods = get_mods();
+    set_mods(mods);
+    register_code(code);
+    set_mods(original_mods);
+}
+
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t opt)
 {
     switch (macroId)
@@ -339,14 +370,11 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
 
                     // Send mods and key code
                     const uint16_t word = dword & 0xFFFF;
-                    const uint8_t mod_bits = (word >> 8) & 0xFF;
+                    const uint8_t mods = (word >> 8) & 0xFF;
                     const uint8_t code = word & 0xFF;
                     if (record->event.pressed)
                     {
-                        const uint8_t original_mods = get_mods();
-                        add_mods(mod_bits);
-                        register_code(code);
-                        set_mods(original_mods);
+                        send_mods_and_code(mods, code);
                     }
                     else
                     {
@@ -373,119 +401,16 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
     case USFT_CMAK: // Unapply SHIFT and register keycode on press
         {
             uint16_t keycode = keymap_key_to_keycode(LAYER_COLEMAK, record->event.key);
+            uint16_t special_shift_code = g_special_shift_table[keycode % SPECIAL_SHIFT_TABLE_SIZE];
+            const uint8_t mods = (special_shift_code >> 8) & 0xFF;
+            const uint8_t code = special_shift_code & 0xFF;
             if (record->event.pressed)
             {
-                unregister_code(KC_LSFT);
-                switch (keycode)
-                {
-                case FR_APOS:
-                    {
-                        register_code(FR_QUOT);
-                        break;
-                    }
-                case FR_DLR:
-                    {
-                        register_code(KC_RALT);
-                        register_code(FR_TILD);
-                        break;
-                    }
-                case FR_SCLN:
-                    {
-                        register_code(FR_COLN);
-                        break;
-                    }
-                case FR_COMM:
-                    {
-                        register_code(FR_LESS);
-                        break;
-                    }
-                case FR_DOT:
-                    {
-                        register_code(KC_LSFT);
-                        register_code(FR_GRTR);
-                        break;
-                    }
-                case FR_HASH:
-                    {
-                        register_code(KC_RALT);
-                        register_code(FR_GRV);
-                        break;
-                    }
-                case FR_MINS:
-                    {
-                        register_code(FR_UNDS);
-                        break;
-                    }
-                case FR_AT:
-                    {
-                        register_code(KC_RALT);
-                        register_code(FR_CIRC);
-                        break;
-                    }
-                case FR_BSLS:
-                    {
-                        register_code(KC_RALT);
-                        register_code(FR_PIPE);
-                        break;
-                    }
-                }
+                send_mods_and_code(mods, code);
             }
             else
             {
-                switch (keycode)
-                {
-                case FR_APOS:
-                    {
-                        unregister_code(FR_QUOT);
-                        break;
-                    }
-                case FR_DLR:
-                    {
-                        unregister_code(KC_RALT);
-                        unregister_code(FR_TILD);
-                        break;
-                    }
-                case FR_SCLN:
-                    {
-                        unregister_code(FR_COLN);
-                        break;
-                    }
-                case FR_COMM:
-                    {
-                        unregister_code(FR_LESS);
-                        break;
-                    }
-                case FR_DOT:
-                    {
-                        unregister_code(KC_LSFT);
-                        unregister_code(FR_GRTR);
-                        break;
-                    }
-                case FR_HASH:
-                    {
-                        unregister_code(KC_RALT);
-                        unregister_code(FR_GRV);
-                        break;
-                    }
-                case FR_MINS:
-                    {
-                        unregister_code(FR_UNDS);
-                        break;
-                    }
-                case FR_AT:
-                    {
-                        unregister_code(KC_RALT);
-                        unregister_code(FR_CIRC);
-                        break;
-                    }
-                case FR_BSLS:
-                    {
-                        unregister_code(KC_RALT);
-                        unregister_code(FR_PIPE);
-                        break;
-                    }
-                }
-                register_code(KC_LSFT);
+                unregister_code(code);
             }
             break;
         }
