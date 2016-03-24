@@ -4,7 +4,7 @@
 #include "encode.h"
 
 // Lookup tables for the steno layer
-const uint8_t PROGMEM g_left_hand_table[256][ENCODE_SIZE] =
+const uint8_t PROGMEM g_left_hand_table[256][MAX_LETTERS] =
 {
     NO_ENTRY,                               // [0]
     _1(_A),                                 // [1]
@@ -264,7 +264,7 @@ const uint8_t PROGMEM g_left_hand_table[256][ENCODE_SIZE] =
     NO_ENTRY                                // [255]
 };
 
-const uint8_t PROGMEM g_thumbs_table[16][ENCODE_SIZE] =
+const uint8_t PROGMEM g_thumbs_table[16][MAX_LETTERS] =
 {
     NO_ENTRY,                               // [0]
     _1(_A),                                 // [1]
@@ -284,7 +284,7 @@ const uint8_t PROGMEM g_thumbs_table[16][ENCODE_SIZE] =
     NO_ENTRY                                // [15]
 };
 
-const uint8_t PROGMEM g_right_hand_table[256][ENCODE_SIZE] =
+const uint8_t PROGMEM g_right_hand_table[256][MAX_LETTERS] =
 {
     NO_ENTRY,                               // [0]
     _1(_R),                                 // [1]
@@ -544,7 +544,15 @@ const uint8_t PROGMEM g_right_hand_table[256][ENCODE_SIZE] =
     NO_ENTRY                                // [255]
 };
 
-const uint8_t PROGMEM g_spaces_ctl_table[15][ENCODE_SIZE] =
+const uint8_t PROGMEM g_right_pinky_table[4][MAX_LETTERS] =
+{
+    NO_ENTRY,                               // [0]
+    _1(KC_E),                               // [1]
+    _1(KC_Y),                               // [2]
+    _2(KC_E, KC_Y)                          // [3]
+};
+
+const uint8_t PROGMEM g_spaces_ctl_table[15][MAX_LETTERS] =
 {
     NO_ENTRY,                               // [0]
     _1(KC_SPC),                             // [1]

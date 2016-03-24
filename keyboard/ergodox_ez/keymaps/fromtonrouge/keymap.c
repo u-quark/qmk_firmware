@@ -26,6 +26,7 @@ enum key_family
     FAMILY_LEFT_HAND,
     FAMILY_THUMBS,
     FAMILY_RIGHT_HAND,
+    FAMILY_RIGHT_PINKY,
     FAMILY_SPACES,
     NB_FAMILY
 };
@@ -62,15 +63,18 @@ enum key_family
 #define R_T (6 | (FAMILY_RIGHT_HAND << 4) | STENO_BIT)
 #define R_S (7 | (FAMILY_RIGHT_HAND << 4) | STENO_BIT)
 
-// 4 bits for space control keys (space, backspace, tab, return)
+// 2 bits for E and Y
+#define OFFSET_RIGHT_PINKY 20
+#define RP_E  (0 | (FAMILY_RIGHT_PINKY << 4) | STENO_BIT)
+#define RP_Y  (1 | (FAMILY_RIGHT_PINKY << 4) | STENO_BIT)
+
+// 2 bits for space control keys
 #define OFFSET_SPACE_CONTROLS 20
 #define S_SPC  (0 | (FAMILY_SPACES << 4) | STENO_BIT)
-#define S_BSPC (1 | (FAMILY_SPACES << 4) | STENO_BIT)
-#define S_TAB  (2 | (FAMILY_SPACES << 4) | STENO_BIT)
-#define S_RET  (3 | (FAMILY_SPACES << 4) | STENO_BIT)
+#define S_TAB  (1 | (FAMILY_SPACES << 4) | STENO_BIT)
 
 // 2 bits for case control keys (upper case, initial case)
-#define OFFSET_CASE_CONTROLS 27
+#define OFFSET_CASE_CONTROLS 22
 #define C_UP   (0 | (FAMILY_CASE_CONTROL << 4) | STENO_BIT)
 #define C_IUP  (1 | (FAMILY_CASE_CONTROL << 4) | STENO_BIT)
 
@@ -82,13 +86,14 @@ const uint8_t g_family_to_bit_offset[NB_FAMILY] =
     OFFSET_LEFT_HAND,
     OFFSET_THUMBS,
     OFFSET_RIGHT_HAND,
+    OFFSET_RIGHT_PINKY,
     OFFSET_SPACE_CONTROLS
 };
 
 // Global vars for the steno layer
 uint32_t g_bits_keys_pressed = 0;
 uint8_t g_family_bits[NB_FAMILY] = {0};
-typedef const uint8_t lookup_table_t[ENCODE_SIZE];
+typedef const uint8_t lookup_table_t[MAX_LETTERS];
 lookup_table_t* g_family_tables[NB_FAMILY] = 
 {
     0,
@@ -96,6 +101,7 @@ lookup_table_t* g_family_tables[NB_FAMILY] =
     g_left_hand_table,
     g_thumbs_table,
     g_right_hand_table,
+    g_right_pinky_table,
     g_spaces_ctl_table
 };
 
@@ -125,7 +131,7 @@ const uint16_t g_special_shift_table[SPECIAL_SHIFT_TABLE_SIZE] =
 // Steno keymap
 const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
 
-// BASE
+// BASE STENO MAP
 KEYMAP(
                 // Left hand
                 0,      0,          0,          0,          0,          0,            0,
@@ -139,15 +145,15 @@ KEYMAP(
                 // Right hand
                             0,     0,          0,          0,          0,          0,          FR_HASH,
                             0,     FR_ASTR,    FR_RPRN,    FR_PLUS,    FR_RBRC,    FR_EXLM,    FR_SLSH,
-                                   S_SPC,      R_R,        R_L,        R_C,        R_T,        FR_MINS,
-                            0,     KC_DEL,     R_N,        R_G,        R_H,        R_S,        C_IUP,
+                                   S_SPC,      R_R,        R_L,        R_C,        R_T,        RP_E,
+                            0,     KC_DEL,     R_N,        R_G,        R_H,        R_S,        RP_Y,
                                                0,          0,          FR_COMM,    FR_DOT,     0,
                 0,     0,
                 0,
                 0,     T_E,   T_U
 ),
 
-// SHIFT
+// SHIFT STENO MAP (when C_IUP or C_UP are pressed)
 KEYMAP(
                 // Left hand
                 0,      0,         0,          0,          0,          0,           0,
@@ -161,7 +167,7 @@ KEYMAP(
                 // Right hand
                             0,     0,          0,          0,              0,              0,           FR_GRV,
                             0,     FR_0,       FR_2,       FR_4,           FR_6,           FR_8,        FR_QUES,
-                                   0,          0,          0,              0,              0,           FR_UNDS,
+                                   0,          0,          0,              0,              0,           0,
                             0,     0,          0,          0,              0,              0,           0,
                                                0,          0,              FR_LESS,        FR_GRTR,     0,
                 0,     0,
@@ -292,7 +298,7 @@ void stroke(void)
         lookup_table_t* lookup_table = g_family_tables[family_id];
         if (lookup_table)
         {
-            for (int char_pos = 0; char_pos < ENCODE_SIZE; ++char_pos)
+            for (int char_pos = 0; char_pos < MAX_LETTERS; ++char_pos)
             {
                 const uint8_t byte = pgm_read_byte(&(lookup_table[family_bits][char_pos]));
                 if (byte)

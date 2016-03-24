@@ -4,10 +4,12 @@ It's a firmware-implemented Programmer Colemak layout and a firmware-implemented
 
 The OS must be in AZERTY
 
+![Programmer Colemak](programmer-colemak.png)
+
 # Orthographic Steno Layout
 
-	ACWN    RLCT
-	STHR    NGHS
+	ACWN    RLCTE
+	STHR    NGHSY
         AOEU
 
 # Lookup table for the left hand
@@ -381,3 +383,9 @@ The OS must be in AZERTY
     N|L|G|H|T|S     =       DTHS                [238]
     R|N|L|C|H|T|S   =       LDS                 [247]
     N|L|G|C|H|T|S   =       MPTS                [254]
+
+# Lookup table for right E and Y
+
+    E               =       E                   [1]
+    Y               =       Y                   [2]
+    E|Y             =       EY                  [3]

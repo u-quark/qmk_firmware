@@ -1,7 +1,7 @@
 #ifndef ENCODE_H
 #define ENCODE_H
 
-#define ENCODE_SIZE 5
+#define MAX_LETTERS 5
 #define NO_ENTRY {0}
 #define _1(c1) {c1, 0, 0, 0, 0}
 #define _2(c1, c2) {c1, c2, 0, 0, 0}
