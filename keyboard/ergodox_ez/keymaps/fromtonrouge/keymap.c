@@ -128,20 +128,20 @@ const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
 // BASE
 KEYMAP(
                 // Left hand
-                0,      0,         0,    0,    0,    0,        0,
-                S_TAB,  0,         0,    0,    0,    0,        0,
-                C_UP,   L_A,       L_C,  L_W,  L_N,  KC_BSPC,
-                C_IUP,  L_S,       L_T,  L_H,  L_R,  KC_ENT,   0,
-                0,      FR_SCLN,   0,    0,    0,
-                                                                 0,     0,
-                                                                        0,
-                                                          T_A,   T_O,   0,
+                0,      0,          0,          0,          0,          0,            0,
+                S_TAB,  FR_LBRC,    FR_LCBR,    FR_RCBR,    FR_LPRN,    FR_EQL,       0,
+                C_UP,   L_A,        L_C,        L_W,        L_N,        KC_BSPC,
+                C_IUP,  L_S,        L_T,        L_H,        L_R,        KC_ENT,       0,
+                0,      FR_SCLN,    0,          0,          0,
+                                                                                           0,     0,
+                                                                                                  0,
+                                                                                    T_A,   T_O,   0,
                 // Right hand
-                            0,     0,      0,    0,    0,        0,       0,
-                            0,     0,      0,    0,    0,        0,       0,
-                                   S_SPC,  R_R,  R_L,  R_C,      R_T,     C_UP,
-                            0,     KC_DEL, R_N,  R_G,  R_H,      R_S,     C_IUP,
-                                           0,    0,    FR_COMM,  FR_DOT,  0,
+                            0,     0,          0,          0,          0,          0,          0,
+                            0,     FR_ASTR,    FR_RPRN,    FR_PLUS,    FR_RBRC,    FR_EXLM,    FR_HASH,
+                                   S_SPC,      R_R,        R_L,        R_C,        R_T,        C_UP,
+                            0,     KC_DEL,     R_N,        R_G,        R_H,        R_S,        C_IUP,
+                                               0,          0,          FR_COMM,    FR_DOT,     0,
                 0,     0,
                 0,
                 0,     T_E,   T_U
@@ -150,20 +150,20 @@ KEYMAP(
 // SHIFT
 KEYMAP(
                 // Left hand
-                0,      0,         0,    0,    0,    0,        0,
-                0,      0,         0,    0,    0,    0,        0,
-                0,      0,         0,    0,    0,    0,
-                0,      0,         0,    0,    0,    0,        0,
-                0,      FR_COLN,   0,    0,    0,
-                                                                 0,     0,
-                                                                        0,
-                                                            0,   0,     0,
+                0,      0,         0,          0,          0,          0,           0,
+                0,      FR_7,      FR_5,       FR_3,       FR_1,       FR_9,        0,
+                0,      0,         0,          0,          0,          0,
+                0,      0,         0,          0,          0,          0,           0,
+                0,      FR_COLN,   0,          0,          0,
+                                                                                           0,     0,
+                                                                                                  0,
+                                                                                      0,   0,     0,
                 // Right hand
-                            0,     0,      0,    0,    0,        0,        0,
-                            0,     0,      0,    0,    0,        0,        0,
-                                   0,      0,    0,    0,        0,        0,
-                            0,     0,      0,    0,    0,        0,        0,
-                                           0,    0,    FR_LESS,  FR_GRTR,  0,
+                            0,     0,          0,          0,              0,              0,           0,
+                            0,     FR_0,       FR_2,       FR_4,           FR_6,           FR_8,        0,
+                                   0,          0,          0,              0,              0,           0,
+                            0,     0,          0,          0,              0,              0,           0,
+                                               0,          0,              FR_LESS,        FR_GRTR,     0,
                 0,     0,
                 0,
                 0,     0,   0
@@ -273,7 +273,7 @@ void stroke(void)
     bool upper_case = false;
     bool initial_case_1 = false;
     bool initial_case_2 = false;
-	uint8_t sent_count = 0;
+    uint8_t sent_count = 0;
     for (int family_id = 0; family_id < NB_FAMILY; ++family_id)
     {
         const uint8_t family_bits = g_family_bits[family_id];
