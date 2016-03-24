@@ -137,9 +137,9 @@ KEYMAP(
                                                                                                   0,
                                                                                     T_A,   T_O,   0,
                 // Right hand
-                            0,     0,          0,          0,          0,          0,          0,
-                            0,     FR_ASTR,    FR_RPRN,    FR_PLUS,    FR_RBRC,    FR_EXLM,    FR_HASH,
-                                   S_SPC,      R_R,        R_L,        R_C,        R_T,        C_UP,
+                            0,     0,          0,          0,          0,          0,          FR_HASH,
+                            0,     FR_ASTR,    FR_RPRN,    FR_PLUS,    FR_RBRC,    FR_EXLM,    FR_SLSH,
+                                   S_SPC,      R_R,        R_L,        R_C,        R_T,        FR_MINS,
                             0,     KC_DEL,     R_N,        R_G,        R_H,        R_S,        C_IUP,
                                                0,          0,          FR_COMM,    FR_DOT,     0,
                 0,     0,
@@ -159,9 +159,9 @@ KEYMAP(
                                                                                                   0,
                                                                                       0,   0,     0,
                 // Right hand
-                            0,     0,          0,          0,              0,              0,           0,
-                            0,     FR_0,       FR_2,       FR_4,           FR_6,           FR_8,        0,
-                                   0,          0,          0,              0,              0,           0,
+                            0,     0,          0,          0,              0,              0,           FR_GRV,
+                            0,     FR_0,       FR_2,       FR_4,           FR_6,           FR_8,        FR_QUES,
+                                   0,          0,          0,              0,              0,           FR_UNDS,
                             0,     0,          0,          0,              0,              0,           0,
                                                0,          0,              FR_LESS,        FR_GRTR,     0,
                 0,     0,
@@ -200,7 +200,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define ST_ON M(STENO)
 [LAYER_STENO] = KEYMAP(
         // left hand
-        ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
+        ST_ON,        KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,        KC_F6,
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        KC_TRNS,
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        KC_TRNS,
@@ -209,7 +209,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                     KC_TRNS,
                                                                             ST_ON,      ST_ON,      KC_TRNS,
         // right hand
-                    ST_ON,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
+                    KC_F7,          KC_F8,      KC_F9,      KC_F10,     KC_F11,     KC_F12,     ST_ON,
                     KC_TRNS,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
                                     ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
                     KC_TRNS,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
