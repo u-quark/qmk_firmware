@@ -351,8 +351,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
             {
                 if (dword & STENO_BIT)
                 {
-                    const uint8_t key_offset = dword & 0x0F;
-                    const uint32_t bit_key = 1L << key_offset;
+                    const uint32_t bit_key = 1L << (dword & 0x0F);
                     const uint8_t family = (dword >> 4) & 0x0F;
                     const uint8_t family_offset = g_family_to_bit_offset[family];
                     if (record->event.pressed)
@@ -373,15 +372,15 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                 }
                 else
                 {
-                    const uint16_t base_word = dword & 0xFFFF;
-                    const uint8_t base_code = base_word & 0xFF;
+                    const uint16_t base_word = (uint16_t)dword;
+                    const uint8_t base_code = (uint8_t)dword;
                     const uint32_t dword_shift = pgm_read_dword(&(g_steno_keymap[1][record->event.key.row][record->event.key.col]));
-                    const uint16_t word_shift = dword_shift & 0xFFFF;
+                    const uint16_t word_shift = (uint16_t)dword_shift;
                     bool send_shift_code = false;
                     uint8_t shift_code = 0;
                     if (dword_shift)
                     {
-                        shift_code = word_shift & 0xFF;
+                        shift_code = (uint8_t)word_shift;
                         if (g_bits_keys_pressed & ((uint32_t)(3) << OFFSET_CASE_CONTROLS))
                         {
                             send_shift_code = true;
@@ -392,8 +391,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                     {
                         if (record->event.pressed)
                         {
-                            const uint8_t mods = (word_shift >> 8) & 0xFF;
-                            send_mods_and_code(mods, shift_code);
+                            send_mods_and_code(word_shift >> 8, shift_code);
                         }
                         else
                         {
@@ -406,8 +404,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                         // Send mods and key code
                         if (record->event.pressed)
                         {
-                            const uint8_t mods = (base_word >> 8) & 0xFF;
-                            send_mods_and_code(mods, base_code);
+                            send_mods_and_code(base_word >> 8, base_code);
                         }
                         else
                         {
@@ -438,13 +435,12 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
         }
     case SP_SFT: // Handle special shift codes
         {
-            uint16_t keycode = keymap_key_to_keycode(LAYER_COLEMAK, record->event.key);
+            uint8_t keycode = keymap_key_to_keycode(LAYER_COLEMAK, record->event.key);
             uint16_t special_shift_code = g_special_shift_table[keycode % SPECIAL_SHIFT_TABLE_SIZE];
-            const uint8_t mods = (special_shift_code >> 8) & 0xFF;
-            const uint8_t code = special_shift_code & 0xFF;
+            const uint8_t code = (uint8_t)special_shift_code;
             if (record->event.pressed)
             {
-                send_mods_and_code(mods, code);
+                send_mods_and_code(special_shift_code >> 8, code);
             }
             else
             {
