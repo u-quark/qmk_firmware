@@ -443,7 +443,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
         }
     case SP_SFT: // Handle special shift codes
         {
-            uint8_t keycode = keymap_key_to_keycode(LAYER_COLEMAK, record->event.key);
+            uint16_t keycode = keymap_key_to_keycode(LAYER_COLEMAK, record->event.key);
             uint16_t special_shift_code = g_special_shift_table[keycode % SPECIAL_SHIFT_TABLE_SIZE];
             const uint8_t code = (uint8_t)special_shift_code;
             if (record->event.pressed)
