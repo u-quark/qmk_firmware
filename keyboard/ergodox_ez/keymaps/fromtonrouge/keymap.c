@@ -276,6 +276,7 @@ void stroke(void)
 {
     // Send characters for each key family
     const uint8_t original_mods = get_mods();
+	clear_mods();
     bool upper_case = false;
     bool initial_case_1 = false;
     bool initial_case_2 = false;
@@ -320,10 +321,7 @@ void stroke(void)
         }
     }
 
-    if (upper_case || initial_case_1 || initial_case_2)
-    {
-        set_mods(original_mods);
-    }
+	set_mods(original_mods);
 
     // Clear bits
     for (int i = 0; i < NB_FAMILY; ++i)
@@ -356,6 +354,11 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                     const uint8_t family_offset = g_family_to_bit_offset[family];
                     if (record->event.pressed)
                     {
+						if (family == FAMILY_CASE_CONTROL)
+						{
+							register_code(KC_LSFT);
+						}
+
                         g_bits_keys_pressed |= (bit_key << family_offset);
                         g_family_bits[family] |= bit_key;
                     }
@@ -368,6 +371,11 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                         {
                             stroke();
                         }
+
+						if (family == FAMILY_CASE_CONTROL)
+						{
+							unregister_code(KC_LSFT);
+						}
                     }
                 }
                 else
