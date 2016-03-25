@@ -276,7 +276,7 @@ void stroke(void)
 {
     // Send characters for each key family
     const uint8_t original_mods = get_mods();
-	clear_mods();
+	del_mods(MOD_LSFT|MOD_RSFT);
     bool upper_case = false;
     bool initial_case_1 = false;
     bool initial_case_2 = false;
