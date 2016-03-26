@@ -8,9 +8,7 @@ The OS must be in AZERTY
 
 # Orthographic Steno Layout
 
-	ACWN    RLCTE
-	STHR    NGHSY
-        AOEU
+![Programmer Steno](programmer-steno.png)
 
 # Lookup table for the left hand
 
