@@ -1,12 +1,14 @@
-# ErgoDox EZ Programmer Colemak and Orthographic Steno configuration
+# Custom Programmer Colemak and Programmer Steno configuration
 
-It's a firmware-implemented Programmer Colemak layout and a firmware-implemented orthographic steno layout for programmers (inspired by the "Jackdaw" steno theory)
+It's a firmware-implemented custom Programmer Colemak layout and a firmware-implemented custom Programmer Steno layout (inspired by the Jackdaw steno theory https://sites.google.com/site/ploverdoc/jackdaw)
 
-The OS must be in AZERTY
+## Programmer Colemak layout
+
+(Inspired by the Programmer Dvorak layout : http://www.kaufmann.no/roland/dvorak/)
 
 ![Programmer Colemak](programmer-colemak.png)
 
-# Orthographic Steno Layout
+## Programmer Steno layout
 
 ![Programmer Steno](programmer-steno.png)
 
@@ -387,3 +389,22 @@ The OS must be in AZERTY
     E               =       E                   [1]
     Y               =       Y                   [2]
     E|Y             =       EY                  [3]
+
+# Lookup table for left user symbols
+
+    0               =       :                   [1]
+    1               =       _                   [2]
+    2               =       -                   [4]
+    3               =       +                   [8]
+    4               =       /                   [16]
+    5               =       *                   [32]
+
+
+# Lookup table for right user symbols
+
+    0               =       &                   [1]
+    1               =       |                   [2]
+    2               =       =                   [4]
+    3               =       ,                   [8]
+    4               =       ;                   [16]
+    5               =       .                   [32]

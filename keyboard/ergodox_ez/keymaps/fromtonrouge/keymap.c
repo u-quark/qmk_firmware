@@ -116,9 +116,9 @@ const uint8_t g_family_to_bit_offset[NB_FAMILY] =
 // A lookup table can stores letters (8 bits) or symbols (16 bits)
 enum kind_table
 {
-	KIND_UNKNOWN,
-	KIND_LETTERS,
-	KIND_SYMBOLS
+    KIND_UNKNOWN,
+    KIND_LETTERS,
+    KIND_SYMBOLS
 };
 
 const uint8_t g_family_to_kind_table[NB_FAMILY] =
@@ -131,7 +131,7 @@ const uint8_t g_family_to_kind_table[NB_FAMILY] =
     KIND_LETTERS,
     KIND_LETTERS,
     KIND_SYMBOLS,
-	KIND_LETTERS 
+    KIND_LETTERS 
 };
 
 // Global vars for the steno layer
@@ -140,15 +140,15 @@ uint32_t g_bits_keys_pressed_part2 = 0;
 
 uint32_t* g_family_to_keys_pressed[NB_FAMILY] = 
 {
-	&g_bits_keys_pressed_part1,
-	&g_bits_keys_pressed_part1,
-	&g_bits_keys_pressed_part2,
-	&g_bits_keys_pressed_part1,
-	&g_bits_keys_pressed_part1,
-	&g_bits_keys_pressed_part1,
-	&g_bits_keys_pressed_part1,
-	&g_bits_keys_pressed_part2,
-	&g_bits_keys_pressed_part1
+    &g_bits_keys_pressed_part1,
+    &g_bits_keys_pressed_part1,
+    &g_bits_keys_pressed_part2,
+    &g_bits_keys_pressed_part1,
+    &g_bits_keys_pressed_part1,
+    &g_bits_keys_pressed_part1,
+    &g_bits_keys_pressed_part1,
+    &g_bits_keys_pressed_part2,
+    &g_bits_keys_pressed_part1
 };
 
 uint8_t g_family_bits[NB_FAMILY] = {0};
@@ -158,12 +158,12 @@ void* g_all_tables[NB_FAMILY] =
 {
     0,
     0,
-	g_left_user_symbols_table,
+    g_left_user_symbols_table,
     g_left_hand_table,
     g_thumbs_table,
     g_right_hand_table,
     g_right_pinky_table,
-	g_right_user_symbols_table,
+    g_right_user_symbols_table,
     g_spaces_ctl_table
 };
 
@@ -232,7 +232,7 @@ KEYMAP(
                             0,     0,          0,          0,              0,              0,           0,
                                    0,          0,          0,              0,              0,           0,
                             0,     0,          0,          0,              0,              0,           0,
-                                               0,          0,              0,              0,     		0,
+                            0,          0,              0,              0,     0,
                 0,     0,
                 0,
                 0,     0,   0
@@ -349,7 +349,7 @@ void stroke(void)
 {
     // Send characters for each key family
     const uint8_t original_mods = get_mods();
-	del_mods(MOD_LSFT|MOD_RSFT);
+    del_mods(MOD_LSFT|MOD_RSFT);
     bool upper_case = false;
     bool initial_case_1 = false;
     bool initial_case_2 = false;
@@ -369,62 +369,62 @@ void stroke(void)
             }
         }
 
-		const uint8_t kind = g_family_to_kind_table[family_id];
+        const uint8_t kind = g_family_to_kind_table[family_id];
         void* any_table = g_all_tables[family_id];
         if (any_table)
         {
-			if (kind == KIND_LETTERS)
-			{
-				letters_table_t* letters_table = (letters_table_t*)any_table;
-				for (int code_pos = 0; code_pos < MAX_LETTERS; ++code_pos)
-				{
-					const uint8_t byte = pgm_read_byte(&(letters_table[family_bits][code_pos]));
-					if (byte)
-					{
-						register_code(byte);
-						unregister_code(byte);
-						sent_count++;
+            if (kind == KIND_LETTERS)
+            {
+                letters_table_t* letters_table = (letters_table_t*)any_table;
+                for (int code_pos = 0; code_pos < MAX_LETTERS; ++code_pos)
+                {
+                    const uint8_t byte = pgm_read_byte(&(letters_table[family_bits][code_pos]));
+                    if (byte)
+                    {
+                        register_code(byte);
+                        unregister_code(byte);
+                        sent_count++;
 
-						if ((initial_case_1 && sent_count == 1) || (initial_case_2 && sent_count == 2))
-						{
-							del_mods(MOD_LSFT);
-						}
-					}
-					else
-					{
-						break;
-					}
-				}
-			}
-			else
-			{
-				symbols_table_t* symbols_table = (symbols_table_t*)any_table;
-				for (int code_pos = 0; code_pos < MAX_SYMBOLS; ++code_pos)
-				{
-					const uint16_t word = pgm_read_word(&(symbols_table[family_bits][code_pos]));
-					if (word)
-					{
-						const uint8_t code = (uint8_t)word;
-						send_mods_and_code(word >> 8, code);
-						unregister_code(code);
-						sent_count++;
+                        if ((initial_case_1 && sent_count == 1) || (initial_case_2 && sent_count == 2))
+                        {
+                            del_mods(MOD_LSFT);
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                symbols_table_t* symbols_table = (symbols_table_t*)any_table;
+                for (int code_pos = 0; code_pos < MAX_SYMBOLS; ++code_pos)
+                {
+                    const uint16_t word = pgm_read_word(&(symbols_table[family_bits][code_pos]));
+                    if (word)
+                    {
+                        const uint8_t code = (uint8_t)word;
+                        send_mods_and_code(word >> 8, code);
+                        unregister_code(code);
+                        sent_count++;
 
-						if ((initial_case_1 && sent_count == 1) || (initial_case_2 && sent_count == 2))
-						{
-							del_mods(MOD_LSFT);
-						}
-					}
-					else
-					{
-						break;
-					}
-				}
-			}
+                        if ((initial_case_1 && sent_count == 1) || (initial_case_2 && sent_count == 2))
+                        {
+                            del_mods(MOD_LSFT);
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
         }
     }
 
-	// Restore original mods
-	set_mods(original_mods);
+    // Restore original mods
+    set_mods(original_mods);
 
     // Clear bits
     for (int i = 0; i < NB_FAMILY; ++i)
@@ -447,13 +447,13 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                     const uint32_t bit_key = 1L << (dword & 0x0F);
                     const uint8_t family = (dword >> 4) & 0x0F;
                     const uint8_t family_offset = g_family_to_bit_offset[family];
-					uint32_t* keys_pressed_p = g_family_to_keys_pressed[family];
+                    uint32_t* keys_pressed_p = g_family_to_keys_pressed[family];
                     if (record->event.pressed)
                     {
-						if (family == FAMILY_CASE_CONTROLS)
-						{
-							register_code(KC_LSFT);
-						}
+                        if (family == FAMILY_CASE_CONTROLS)
+                        {
+                            register_code(KC_LSFT);
+                        }
 
                         (*keys_pressed_p) |= (bit_key << family_offset);
                         g_family_bits[family] |= bit_key;
@@ -468,10 +468,10 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                             stroke();
                         }
 
-						if (family == FAMILY_CASE_CONTROLS)
-						{
-							unregister_code(KC_LSFT);
-						}
+                        if (family == FAMILY_CASE_CONTROLS)
+                        {
+                            unregister_code(KC_LSFT);
+                        }
                     }
                 }
                 else
@@ -485,7 +485,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                     if (dword_shift)
                     {
                         shift_code = (uint8_t)word_shift;
-						uint32_t* keys_pressed_p = g_family_to_keys_pressed[FAMILY_CASE_CONTROLS];
+                        uint32_t* keys_pressed_p = g_family_to_keys_pressed[FAMILY_CASE_CONTROLS];
                         if ((*keys_pressed_p) & ((uint32_t)(3) << OFFSET_CASE_CONTROLS))
                         {
                             send_shift_code = true;
