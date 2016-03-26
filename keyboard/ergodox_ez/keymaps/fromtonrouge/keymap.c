@@ -2,6 +2,7 @@
 
 #define AZERTY 1
 #include "lookup_tables/shelton_table.h"
+#include "lookup_tables/user_symbols_table.h"
 
 #include "debug.h"
 #include "action_layer.h"
@@ -22,11 +23,13 @@
 enum key_family
 {
     FAMILY_UNKNOWN,
-    FAMILY_CASE_CONTROL,
+    FAMILY_CASE_CONTROLS,
+    FAMILY_LEFT_USER_SYMBOLS,
     FAMILY_LEFT_HAND,
     FAMILY_THUMBS,
     FAMILY_RIGHT_HAND,
     FAMILY_RIGHT_PINKY,
+    FAMILY_RIGHT_USER_SYMBOLS,
     FAMILY_SPACES,
     NB_FAMILY
 };
@@ -75,36 +78,96 @@ enum key_family
 
 // 2 bits for case control keys (upper case, initial case)
 #define OFFSET_CASE_CONTROLS 22
-#define C_UP   (0 | (FAMILY_CASE_CONTROL << 4) | STENO_BIT)
-#define C_IUP  (1 | (FAMILY_CASE_CONTROL << 4) | STENO_BIT)
+#define C_UP   (0 | (FAMILY_CASE_CONTROLS << 4) | STENO_BIT)
+#define C_IUP  (1 | (FAMILY_CASE_CONTROLS << 4) | STENO_BIT)
+
+// 6 bits for left user symbols
+#define OFFSET_LEFT_USER_SYMBOLS 0
+#define USRL_0  (0 | (FAMILY_LEFT_USER_SYMBOLS << 4) | STENO_BIT)
+#define USRL_1  (1 | (FAMILY_LEFT_USER_SYMBOLS << 4) | STENO_BIT)
+#define USRL_2  (2 | (FAMILY_LEFT_USER_SYMBOLS << 4) | STENO_BIT)
+#define USRL_3  (3 | (FAMILY_LEFT_USER_SYMBOLS << 4) | STENO_BIT)
+#define USRL_4  (4 | (FAMILY_LEFT_USER_SYMBOLS << 4) | STENO_BIT)
+#define USRL_5  (5 | (FAMILY_LEFT_USER_SYMBOLS << 4) | STENO_BIT)
+
+// 6 bits for right user symbols
+#define OFFSET_RIGHT_USER_SYMBOLS 6
+#define USRR_0  (0 | (FAMILY_RIGHT_USER_SYMBOLS << 4) | STENO_BIT)
+#define USRR_1  (1 | (FAMILY_RIGHT_USER_SYMBOLS << 4) | STENO_BIT)
+#define USRR_2  (2 | (FAMILY_RIGHT_USER_SYMBOLS << 4) | STENO_BIT)
+#define USRR_3  (3 | (FAMILY_RIGHT_USER_SYMBOLS << 4) | STENO_BIT)
+#define USRR_4  (4 | (FAMILY_RIGHT_USER_SYMBOLS << 4) | STENO_BIT)
+#define USRR_5  (5 | (FAMILY_RIGHT_USER_SYMBOLS << 4) | STENO_BIT)
 
 // Table to convert family id to bit offset
 const uint8_t g_family_to_bit_offset[NB_FAMILY] =
 {
     0,
     OFFSET_CASE_CONTROLS,
+    OFFSET_LEFT_USER_SYMBOLS,
     OFFSET_LEFT_HAND,
     OFFSET_THUMBS,
     OFFSET_RIGHT_HAND,
     OFFSET_RIGHT_PINKY,
+    OFFSET_RIGHT_USER_SYMBOLS,
     OFFSET_SPACE_CONTROLS
 };
 
+// A lookup table can stores letters (8 bits) or symbols (16 bits)
+enum kind_table
+{
+	KIND_UNKNOWN,
+	KIND_LETTERS,
+	KIND_SYMBOLS
+};
+
+const uint8_t g_family_to_kind_table[NB_FAMILY] =
+{
+    KIND_UNKNOWN,
+    KIND_UNKNOWN,
+    KIND_SYMBOLS,
+    KIND_LETTERS,
+    KIND_LETTERS,
+    KIND_LETTERS,
+    KIND_LETTERS,
+    KIND_SYMBOLS,
+	KIND_LETTERS 
+};
+
 // Global vars for the steno layer
-uint32_t g_bits_keys_pressed = 0;
+uint32_t g_bits_keys_pressed_part1 = 0;
+uint32_t g_bits_keys_pressed_part2 = 0;
+
+uint32_t* g_family_to_keys_pressed[NB_FAMILY] = 
+{
+	&g_bits_keys_pressed_part1,
+	&g_bits_keys_pressed_part1,
+	&g_bits_keys_pressed_part2,
+	&g_bits_keys_pressed_part1,
+	&g_bits_keys_pressed_part1,
+	&g_bits_keys_pressed_part1,
+	&g_bits_keys_pressed_part1,
+	&g_bits_keys_pressed_part2,
+	&g_bits_keys_pressed_part1
+};
+
 uint8_t g_family_bits[NB_FAMILY] = {0};
-typedef const uint8_t lookup_table_t[MAX_LETTERS];
-lookup_table_t* g_family_tables[NB_FAMILY] = 
+typedef const uint8_t letters_table_t[MAX_LETTERS];
+typedef const uint16_t symbols_table_t[MAX_SYMBOLS];
+void* g_all_tables[NB_FAMILY] = 
 {
     0,
     0,
+	g_left_user_symbols_table,
     g_left_hand_table,
     g_thumbs_table,
     g_right_hand_table,
     g_right_pinky_table,
+	g_right_user_symbols_table,
     g_spaces_ctl_table
 };
 
+// For the Programmer Colemak layout
 #define SPECIAL_SHIFT_TABLE_SIZE 18
 const uint16_t g_special_shift_table[SPECIAL_SHIFT_TABLE_SIZE] =
 {
@@ -135,19 +198,19 @@ const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
 KEYMAP(
                 // Left hand
                 0,      0,          0,          0,          0,          0,            0,
-                S_TAB,  FR_LBRC,    FR_LCBR,    FR_RCBR,    FR_LPRN,    FR_EQL,       0,
+                S_TAB,  USRL_1,     USRL_2,     USRL_3,     USRL_4,     USRL_5,       0,
                 C_UP,   L_A,        L_C,        L_W,        L_N,        KC_BSPC,
                 C_IUP,  L_S,        L_T,        L_H,        L_R,        KC_ENT,       0,
-                0,      FR_SCLN,    0,          0,          0,
+                0,      USRL_0,     0,          0,          0,
                                                                                            0,     0,
                                                                                                   0,
                                                                                     T_A,   T_O,   0,
                 // Right hand
-                            0,     0,          0,          0,          0,          0,          FR_HASH,
-                            0,     FR_ASTR,    FR_RPRN,    FR_PLUS,    FR_RBRC,    FR_EXLM,    FR_SLSH,
+                            0,     0,          0,          0,          0,          0,          0,
+                            0,     USRR_0,     USRR_1,     USRR_2,     USRR_3,     USRR_4,     0,
                                    S_SPC,      R_R,        R_L,        R_C,        R_T,        RP_E,
                             0,     KC_DEL,     R_N,        R_G,        R_H,        R_S,        RP_Y,
-                                               0,          0,          FR_COMM,    FR_DOT,     0,
+                                               0,          0,          FR_COMM,    USRR_5,     0,
                 0,     0,
                 0,
                 0,     T_E,   T_U
@@ -157,19 +220,19 @@ KEYMAP(
 KEYMAP(
                 // Left hand
                 0,      0,         0,          0,          0,          0,           0,
-                0,      FR_7,      FR_5,       FR_3,       FR_1,       FR_9,        0,
+                0,      0,         0,          0,          0,          0,           0,
                 0,      0,         0,          0,          0,          0,
                 0,      0,         0,          0,          0,          0,           0,
-                0,      FR_COLN,   0,          0,          0,
+                0,      0,         0,          0,          0,
                                                                                            0,     0,
                                                                                                   0,
                                                                                       0,   0,     0,
                 // Right hand
-                            0,     0,          0,          0,              0,              0,           FR_GRV,
-                            0,     FR_0,       FR_2,       FR_4,           FR_6,           FR_8,        FR_QUES,
+                            0,     0,          0,          0,              0,              0,           0,
+                            0,     0,          0,          0,              0,              0,           0,
                                    0,          0,          0,              0,              0,           0,
                             0,     0,          0,          0,              0,              0,           0,
-                                               0,          0,              FR_LESS,        FR_GRTR,     0,
+                                               0,          0,              0,              0,     		0,
                 0,     0,
                 0,
                 0,     0,   0
@@ -272,6 +335,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 const uint16_t PROGMEM fn_actions[] = { };
 
+bool can_stroke(void) { return (g_bits_keys_pressed_part1 == 0) && (g_bits_keys_pressed_part2 == 0); }
+
+void send_mods_and_code(uint8_t mods, uint8_t code)
+{
+    const uint8_t original_mods = get_mods();
+    set_mods(mods);
+    register_code(code);
+    set_mods(original_mods);
+}
+
 void stroke(void)
 {
     // Send characters for each key family
@@ -284,7 +357,7 @@ void stroke(void)
     for (int family_id = 0; family_id < NB_FAMILY; ++family_id)
     {
         const uint8_t family_bits = g_family_bits[family_id];
-        if (family_id == FAMILY_CASE_CONTROL)
+        if (family_id == FAMILY_CASE_CONTROLS)
         {
             upper_case = family_bits == 1;
             initial_case_1 = family_bits == 2;
@@ -296,31 +369,61 @@ void stroke(void)
             }
         }
 
-        lookup_table_t* lookup_table = g_family_tables[family_id];
-        if (lookup_table)
+		const uint8_t kind = g_family_to_kind_table[family_id];
+        void* any_table = g_all_tables[family_id];
+        if (any_table)
         {
-            for (int char_pos = 0; char_pos < MAX_LETTERS; ++char_pos)
-            {
-                const uint8_t byte = pgm_read_byte(&(lookup_table[family_bits][char_pos]));
-                if (byte)
-                {
-                    register_code(byte);
-                    unregister_code(byte);
-                    sent_count++;
+			if (kind == KIND_LETTERS)
+			{
+				letters_table_t* letters_table = (letters_table_t*)any_table;
+				for (int code_pos = 0; code_pos < MAX_LETTERS; ++code_pos)
+				{
+					const uint8_t byte = pgm_read_byte(&(letters_table[family_bits][code_pos]));
+					if (byte)
+					{
+						register_code(byte);
+						unregister_code(byte);
+						sent_count++;
 
-                    if ((initial_case_1 && sent_count == 1) || (initial_case_2 && sent_count == 2))
-                    {
-                        del_mods(MOD_LSFT);
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
+						if ((initial_case_1 && sent_count == 1) || (initial_case_2 && sent_count == 2))
+						{
+							del_mods(MOD_LSFT);
+						}
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
+			else
+			{
+				symbols_table_t* symbols_table = (symbols_table_t*)any_table;
+				for (int code_pos = 0; code_pos < MAX_SYMBOLS; ++code_pos)
+				{
+					const uint16_t word = pgm_read_word(&(symbols_table[family_bits][code_pos]));
+					if (word)
+					{
+						const uint8_t code = (uint8_t)word;
+						send_mods_and_code(word >> 8, code);
+						unregister_code(code);
+						sent_count++;
+
+						if ((initial_case_1 && sent_count == 1) || (initial_case_2 && sent_count == 2))
+						{
+							del_mods(MOD_LSFT);
+						}
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
         }
     }
 
+	// Restore original mods
 	set_mods(original_mods);
 
     // Clear bits
@@ -328,14 +431,6 @@ void stroke(void)
     {
         g_family_bits[i] = 0;
     }
-}
-
-void send_mods_and_code(uint8_t mods, uint8_t code)
-{
-    const uint8_t original_mods = get_mods();
-    set_mods(mods);
-    register_code(code);
-    set_mods(original_mods);
 }
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t opt)
@@ -352,27 +447,28 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                     const uint32_t bit_key = 1L << (dword & 0x0F);
                     const uint8_t family = (dword >> 4) & 0x0F;
                     const uint8_t family_offset = g_family_to_bit_offset[family];
+					uint32_t* keys_pressed_p = g_family_to_keys_pressed[family];
                     if (record->event.pressed)
                     {
-						if (family == FAMILY_CASE_CONTROL)
+						if (family == FAMILY_CASE_CONTROLS)
 						{
 							register_code(KC_LSFT);
 						}
 
-                        g_bits_keys_pressed |= (bit_key << family_offset);
+                        (*keys_pressed_p) |= (bit_key << family_offset);
                         g_family_bits[family] |= bit_key;
                     }
                     else
                     {
-                        g_bits_keys_pressed &= ~(bit_key << family_offset);
+                        (*keys_pressed_p) &= ~(bit_key << family_offset);
 
                         // Stroke if all steno keys are released
-                        if (g_bits_keys_pressed == 0)
+                        if (can_stroke())
                         {
                             stroke();
                         }
 
-						if (family == FAMILY_CASE_CONTROL)
+						if (family == FAMILY_CASE_CONTROLS)
 						{
 							unregister_code(KC_LSFT);
 						}
@@ -389,7 +485,8 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
                     if (dword_shift)
                     {
                         shift_code = (uint8_t)word_shift;
-                        if (g_bits_keys_pressed & ((uint32_t)(3) << OFFSET_CASE_CONTROLS))
+						uint32_t* keys_pressed_p = g_family_to_keys_pressed[FAMILY_CASE_CONTROLS];
+                        if ((*keys_pressed_p) & ((uint32_t)(3) << OFFSET_CASE_CONTROLS))
                         {
                             send_shift_code = true;
                         }
@@ -441,7 +538,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
             }
             break;
         }
-    case SP_SFT: // Handle special shift codes
+    case SP_SFT: // Handle special shift codes for the Programmer Colemak layout
         {
             uint16_t keycode = keymap_key_to_keycode(LAYER_COLEMAK, record->event.key);
             uint16_t special_shift_code = g_special_shift_table[keycode % SPECIAL_SHIFT_TABLE_SIZE];
@@ -490,7 +587,7 @@ void * matrix_scan_user(void)
         break;
     }
 
-    if (g_bits_keys_pressed)
+    if (!can_stroke())
     {
         ergodox_right_led_2_on();
     }
