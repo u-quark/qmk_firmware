@@ -71,13 +71,14 @@ enum key_family
 #define RP_E  (0 | (FAMILY_RIGHT_PINKY << 4) | STENO_BIT)
 #define RP_Y  (1 | (FAMILY_RIGHT_PINKY << 4) | STENO_BIT)
 
-// 2 bits for space control keys
-#define OFFSET_SPACE_CONTROLS 20
+// 3 bits for space control keys
+#define OFFSET_SPACE_CONTROLS 22
 #define S_SPC  (0 | (FAMILY_SPACES << 4) | STENO_BIT)
 #define S_TAB  (1 | (FAMILY_SPACES << 4) | STENO_BIT)
+#define S_ENT  (2 | (FAMILY_SPACES << 4) | STENO_BIT)
 
 // 2 bits for case control keys (upper case, initial case)
-#define OFFSET_CASE_CONTROLS 22
+#define OFFSET_CASE_CONTROLS 25
 #define C_UP   (0 | (FAMILY_CASE_CONTROLS << 4) | STENO_BIT)
 #define C_IUP  (1 | (FAMILY_CASE_CONTROLS << 4) | STENO_BIT)
 
@@ -131,7 +132,7 @@ const uint8_t g_family_to_kind_table[NB_FAMILY] =
     KIND_LETTERS,
     KIND_LETTERS,
     KIND_SYMBOLS,
-    KIND_LETTERS 
+    KIND_SYMBOLS
 };
 
 // Global vars for the steno layer
@@ -200,7 +201,7 @@ KEYMAP(
                 0,      0,          0,          0,          0,          0,            0,
                 S_TAB,  USRL_1,     USRL_2,     USRL_3,     USRL_4,     USRL_5,       0,
                 C_UP,   L_A,        L_C,        L_W,        L_N,        KC_BSPC,
-                C_IUP,  L_S,        L_T,        L_H,        L_R,        KC_ENT,       0,
+                C_IUP,  L_S,        L_T,        L_H,        L_R,        S_ENT,        0,
                 0,      USRL_0,     0,          0,          0,
                                                                                            0,     0,
                                                                                                   0,

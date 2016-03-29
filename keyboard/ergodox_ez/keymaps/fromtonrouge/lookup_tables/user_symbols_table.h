@@ -3,18 +3,18 @@
 
 #include "encode.h"
 
-// User lookup tables for the steno layer
+// User symbols lookup tables for the steno layer
 const uint16_t PROGMEM g_left_user_symbols_table[64][MAX_SYMBOLS] =
 {
     NO_ENTRY,                               // [0]
     _S1(_COLN),                             // [1]      USRL_0
     _S1(_UNDS),                             // [2]      USRL_1
     NO_ENTRY,                               // [3]
-    _S1(_MINS),                             // [4]		USRL_2
+    _S1(_EXLM),                             // [4]		USRL_2
     NO_ENTRY,                               // [5]
     NO_ENTRY,                               // [6]
     NO_ENTRY,                               // [7]
-    _S1(_PLUS),                             // [8]		USRL_3
+    _S1(_LCBR),                             // [8]		USRL_3
     NO_ENTRY,                               // [9]
     NO_ENTRY,                               // [10]
     NO_ENTRY,                               // [11]
@@ -22,7 +22,7 @@ const uint16_t PROGMEM g_left_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [13]
     NO_ENTRY,                               // [14]
     NO_ENTRY,                               // [15]
-    _S1(_SLSH),                             // [16]
+    _S1(_LPRN),                             // [16]     USRL_4
     NO_ENTRY,                               // [17]
     NO_ENTRY,                               // [18]
     NO_ENTRY,                               // [19]
@@ -30,7 +30,7 @@ const uint16_t PROGMEM g_left_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [21]
     NO_ENTRY,                               // [22]
     NO_ENTRY,                               // [23]
-    NO_ENTRY,                               // [24]
+    _S1(_LBRC),                             // [24]     USRL_3|USRL_4
     NO_ENTRY,                               // [25]
     NO_ENTRY,                               // [26]
     NO_ENTRY,                               // [27]
@@ -38,7 +38,7 @@ const uint16_t PROGMEM g_left_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [29]
     NO_ENTRY,                               // [30]
     NO_ENTRY,                               // [31]
-    _S1(_MU),                               // [32]
+    _S1(_ASTR),                             // [32]     USRL_5
     NO_ENTRY,                               // [33]
     NO_ENTRY,                               // [34]
     NO_ENTRY,                               // [35]
@@ -75,14 +75,14 @@ const uint16_t PROGMEM g_left_user_symbols_table[64][MAX_SYMBOLS] =
 const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
 {
     NO_ENTRY,                               // [0]
-    _S1(_AMP),                              // [1]
-    _S1(_PIPE),                             // [2]
+    _S1(_AMP),                              // [1]      USRR_0
+    _S1(_RPRN),                             // [2]      USRR_1
     NO_ENTRY,                               // [3]
-    _S1(_EQL),                              // [4]
+    _S1(_RCBR),                             // [4]      USRR_2
     NO_ENTRY,                               // [5]
-    NO_ENTRY,                               // [6]
+    _S1(_RBRC),                             // [6]      USRR_1|USRR_2
     NO_ENTRY,                               // [7]
-    _S1(_COMM),                             // [8]
+    _S1(_COMM),                             // [8]      USRR_3
     NO_ENTRY,                               // [9]
     NO_ENTRY,                               // [10]
     NO_ENTRY,                               // [11]
@@ -90,7 +90,7 @@ const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [13]
     NO_ENTRY,                               // [14]
     NO_ENTRY,                               // [15]
-    _S1(_SCLN),                             // [16]
+    _S1(_SCLN),                             // [16]     USRR_4
     NO_ENTRY,                               // [17]
     NO_ENTRY,                               // [18]
     NO_ENTRY,                               // [19]
@@ -98,7 +98,7 @@ const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [21]
     NO_ENTRY,                               // [22]
     NO_ENTRY,                               // [23]
-    NO_ENTRY,                               // [24]
+    _S1(_COLN),                             // [24]      USRR_3|USRR_4
     NO_ENTRY,                               // [25]
     NO_ENTRY,                               // [26]
     NO_ENTRY,                               // [27]
@@ -106,7 +106,7 @@ const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [29]
     NO_ENTRY,                               // [30]
     NO_ENTRY,                               // [31]
-    _S1(_DOT),                              // [32]
+    _S1(_DOT),                              // [32]     USRR_5
     NO_ENTRY,                               // [33]
     NO_ENTRY,                               // [34]
     NO_ENTRY,                               // [35]

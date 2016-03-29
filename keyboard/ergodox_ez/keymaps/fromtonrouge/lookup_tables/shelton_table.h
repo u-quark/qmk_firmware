@@ -552,23 +552,16 @@ const uint8_t PROGMEM g_right_pinky_table[4][MAX_LETTERS] =
     _2(KC_E, KC_Y)                          // [3]
 };
 
-const uint8_t PROGMEM g_spaces_ctl_table[15][MAX_LETTERS] =
+const uint16_t PROGMEM g_spaces_ctl_table[8][MAX_SYMBOLS] =
 {
     NO_ENTRY,                               // [0]
-    _1(KC_SPC),                             // [1]
-    _1(KC_BSPC),                            // [2]
+    _S1(KC_SPC),                            // [1]
+    _S1(KC_TAB),                            // [2]
     NO_ENTRY,                               // [3]
-    _1(KC_TAB),                             // [4]
+    _S1(KC_ENT),                            // [4]
     NO_ENTRY,                               // [5]
     NO_ENTRY,                               // [6]
     NO_ENTRY,                               // [7]
-    _1(KC_ENT),                             // [8]
-    NO_ENTRY,                               // [9]
-    NO_ENTRY,                               // [10]
-    NO_ENTRY,                               // [11]
-    NO_ENTRY,                               // [12]
-    NO_ENTRY,                               // [13]
-    NO_ENTRY                                // [14]
 };
 
 #endif

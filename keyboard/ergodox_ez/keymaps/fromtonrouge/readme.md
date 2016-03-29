@@ -12,7 +12,7 @@ It's a firmware-implemented custom Programmer Colemak layout and a firmware-impl
 
 ![Programmer Steno](programmer-steno.png)
 
-# Lookup table for the left hand
+### Lookup table for the left hand
 
     A               =       A                   [1]
     S               =       S                   [2]
@@ -196,7 +196,7 @@ It's a firmware-implemented custom Programmer Colemak layout and a firmware-impl
     A|S|C|T|H|N|R   =       AFFL                [239]
     A|C|T|W|H|N|R   =       ABL                 [253]
 
-# Lookup table for thumbs 
+### Lookup table for thumbs 
 
     A               =       A                   [1]
     O               =       O                   [2]
@@ -214,7 +214,7 @@ It's a firmware-implemented custom Programmer Colemak layout and a firmware-impl
     O|E|U           =       OI                  [14]
 
 
-# Lookup table for the right hand
+### Lookup table for the right hand
 
     R               =       R                   [1]
     N               =       N                   [2]
@@ -384,27 +384,27 @@ It's a firmware-implemented custom Programmer Colemak layout and a firmware-impl
     R|N|L|C|H|T|S   =       LDS                 [247]
     N|L|G|C|H|T|S   =       MPTS                [254]
 
-# Lookup table for right E and Y
+### Lookup table for right E and Y
 
     E               =       E                   [1]
     Y               =       Y                   [2]
     E|Y             =       EY                  [3]
 
-# Lookup table for left user symbols
+### Lookup table for left user symbols
 
     0               =       :                   [1]
     1               =       _                   [2]
-    2               =       -                   [4]
-    3               =       +                   [8]
-    4               =       /                   [16]
+    2               =       !                   [4]
+    3               =       {                   [8]
+    4               =       (                   [16]
     5               =       *                   [32]
 
 
-# Lookup table for right user symbols
+### Lookup table for right user symbols
 
     0               =       &                   [1]
-    1               =       |                   [2]
-    2               =       =                   [4]
+    1               =       )                   [2]
+    2               =       }                   [4]
     3               =       ,                   [8]
     4               =       ;                   [16]
     5               =       .                   [32]
