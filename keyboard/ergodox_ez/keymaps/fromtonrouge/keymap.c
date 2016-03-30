@@ -246,7 +246,7 @@ KEYMAP(
                                                                                                   0,
                                                                                     T_A,   T_O,   0,
                 // Right hand
-                            0,     NR_N0,      NR_B3,      NR_B2,      NR_B1,      NR_B0,      0,
+                            0,     NR_N0,      NR_B0,      NR_B1,      NR_B2,      NR_B3,      0,
                             0,     USRR_0,     USRR_1,     USRR_2,     USRR_3,     USRR_4,     0,
                                    S_SPC,      R_R,        R_L,        R_C,        R_T,        RP_E,
                             0,     S_SPC,      R_N,        R_G,        R_H,        R_S,        RP_Y,
