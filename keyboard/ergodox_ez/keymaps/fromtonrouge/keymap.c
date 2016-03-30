@@ -23,6 +23,7 @@
 enum key_family
 {
     FAMILY_UNKNOWN,
+    FAMILY_MIGHTY_STAR,
     FAMILY_CASE_CONTROLS,
     FAMILY_LEFT_USER_SYMBOLS,
     FAMILY_LEFT_HAND,
@@ -37,8 +38,12 @@ enum key_family
 // Bit to identify a steno key
 #define STENO_BIT (1L << 31) 
 
+// 1 bit mighty star
+#define OFFSET_MIGHTY_STAR 0
+#define M_STAR (0 | (FAMILY_MIGHTY_STAR << 4) | STENO_BIT)
+
 // 8 bits for the left hand
-#define OFFSET_LEFT_HAND 0
+#define OFFSET_LEFT_HAND 1
 #define L_A (0 | (FAMILY_LEFT_HAND << 4) | STENO_BIT)
 #define L_S (1 | (FAMILY_LEFT_HAND << 4) | STENO_BIT)
 #define L_C (2 | (FAMILY_LEFT_HAND << 4) | STENO_BIT)
@@ -49,14 +54,14 @@ enum key_family
 #define L_R (7 | (FAMILY_LEFT_HAND << 4) | STENO_BIT)
 
 // 4 bits for the thumbs
-#define OFFSET_THUMBS 8
+#define OFFSET_THUMBS 9
 #define T_A (0 | (FAMILY_THUMBS << 4) | STENO_BIT)
 #define T_O (1 | (FAMILY_THUMBS << 4) | STENO_BIT)
 #define T_E (2 | (FAMILY_THUMBS << 4) | STENO_BIT)
 #define T_U (3 | (FAMILY_THUMBS << 4) | STENO_BIT)
 
 // 8 bits for the right hand
-#define OFFSET_RIGHT_HAND 12
+#define OFFSET_RIGHT_HAND 13
 #define R_R (0 | (FAMILY_RIGHT_HAND << 4) | STENO_BIT)
 #define R_N (1 | (FAMILY_RIGHT_HAND << 4) | STENO_BIT)
 #define R_L (2 | (FAMILY_RIGHT_HAND << 4) | STENO_BIT)
@@ -67,18 +72,18 @@ enum key_family
 #define R_S (7 | (FAMILY_RIGHT_HAND << 4) | STENO_BIT)
 
 // 2 bits for E and Y
-#define OFFSET_RIGHT_PINKY 20
+#define OFFSET_RIGHT_PINKY 21
 #define RP_E  (0 | (FAMILY_RIGHT_PINKY << 4) | STENO_BIT)
 #define RP_Y  (1 | (FAMILY_RIGHT_PINKY << 4) | STENO_BIT)
 
 // 3 bits for space control keys
-#define OFFSET_SPACE_CONTROLS 22
+#define OFFSET_SPACE_CONTROLS 23
 #define S_SPC  (0 | (FAMILY_SPACES << 4) | STENO_BIT)
 #define S_TAB  (1 | (FAMILY_SPACES << 4) | STENO_BIT)
 #define S_ENT  (2 | (FAMILY_SPACES << 4) | STENO_BIT)
 
 // 2 bits for case control keys (upper case, initial case)
-#define OFFSET_CASE_CONTROLS 25
+#define OFFSET_CASE_CONTROLS 26
 #define C_UP   (0 | (FAMILY_CASE_CONTROLS << 4) | STENO_BIT)
 #define C_IUP  (1 | (FAMILY_CASE_CONTROLS << 4) | STENO_BIT)
 
@@ -104,6 +109,7 @@ enum key_family
 const uint8_t g_family_to_bit_offset[NB_FAMILY] =
 {
     0,
+    OFFSET_MIGHTY_STAR,
     OFFSET_CASE_CONTROLS,
     OFFSET_LEFT_USER_SYMBOLS,
     OFFSET_LEFT_HAND,
@@ -126,6 +132,7 @@ const uint8_t g_family_to_kind_table[NB_FAMILY] =
 {
     KIND_UNKNOWN,
     KIND_UNKNOWN,
+    KIND_UNKNOWN,
     KIND_SYMBOLS,
     KIND_LETTERS,
     KIND_LETTERS,
@@ -143,6 +150,7 @@ uint32_t* g_family_to_keys_pressed[NB_FAMILY] =
 {
     &g_bits_keys_pressed_part1,
     &g_bits_keys_pressed_part1,
+    &g_bits_keys_pressed_part1,
     &g_bits_keys_pressed_part2,
     &g_bits_keys_pressed_part1,
     &g_bits_keys_pressed_part1,
@@ -157,6 +165,7 @@ typedef const uint8_t letters_table_t[MAX_LETTERS];
 typedef const uint16_t symbols_table_t[MAX_SYMBOLS];
 void* g_all_tables[NB_FAMILY] = 
 {
+    0,
     0,
     0,
     g_left_user_symbols_table,
@@ -192,6 +201,10 @@ const uint16_t g_special_shift_table[SPECIAL_SHIFT_TABLE_SIZE] =
     FR_UNDS     // [17] FR_MINS
 };
 
+#define MAX_CHORDS_HISTORY 100
+uint8_t g_chords_history[MAX_CHORDS_HISTORY] = {0};
+int8_t g_chords_history_index = -1;
+
 // Steno keymap
 const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -200,7 +213,7 @@ KEYMAP(
                 // Left hand
                 0,      0,          0,          0,          0,          0,            0,
                 S_TAB,  USRL_1,     USRL_2,     USRL_3,     USRL_4,     USRL_5,       0,
-                C_UP,   L_A,        L_C,        L_W,        L_N,        KC_BSPC,
+                C_UP,   L_A,        L_C,        L_W,        L_N,        M_STAR,
                 C_IUP,  L_S,        L_T,        L_H,        L_R,        S_ENT,        0,
                 0,      USRL_0,     0,          0,          0,
                                                                                            0,     0,
@@ -210,7 +223,7 @@ KEYMAP(
                             0,     0,          0,          0,          0,          0,          0,
                             0,     USRR_0,     USRR_1,     USRR_2,     USRR_3,     USRR_4,     0,
                                    S_SPC,      R_R,        R_L,        R_C,        R_T,        RP_E,
-                            0,     KC_DEL,     R_N,        R_G,        R_H,        R_S,        RP_Y,
+                            0,     S_SPC,      R_N,        R_G,        R_H,        R_S,        RP_Y,
                                                0,          0,          FR_COMM,    USRR_5,     0,
                 0,     0,
                 0,
@@ -355,27 +368,30 @@ void stroke(void)
     bool initial_case_1 = false;
     bool initial_case_2 = false;
     uint8_t sent_count = 0;
+
+    // Get mighty star and case controls info
+    const bool mighty_star = g_family_bits[FAMILY_MIGHTY_STAR] != 0;
+    const uint8_t case_controls_bits = g_family_bits[FAMILY_CASE_CONTROLS];
+    if (case_controls_bits)
+    {
+        upper_case = case_controls_bits == 1;
+        initial_case_1 = case_controls_bits == 2;
+        initial_case_2 = case_controls_bits == 3;
+        add_mods(MOD_LSFT);
+    }
+
+    // Evaluate stroke
     for (int family_id = 0; family_id < NB_FAMILY; ++family_id)
     {
         const uint8_t family_bits = g_family_bits[family_id];
-        if (family_id == FAMILY_CASE_CONTROLS)
-        {
-            upper_case = family_bits == 1;
-            initial_case_1 = family_bits == 2;
-            initial_case_2 = family_bits == 3;
-
-            if (upper_case || initial_case_1 || initial_case_2)
-            {
-                add_mods(MOD_LSFT);
-            }
-        }
-
         const uint8_t kind = g_family_to_kind_table[family_id];
         void* any_table = g_all_tables[family_id];
         if (any_table)
         {
             if (kind == KIND_LETTERS)
             {
+                uint8_t register_count = 0;
+                uint8_t last_byte = 0;
                 letters_table_t* letters_table = (letters_table_t*)any_table;
                 for (int code_pos = 0; code_pos < MAX_LETTERS; ++code_pos)
                 {
@@ -384,6 +400,8 @@ void stroke(void)
                     {
                         register_code(byte);
                         unregister_code(byte);
+                        last_byte = byte;
+                        register_count++;
                         sent_count++;
 
                         if ((initial_case_1 && sent_count == 1) || (initial_case_2 && sent_count == 2))
@@ -393,6 +411,16 @@ void stroke(void)
                     }
                     else
                     {
+                        // Double the consonnant for the right hand only
+                        if (    mighty_star && (register_count == 1)
+                                && (g_family_bits[FAMILY_THUMBS] != 0) 
+                                && (family_id == FAMILY_RIGHT_HAND)
+                                && (last_byte != 0))
+                        {
+                            register_code(last_byte);
+                            unregister_code(last_byte);
+                            sent_count++;
+                        }
                         break;
                     }
                 }
@@ -422,6 +450,27 @@ void stroke(void)
                 }
             }
         }
+    }
+
+    if (sent_count > 0)
+    {
+        // Chord history
+        g_chords_history[++g_chords_history_index] = sent_count;
+
+        if (g_chords_history_index == (MAX_CHORDS_HISTORY - 1))
+        {
+            g_chords_history_index = -1;
+        }
+    }
+    else if (mighty_star && (g_chords_history_index >= 0))
+    {
+        // Delete last chord
+        const uint8_t chars_to_delete = g_chords_history[g_chords_history_index--];
+		for (uint8_t i = 0; i < chars_to_delete; ++i)
+		{
+			register_code(KC_BSPC);
+			unregister_code(KC_BSPC);
+		}
     }
 
     // Restore original mods
