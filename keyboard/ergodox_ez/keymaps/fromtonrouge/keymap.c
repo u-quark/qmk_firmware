@@ -30,6 +30,8 @@ enum key_family
     FAMILY_THUMBS,
     FAMILY_RIGHT_HAND,
     FAMILY_RIGHT_PINKY,
+    FAMILY_LEFT_NUMBERS,
+    FAMILY_RIGHT_NUMBERS,
     FAMILY_RIGHT_USER_SYMBOLS,
     FAMILY_SPACES,
     NB_FAMILY
@@ -105,6 +107,22 @@ enum key_family
 #define USRR_4  (4 | (FAMILY_RIGHT_USER_SYMBOLS << 4) | STENO_BIT)
 #define USRR_5  (5 | (FAMILY_RIGHT_USER_SYMBOLS << 4) | STENO_BIT)
 
+// 5 bits for left numbers
+#define OFFSET_LEFT_NUMBERS 12
+#define NL_B0  (0 | (FAMILY_LEFT_NUMBERS << 4) | STENO_BIT)
+#define NL_B1  (1 | (FAMILY_LEFT_NUMBERS << 4) | STENO_BIT)
+#define NL_B2  (2 | (FAMILY_LEFT_NUMBERS << 4) | STENO_BIT)
+#define NL_B3  (3 | (FAMILY_LEFT_NUMBERS << 4) | STENO_BIT)
+#define NL_N0  (4 | (FAMILY_LEFT_NUMBERS << 4) | STENO_BIT)
+
+// 5 bits for right numbers
+#define OFFSET_RIGHT_NUMBERS 17
+#define NR_B0  (0 | (FAMILY_RIGHT_NUMBERS << 4) | STENO_BIT)
+#define NR_B1  (1 | (FAMILY_RIGHT_NUMBERS << 4) | STENO_BIT)
+#define NR_B2  (2 | (FAMILY_RIGHT_NUMBERS << 4) | STENO_BIT)
+#define NR_B3  (3 | (FAMILY_RIGHT_NUMBERS << 4) | STENO_BIT)
+#define NR_N0  (4 | (FAMILY_RIGHT_NUMBERS << 4) | STENO_BIT)
+
 // Table to convert family id to bit offset
 const uint8_t g_family_to_bit_offset[NB_FAMILY] =
 {
@@ -116,6 +134,8 @@ const uint8_t g_family_to_bit_offset[NB_FAMILY] =
     OFFSET_THUMBS,
     OFFSET_RIGHT_HAND,
     OFFSET_RIGHT_PINKY,
+	OFFSET_LEFT_NUMBERS,
+	OFFSET_RIGHT_NUMBERS,
     OFFSET_RIGHT_USER_SYMBOLS,
     OFFSET_SPACE_CONTROLS
 };
@@ -139,6 +159,8 @@ const uint8_t g_family_to_kind_table[NB_FAMILY] =
     KIND_LETTERS,
     KIND_LETTERS,
     KIND_SYMBOLS,
+    KIND_SYMBOLS,
+    KIND_SYMBOLS,
     KIND_SYMBOLS
 };
 
@@ -157,6 +179,8 @@ uint32_t* g_family_to_keys_pressed[NB_FAMILY] =
     &g_bits_keys_pressed_part1,
     &g_bits_keys_pressed_part1,
     &g_bits_keys_pressed_part2,
+    &g_bits_keys_pressed_part2,
+    &g_bits_keys_pressed_part2,
     &g_bits_keys_pressed_part1
 };
 
@@ -173,6 +197,8 @@ void* g_all_tables[NB_FAMILY] =
     g_thumbs_table,
     g_right_hand_table,
     g_right_pinky_table,
+	g_left_numbers,
+	g_right_numbers,
     g_right_user_symbols_table,
     g_spaces_ctl_table
 };
@@ -211,7 +237,7 @@ const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
 // BASE STENO MAP
 KEYMAP(
                 // Left hand
-                0,      0,          0,          0,          0,          0,            0,
+                0,      NL_B3,      NL_B2,      NL_B1,      NL_B0,      NL_N0,        0,
                 S_TAB,  USRL_1,     USRL_2,     USRL_3,     USRL_4,     USRL_5,       0,
                 C_UP,   L_A,        L_C,        L_W,        L_N,        M_STAR,
                 C_IUP,  L_S,        L_T,        L_H,        L_R,        S_ENT,        0,
@@ -220,7 +246,7 @@ KEYMAP(
                                                                                                   0,
                                                                                     T_A,   T_O,   0,
                 // Right hand
-                            0,     0,          0,          0,          0,          0,          0,
+                            0,     NR_N0,      NR_B3,      NR_B2,      NR_B1,      NR_B0,      0,
                             0,     USRR_0,     USRR_1,     USRR_2,     USRR_3,     USRR_4,     0,
                                    S_SPC,      R_R,        R_L,        R_C,        R_T,        RP_E,
                             0,     S_SPC,      R_N,        R_G,        R_H,        R_S,        RP_Y,
@@ -283,7 +309,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define ST_ON M(STENO)
 [LAYER_STENO] = KEYMAP(
         // left hand
-        ST_ON,        KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,        KC_F6,
+        ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        KC_TRNS,
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        KC_TRNS,
@@ -292,7 +318,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                     KC_TRNS,
                                                                             ST_ON,      ST_ON,      KC_TRNS,
         // right hand
-                    KC_F7,          KC_F8,      KC_F9,      KC_F10,     KC_F11,     KC_F12,     ST_ON,
+                    ST_ON,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
                     KC_TRNS,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
                                     ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
                     KC_TRNS,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
