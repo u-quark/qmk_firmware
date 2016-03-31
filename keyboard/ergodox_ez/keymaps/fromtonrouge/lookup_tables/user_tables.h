@@ -16,7 +16,7 @@ const uint16_t PROGMEM g_left_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [7]
     _S1(_LCBR),                             // [8]      USRL_3
     NO_ENTRY,                               // [9]
-    NO_ENTRY,                               // [10]
+    _S1(_MINS),                             // [10]     USRL_1|USRL_3
     NO_ENTRY,                               // [11]
     _S1(_LESS),                             // [12]
     NO_ENTRY,                               // [13]
@@ -32,7 +32,7 @@ const uint16_t PROGMEM g_left_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [23]
     _S1(_LBRC),                             // [24]     USRL_3|USRL_4
     NO_ENTRY,                               // [25]
-    NO_ENTRY,                               // [26]
+    _S2(_MINS, _MINS),                      // [26]     USRL_1|USRL_3|USRL_4
     NO_ENTRY,                               // [27]
     _S2(_LESS, _LESS),                      // [28]     USRL_2|USRL_3|USRL_4
     NO_ENTRY,                               // [29]
@@ -130,7 +130,7 @@ const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [53]
     NO_ENTRY,                               // [54]
     NO_ENTRY,                               // [55]
-    NO_ENTRY,                               // [56]
+    _S2(_COLN, _COLN),                      // [56]     USRR_3|USRR_4|USRR_5
     NO_ENTRY,                               // [57]
     NO_ENTRY,                               // [58]
     NO_ENTRY,                               // [59]
