@@ -1,8 +1,9 @@
 #include "ergodox_ez.h"
 
 #define AZERTY 1
-#include "lookup_tables/shelton_table.h"
-#include "lookup_tables/user_symbols_table.h"
+#include "lookup_tables/shelton_tables.h"
+#include "lookup_tables/misc_tables.h"
+#include "lookup_tables/user_tables.h"
 
 #include "debug.h"
 #include "action_layer.h"
@@ -247,10 +248,10 @@ KEYMAP(
                                                                                     T_A,   T_O,   0,
                 // Right hand
                             0,     NR_N0,      NR_B0,      NR_B1,      NR_B2,      NR_B3,      0,
-                            0,     USRR_0,     USRR_1,     USRR_2,     USRR_3,     USRR_4,     0,
+                            0,     USRR_0,     USRR_1,     USRR_2,     USRR_3,     USRR_4,     USRR_5,
                                    S_SPC,      R_R,        R_L,        R_C,        R_T,        RP_E,
                             0,     S_SPC,      R_N,        R_G,        R_H,        R_S,        RP_Y,
-                                               0,          0,          FR_COMM,    USRR_5,     0,
+                                               0,          0,          0,          0,          0,
                 0,     0,
                 0,
                 0,     T_E,   T_U

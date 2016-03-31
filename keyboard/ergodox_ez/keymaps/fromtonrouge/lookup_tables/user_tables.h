@@ -1,5 +1,5 @@
-#ifndef USER_SYMBOLS_TABLE_H
-#define USER_SYMBOLS_TABLE_H
+#ifndef USER_TABLES_H
+#define USER_TABLES_H
 
 #include "encode.h"
 
