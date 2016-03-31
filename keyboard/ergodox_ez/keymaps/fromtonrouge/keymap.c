@@ -134,8 +134,8 @@ const uint8_t g_family_to_bit_offset[NB_FAMILY] =
     OFFSET_THUMBS,
     OFFSET_RIGHT_HAND,
     OFFSET_RIGHT_PINKY,
-	OFFSET_LEFT_NUMBERS,
-	OFFSET_RIGHT_NUMBERS,
+    OFFSET_LEFT_NUMBERS,
+    OFFSET_RIGHT_NUMBERS,
     OFFSET_RIGHT_USER_SYMBOLS,
     OFFSET_SPACE_CONTROLS
 };
@@ -197,8 +197,8 @@ void* g_all_tables[NB_FAMILY] =
     g_thumbs_table,
     g_right_hand_table,
     g_right_pinky_table,
-	g_left_numbers,
-	g_right_numbers,
+    g_left_numbers,
+    g_right_numbers,
     g_right_user_symbols_table,
     g_spaces_ctl_table
 };
@@ -492,11 +492,11 @@ void stroke(void)
     {
         // Delete last chord
         const uint8_t chars_to_delete = g_chords_history[g_chords_history_index--];
-		for (uint8_t i = 0; i < chars_to_delete; ++i)
-		{
-			register_code(KC_BSPC);
-			unregister_code(KC_BSPC);
-		}
+        for (uint8_t i = 0; i < chars_to_delete; ++i)
+        {
+            register_code(KC_BSPC);
+            unregister_code(KC_BSPC);
+        }
     }
 
     // Restore original mods

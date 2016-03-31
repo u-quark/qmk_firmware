@@ -7,20 +7,20 @@
 const uint16_t PROGMEM g_left_user_symbols_table[64][MAX_SYMBOLS] =
 {
     NO_ENTRY,                               // [0]
-    _S1(_COLN),                             // [1]      USRL_0
+    _S2(KC_ESC, _COLN),                     // [1]      USRL_0
     _S1(_UNDS),                             // [2]      USRL_1
     NO_ENTRY,                               // [3]
-    _S1(_EXLM),                             // [4]		USRL_2
+    _S1(_EXLM),                             // [4]      USRL_2
     NO_ENTRY,                               // [5]
-    NO_ENTRY,                               // [6]
+    _S1(_PLUS),                             // [6]      USRL_1|USRL_2
     NO_ENTRY,                               // [7]
-    _S1(_LCBR),                             // [8]		USRL_3
+    _S1(_LCBR),                             // [8]      USRL_3
     NO_ENTRY,                               // [9]
     NO_ENTRY,                               // [10]
     NO_ENTRY,                               // [11]
-    NO_ENTRY,                               // [12]
+    _S1(_LESS),                             // [12]
     NO_ENTRY,                               // [13]
-    NO_ENTRY,                               // [14]
+    _S2(_PLUS, _PLUS),                      // [14]     USRL_1|USRL_2|USRL_3
     NO_ENTRY,                               // [15]
     _S1(_LPRN),                             // [16]     USRL_4
     NO_ENTRY,                               // [17]
@@ -34,7 +34,7 @@ const uint16_t PROGMEM g_left_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [25]
     NO_ENTRY,                               // [26]
     NO_ENTRY,                               // [27]
-    NO_ENTRY,                               // [28]
+    _S2(_LESS, _LESS),                      // [28]     USRL_2|USRL_3|USRL_4
     NO_ENTRY,                               // [29]
     NO_ENTRY,                               // [30]
     NO_ENTRY,                               // [31]
@@ -86,23 +86,23 @@ const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [9]
     NO_ENTRY,                               // [10]
     NO_ENTRY,                               // [11]
-    NO_ENTRY,                               // [12]
+    _S1(_GRTR),                             // [12]
     NO_ENTRY,                               // [13]
-    NO_ENTRY,                               // [14]
+    _S2(_MINS, _GRTR),                      // [14]
     NO_ENTRY,                               // [15]
     _S1(_SCLN),                             // [16]     USRR_4
     NO_ENTRY,                               // [17]
-    NO_ENTRY,                               // [18]
+    _S2(_RPRN, _SCLN),                      // [18]
     NO_ENTRY,                               // [19]
-    NO_ENTRY,                               // [20]
+    _S2(_RCBR, _SCLN),                      // [20]
     NO_ENTRY,                               // [21]
     NO_ENTRY,                               // [22]
     NO_ENTRY,                               // [23]
-    _S1(_COLN),                             // [24]      USRR_3|USRR_4
+    _S1(_COLN),                             // [24]     USRR_3|USRR_4
     NO_ENTRY,                               // [25]
     NO_ENTRY,                               // [26]
     NO_ENTRY,                               // [27]
-    NO_ENTRY,                               // [28]
+    _S2(_GRTR, _GRTR),                      // [28]     USRR_2|USRR_3|USRR_4
     NO_ENTRY,                               // [29]
     NO_ENTRY,                               // [30]
     NO_ENTRY,                               // [31]
