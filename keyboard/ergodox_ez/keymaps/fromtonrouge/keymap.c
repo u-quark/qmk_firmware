@@ -369,7 +369,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                 KC_HOME,    KC_END,     KC_TRNS,        KC_TRNS,    KC_TRNS,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
-        KC_TRNS,    KC_TRNS,    KC_TRNS
+        RESET,    KC_TRNS,    KC_TRNS
 ),
 
 };
@@ -391,7 +391,6 @@ void stroke(void)
     // Send characters for each key family
     const uint8_t original_mods = get_mods();
     del_mods(MOD_LSFT|MOD_RSFT);
-    bool upper_case = false;
     bool initial_case_1 = false;
     bool initial_case_2 = false;
     uint8_t sent_count = 0;
@@ -401,7 +400,6 @@ void stroke(void)
     const uint8_t case_controls_bits = g_family_bits[FAMILY_CASE_CONTROLS];
     if (case_controls_bits)
     {
-        upper_case = case_controls_bits == 1;
         initial_case_1 = case_controls_bits == 2;
         initial_case_2 = case_controls_bits == 3;
         add_mods(MOD_LSFT);
