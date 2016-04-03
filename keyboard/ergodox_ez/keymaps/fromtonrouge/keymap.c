@@ -288,7 +288,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [LAYER_COLEMAK] = KEYMAP(
         // left hand
         FR_AMP,         FR_LBRC,    FR_LCBR,    FR_RCBR,    FR_LPRN,    FR_EQL,         KC_INS,
-        FR_DLR,         FR_Q,       FR_W,       KC_F,       KC_P,       KC_G,           KC_BSPC,
+        FR_DLR,         FR_Q,       FR_W,       KC_F,       KC_P,       KC_G,           KC_ESC,
         KC_TAB,         FR_A,       KC_R,       KC_S,       KC_T,       KC_D,
         M(GO_SFT),      FR_Z,       KC_X,       KC_C,       KC_V,       KC_B,           KC_ESC,
         KC_LCTL,        FR_AMP,     KC_LALT,    KC_UP,      KC_DOWN,
