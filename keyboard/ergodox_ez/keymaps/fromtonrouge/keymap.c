@@ -228,9 +228,9 @@ const uint16_t g_special_shift_table[SPECIAL_SHIFT_TABLE_SIZE] =
     FR_UNDS     // [17] FR_MINS
 };
 
-#define MAX_CHORDS_HISTORY 100
-uint8_t g_chords_history[MAX_CHORDS_HISTORY] = {0};
-int8_t g_chords_history_index = -1;
+#define MAX_UNDO 100
+uint8_t g_undo_stack[MAX_UNDO] = {0};
+int8_t g_undo_stack_index = 0;
 
 // Steno keymap
 const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
@@ -479,22 +479,37 @@ void stroke(void)
 
     if (sent_count > 0)
     {
-        // Chord history
-        g_chords_history[++g_chords_history_index] = sent_count;
-
-        if (g_chords_history_index == (MAX_CHORDS_HISTORY - 1))
+        // Undo history
+        if (g_undo_stack_index == MAX_UNDO)
         {
-            g_chords_history_index = -1;
+            g_undo_stack_index = 0;
         }
+
+        g_undo_stack[g_undo_stack_index++] = sent_count;
     }
-    else if (mighty_star && (g_chords_history_index >= 0))
+    else if (mighty_star)
     {
-        // Delete last chord
-        const uint8_t chars_to_delete = g_chords_history[g_chords_history_index--];
-        for (uint8_t i = 0; i < chars_to_delete; ++i)
+        // Compute the previous index
+        int8_t previous_index = g_undo_stack_index - 1;
+        if (previous_index < 0)
         {
-            register_code(KC_BSPC);
-            unregister_code(KC_BSPC);
+            previous_index = MAX_UNDO - 1;
+        }
+
+        // Check if we have data to undo at previous_index
+        const uint8_t chars_to_delete = g_undo_stack[previous_index];
+        if (chars_to_delete)
+        {
+            // We have data to undo
+            for (uint8_t i = 0; i < chars_to_delete; ++i)
+            {
+                register_code(KC_BSPC);
+                unregister_code(KC_BSPC);
+            }
+
+            // Reset data and update the undo stack index
+            g_undo_stack[previous_index] = 0;
+            g_undo_stack_index = previous_index;
         }
     }
 
