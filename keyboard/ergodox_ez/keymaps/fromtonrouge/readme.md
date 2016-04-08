@@ -198,21 +198,9 @@ It's a firmware-implemented custom Programmer Colemak layout and a firmware-impl
 
 ### Lookup table for thumbs 
 
-    A               =       A                   [1]
-    AI              =       A|E|U               [13]
-    AU              =       A|U                 [9]
-    E               =       E                   [4]
-    EA              =       A|E                 [5]
-    EE              =       A|O|E               [7]
-    I               =       E|U                 [12]
-    IE              =       O|E                 [6]
-    IO              =       A|O                 [3]
-    O               =       O                   [2]
-    OI              =       O|E|U               [14]
-    OO              =       A|O|U               [11]
-    OU              =       O|U                 [10]
-    U               =       U                   [8]
-
+    Vowel keys stroked together will always appear in the same left-to right sequence (EOAUI) if stroked together
+    Please see : https://sites.google.com/site/ploverdoc/jackdaw#TOC-Vowels
+    The '+' key will double the voyel or invert the 2 last voyels.
 
 ### Lookup table for the right hand
 
