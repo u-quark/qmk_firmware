@@ -1,5 +1,7 @@
 # Custom Programmer Colemak and Programmer Steno configuration
 
+WARNING: By default the layout is generated for an AZERTY OS
+
 It's a firmware-implemented custom Programmer Colemak layout and a firmware-implemented custom Programmer Steno layout (no Plover needed)
 
 ## Programmer Colemak layout
