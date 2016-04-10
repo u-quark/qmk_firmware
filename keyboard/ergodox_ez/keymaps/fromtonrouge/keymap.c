@@ -650,10 +650,10 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
 }
 
 // Runs just one time when the keyboard initializes.
-void * matrix_init_user(void) { return 0; }
+void matrix_init_user(void) {}
 
 // Runs constantly in the background, in a loop.
-void * matrix_scan_user(void)
+void matrix_scan_user(void)
 {
     uint8_t layer = biton32(layer_state);
 
@@ -683,5 +683,4 @@ void * matrix_scan_user(void)
     {
         ergodox_right_led_2_on();
     }
-    return 0;
 }
