@@ -12,8 +12,8 @@ The documentation below explains QMK customizations and elaborates on some of th
 
 ## Getting started
 
-* **If you're looking to customize a keyboard that currently runs QMK or TMK** , find your keyboard's directory under `/keyboard/` and read the README file. This will get you all set up.
-* Read the [QUICK_START.md](QUICK_START.md) if you want to hit the ground running with minimal fuss or you aren't a technical person and you just want to build the firmware with the least amount of hassle possible.
+* [BUILD_GUIDE.md](BUILD_GUIDE.md) contains instructions to set up a build environment, build the firmware, and deploy it to a keyboard. Once your build environment has been set up, all `make` commands to actually build the firmware must be run from a folder in `keyboard/`.
+* If you're looking to customize a keyboard that currently runs QMK or TMK, find your keyboard's directory under `keyboard/` and run the make commands from there.
 * If you're looking to apply this firmware to an entirely new hardware project (a new kind of keyboard), you can create your own Quantum-based project by using `./new_project.sh <project_name>`, which will create `/keyboard/<project_name>` with all the necessary components for a Quantum project.
 
 You have access to a bunch of goodies! Check out the Makefile to enable/disable some of the features. Uncomment the `#` to enable them. Setting them to `no` does nothing and will only confuse future you.
@@ -97,6 +97,27 @@ We've added shortcuts to make common modifier/tap (mod-tap) mappings more compac
 ### Temporarily setting the default layer
 
 `DF(layer)` - sets default layer to *layer*. The default layer is the one at the "bottom" of the layer stack - the ultimate fallback layer. This currently does not persist over power loss. When you plug the keyboard back in, layer 0 will always be the default. It is theoretically possible to work around that, but that's not what `DF` does.
+
+### Prevent stuck modifiers
+
+Consider the following scenario:
+
+1. Layer 0 has a key defined as Shift.
+2. The same key is defined on layer 1 as the letter A.
+3. User presses Shift.
+4. User switches to layer 1 for whatever reason.
+5. User releases Shift, or rather the letter A.
+6. User switches back to layer 0.
+
+Shift was actually never released and is still considered pressed.
+
+If such situation bothers you add this to your `config.h`:
+
+    #define PREVENT_STUCK_MODIFIERS
+
+This option uses 5 bytes of memory per every 8 keys on the keyboard
+rounded up (5 bits per key). For example on Planck (48 keys) it uses
+(48/8)\*5 = 30 bytes.
 
 ### Remember: These are just aliases
 
@@ -269,7 +290,7 @@ For this mod, you need an unused pin wiring to DI of WS2812 strip. After wiring 
 
     RGBLIGHT_ENABLE = yes
 
-Please note that the underglow is not compatible with MIDI functions. So you cannot enable both of them at the same time.
+Please note that the underglow is not compatible with audio output. So you cannot enable both of them at the same time.
 
 Please add the following options into your config.h, and set them up according your hardware configuration.
 
@@ -309,3 +330,4 @@ what things are (and likely aren't) too risky.
 - EEPROM has around a 100000 write cycle.  You shouldn't rewrite the
   firmware repeatedly and continually; that'll burn the EEPROM
   eventually.
+					
