@@ -90,7 +90,7 @@ const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [13]
     _S2(_MINS, _GRTR),                      // [14]
     NO_ENTRY,                               // [15]
-    _S1(_SCLN),                             // [16]     USRR_4
+    _S1(_DOT),                              // [16]     USRR_4
     NO_ENTRY,                               // [17]
     _S2(_RPRN, _SCLN),                      // [18]
     NO_ENTRY,                               // [19]
@@ -106,7 +106,7 @@ const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [29]
     NO_ENTRY,                               // [30]
     NO_ENTRY,                               // [31]
-    _S1(_DOT),                              // [32]     USRR_5
+    _S1(_SCLN),                             // [32]     USRR_5
     NO_ENTRY,                               // [33]
     NO_ENTRY,                               // [34]
     NO_ENTRY,                               // [35]
