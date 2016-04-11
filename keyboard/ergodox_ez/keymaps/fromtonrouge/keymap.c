@@ -24,7 +24,7 @@
 enum key_family
 {
     FAMILY_UNKNOWN,
-    FAMILY_MIGHTY_STAR,
+    FAMILY_ASTERISK,
     FAMILY_CASE_CONTROLS,
     FAMILY_LEFT_USER_SYMBOLS,
     FAMILY_LEFT_HAND,
@@ -42,8 +42,8 @@ enum key_family
 #define STENO_BIT (1L << 31) 
 
 // 1 bit mighty star
-#define OFFSET_MIGHTY_STAR 0
-#define M_STAR (0 | (FAMILY_MIGHTY_STAR << 4) | STENO_BIT)
+#define OFFSET_ASTERISK 0
+#define M_STAR (0 | (FAMILY_ASTERISK << 4) | STENO_BIT)
 
 // 8 bits for the left hand
 #define OFFSET_LEFT_HAND 1
@@ -56,17 +56,15 @@ enum key_family
 #define L_N (6 | (FAMILY_LEFT_HAND << 4) | STENO_BIT)
 #define L_R (7 | (FAMILY_LEFT_HAND << 4) | STENO_BIT)
 
-// 6 bits for the thumbs
+// 4 bits for the thumbs
 #define OFFSET_THUMBS 9
-#define T_E (0 | (FAMILY_THUMBS << 4) | STENO_BIT)
+#define T_A (0 | (FAMILY_THUMBS << 4) | STENO_BIT)
 #define T_O (1 | (FAMILY_THUMBS << 4) | STENO_BIT)
-#define T_A (2 | (FAMILY_THUMBS << 4) | STENO_BIT)
+#define T_E (2 | (FAMILY_THUMBS << 4) | STENO_BIT)
 #define T_U (3 | (FAMILY_THUMBS << 4) | STENO_BIT)
-#define T_I (4 | (FAMILY_THUMBS << 4) | STENO_BIT)
-#define T_PLUS (5 | (FAMILY_THUMBS << 4) | STENO_BIT)
 
 // 8 bits for the right hand
-#define OFFSET_RIGHT_HAND 15
+#define OFFSET_RIGHT_HAND 13
 #define R_R (0 | (FAMILY_RIGHT_HAND << 4) | STENO_BIT)
 #define R_N (1 | (FAMILY_RIGHT_HAND << 4) | STENO_BIT)
 #define R_L (2 | (FAMILY_RIGHT_HAND << 4) | STENO_BIT)
@@ -77,18 +75,18 @@ enum key_family
 #define R_S (7 | (FAMILY_RIGHT_HAND << 4) | STENO_BIT)
 
 // 2 bits for E and Y
-#define OFFSET_RIGHT_PINKY 23
+#define OFFSET_RIGHT_PINKY 21
 #define RP_E  (0 | (FAMILY_RIGHT_PINKY << 4) | STENO_BIT)
 #define RP_Y  (1 | (FAMILY_RIGHT_PINKY << 4) | STENO_BIT)
 
 // 3 bits for space control keys
-#define OFFSET_SPACE_CONTROLS 25
+#define OFFSET_SPACE_CONTROLS 23
 #define S_SPC  (0 | (FAMILY_SPACES << 4) | STENO_BIT)
 #define S_TAB  (1 | (FAMILY_SPACES << 4) | STENO_BIT)
 #define S_ENT  (2 | (FAMILY_SPACES << 4) | STENO_BIT)
 
 // 2 bits for case control keys (upper case, initial case)
-#define OFFSET_CASE_CONTROLS 28
+#define OFFSET_CASE_CONTROLS 26
 #define C_UP   (0 | (FAMILY_CASE_CONTROLS << 4) | STENO_BIT)
 #define C_IUP  (1 | (FAMILY_CASE_CONTROLS << 4) | STENO_BIT)
 
@@ -130,7 +128,7 @@ enum key_family
 const uint8_t g_family_to_bit_offset[NB_FAMILY] =
 {
     0,
-    OFFSET_MIGHTY_STAR,
+    OFFSET_ASTERISK,
     OFFSET_CASE_CONTROLS,
     OFFSET_LEFT_USER_SYMBOLS,
     OFFSET_LEFT_HAND,
@@ -242,21 +240,21 @@ KEYMAP(
                 // Left hand
                 0,      NL_B3,      NL_B2,      NL_B1,      NL_B0,      NL_N0,        0,
                 S_TAB,  USRL_1,     USRL_2,     USRL_3,     USRL_4,     USRL_5,       0,
-                C_UP,   L_A,        L_C,        L_W,        L_N,        M_STAR,
-                C_IUP,  L_S,        L_T,        L_H,        L_R,        S_SPC,        S_ENT,
-                0,      USRL_0,     0,          0,          0,
-                                                                                           T_O,     0,
+                C_UP,   USRL_0,     L_C,        L_W,        L_N,        M_STAR,
+                C_IUP,  L_A,        L_T,        L_H,        L_R,        S_SPC,        S_ENT,
+                0,      L_S,        0,          0,          0,
+                                                                                           0,       0,
                                                                                                     0,
-                                                                                    T_E,   T_A,     T_PLUS,
+                                                                                    T_A,   T_O,     0,
                 // Right hand
                             0,     NR_N0,      NR_B0,      NR_B1,      NR_B2,      NR_B3,      0,
-                            0,     USRR_0,     USRR_1,     USRR_2,     USRR_3,     USRR_4,     USRR_5,
-                                   S_SPC,      R_R,        R_L,        R_C,        R_T,        RP_E,
-                            0,     S_SPC,      R_N,        R_G,        R_H,        R_S,        RP_Y,
-                                               0,          0,          0,          0,          0,
-                0,          T_U,
+                            0,     USRR_0,     USRR_1,     USRR_2,     USRR_3,     USRR_4,     0,
+                                   S_SPC,      R_R,        R_L,        R_C,        USRR_5,     C_UP,
+                            0,     S_SPC,      R_N,        R_G,        R_H,        R_T,        RP_E,
+                                               0,          0,          0,          R_S,        RP_Y,
+                0,          0,
                 0,
-                T_PLUS,     T_A,   T_I
+                0,     T_E, T_U
 ),
 
 // SHIFT STENO MAP (when C_IUP or C_UP are pressed)
@@ -317,18 +315,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
         KC_TRNS,      ST_ON,      KC_TRNS,    KC_TRNS,    KC_TRNS,
-                                                                                        ST_ON,      KC_TRNS,
+                                                                                        KC_TRNS,    KC_TRNS,
                                                                                                     KC_TRNS,
-                                                                            ST_ON,      ST_ON,      ST_ON,
+                                                                            ST_ON,      ST_ON,      KC_TRNS,
         // right hand
                     ST_ON,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
                     KC_TRNS,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
                                     ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
                     KC_TRNS,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
-                                                KC_TRNS,    KC_TRNS,    ST_ON,      ST_ON,      KC_TRNS,
-        KC_TRNS,      ST_ON,
+                                                KC_TRNS,    KC_TRNS,    KC_RCTL,    ST_ON,      ST_ON,
+        KC_TRNS,      KC_TRNS,
         KC_TRNS,
-        ST_ON,        ST_ON,      ST_ON    
+        KC_TRNS,      ST_ON,      ST_ON    
 ),
 
 // SHIFTED LAYER
@@ -397,8 +395,8 @@ void stroke(void)
     bool initial_case_2 = false;
     uint8_t sent_count = 0;
 
-    // Get mighty star and case controls info
-    const bool mighty_star = g_family_bits[FAMILY_MIGHTY_STAR] != 0;
+    // Get asterisk and case controls info
+    const bool asterisk = g_family_bits[FAMILY_ASTERISK] != 0;
     const uint8_t case_controls_bits = g_family_bits[FAMILY_CASE_CONTROLS];
     if (case_controls_bits)
     {
@@ -439,7 +437,7 @@ void stroke(void)
                     else
                     {
                         // Double the consonnant for the right hand only
-                        if (    mighty_star && (register_count == 1)
+                        if (    asterisk && (register_count == 1)
                                 && (g_family_bits[FAMILY_THUMBS] != 0) 
                                 && (family_id == FAMILY_RIGHT_HAND)
                                 && (last_byte != 0))
@@ -489,7 +487,7 @@ void stroke(void)
 
         g_undo_stack[g_undo_stack_index++] = sent_count;
     }
-    else if (mighty_star)
+    else if (asterisk)
     {
         // Compute the previous index
         int8_t previous_index = g_undo_stack_index - 1;
