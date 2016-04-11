@@ -281,7 +281,7 @@ const uint8_t PROGMEM g_thumbs_table[16][MAX_LETTERS] =
     _1(_I),                                 // [12]
     _2(_A, _I),                             // [13]
     _2(_O, _I),                             // [14]
-    _2(_A, _O)                              // [15]
+    _2(_O, _A)                              // [15]
 };
 
 const uint8_t PROGMEM g_right_hand_table[256][MAX_LETTERS] =

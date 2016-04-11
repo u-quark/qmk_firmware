@@ -216,7 +216,6 @@ Numbers are binary numbers (experimental) : you can stroke 2 numbers at the same
 
     A               =       A                   [1]
     AI              =       A|E|U               [13]
-    AO              =       A|O|E|U             [15]
     AU              =       A|U                 [9]
     E               =       E                   [4]
     EA              =       A|E                 [5]
@@ -225,6 +224,7 @@ Numbers are binary numbers (experimental) : you can stroke 2 numbers at the same
     IE              =       O|E                 [6]
     IO              =       A|O                 [3]
     O               =       O                   [2]
+    OA              =       A|O|E|U             [15]
     OI              =       O|E|U               [14]
     OO              =       A|O|U               [11]
     OU              =       O|U                 [10]
