@@ -88,8 +88,8 @@ enum key_family
 
 // 2 bits for case control keys (upper case, initial case)
 #define OFFSET_CASE_CONTROLS 27
-#define C_UP   (0 | (FAMILY_CASE_CONTROLS << 4) | STENO_BIT)
-#define C_IUP  (1 | (FAMILY_CASE_CONTROLS << 4) | STENO_BIT)
+#define C_UC   (0 | (FAMILY_CASE_CONTROLS << 4) | STENO_BIT)
+#define C_IC  (1 | (FAMILY_CASE_CONTROLS << 4) | STENO_BIT)
 
 // 6 bits for left user symbols
 #define OFFSET_LEFT_USER_SYMBOLS 0
@@ -239,18 +239,18 @@ const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
 // BASE STENO MAP
 KEYMAP(
                 // Left hand
-                0,      NL_B3,      NL_B2,      NL_B1,      NL_B0,      NL_N0,        0,
+                NL_N0,  NL_B0,      NL_B1,      NL_B2,      NL_B3,      0,            0,
                 S_TAB,  USRL_1,     USRL_2,     USRL_3,     USRL_4,     USRL_5,       0,
-                C_UP,   USRL_0,     L_C,        L_W,        L_N,        SC_STAR,
-                C_IUP,  L_A,        L_T,        L_H,        L_R,        S_SPC,        S_ENT,
+                C_UC,   USRL_0,     L_C,        L_W,        L_N,        SC_STAR,
+                C_IC,   L_A,        L_T,        L_H,        L_R,        S_SPC,        S_ENT,
                 0,      L_S,        0,          0,          0,
                                                                                            0,       0,
                                                                                                     0,
                                                                                     T_A,   T_O,     0,
                 // Right hand
-                            0,     NR_N0,      NR_B0,      NR_B1,      NR_B2,      NR_B3,      0,
+                            0,     0,          NR_B3,      NR_B2,      NR_B1,      NR_B0,      NR_N0,
                             0,     USRR_0,     USRR_1,     USRR_2,     USRR_3,     USRR_4,     0,
-                                   S_SPC,      R_R,        R_L,        R_C,        USRR_5,     C_UP,
+                                   S_SPC,      R_R,        R_L,        R_C,        USRR_5,     C_IC,
                             0,     S_SPC,      R_N,        R_G,        R_H,        R_T,        RP_E,
                                                0,          0,          0,          R_S,        RP_Y,
                 0,          0,
@@ -258,7 +258,7 @@ KEYMAP(
                 SC_PLUS,    T_E, T_U
 ),
 
-// SHIFT STENO MAP (when C_IUP or C_UP are pressed)
+// SHIFT STENO MAP (when C_IC or C_UC are pressed)
 KEYMAP(
                 // Left hand
                 0,      0,         0,          0,          0,          0,           0,
@@ -312,7 +312,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [LAYER_STENO] = KEYMAP(
         // left hand
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
-        ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        KC_TRNS,
+        ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        KC_BSPC,
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
         KC_TRNS,      ST_ON,      KC_TRNS,    KC_TRNS,    KC_TRNS,
@@ -321,7 +321,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                             ST_ON,      ST_ON,      KC_TRNS,
         // right hand
                     ST_ON,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
-                    KC_TRNS,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
+                    KC_DEL,         ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
                                     ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
                     KC_TRNS,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
                                                 KC_TRNS,    KC_TRNS,    KC_RCTL,    ST_ON,      ST_ON,
