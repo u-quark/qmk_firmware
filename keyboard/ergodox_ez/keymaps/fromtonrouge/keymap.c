@@ -246,7 +246,7 @@ KEYMAP(
                 0,      L_S,        0,          0,          0,
                                                                                            0,       0,
                                                                                                     0,
-                                                                                    T_A,   T_O,     0,
+                                                                                    T_A,   T_O,     SC_PLUS,
                 // Right hand
                             0,     0,          NR_B3,      NR_B2,      NR_B1,      NR_B0,      NR_N0,
                             0,     USRR_0,     USRR_1,     USRR_2,     USRR_3,     USRR_4,     0,
@@ -318,7 +318,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TRNS,      ST_ON,      KC_TRNS,    KC_TRNS,    KC_TRNS,
                                                                                         KC_TRNS,    KC_TRNS,
                                                                                                     KC_TRNS,
-                                                                            ST_ON,      ST_ON,      KC_TRNS,
+                                                                            ST_ON,      ST_ON,      ST_ON,
         // right hand
                     ST_ON,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
                     KC_DEL,         ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
@@ -440,8 +440,7 @@ void stroke(void)
                     else
                     {
                         // Double the consonnant for the right hand only
-                        if (    (has_star | has_plus) && (register_count == 1)
-                                && (g_family_bits[FAMILY_THUMBS] != 0) 
+                        if (    has_plus && (register_count == 1)
                                 && (family_id == FAMILY_RIGHT_HAND)
                                 && (last_byte != 0))
                         {
