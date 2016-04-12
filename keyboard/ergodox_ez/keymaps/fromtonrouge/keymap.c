@@ -412,10 +412,15 @@ void stroke(void)
     for (int family_id = 0; family_id < NB_FAMILY; ++family_id)
     {
         const uint8_t family_bits = g_family_bits[family_id];
-        const uint8_t kind = g_family_to_kind_table[family_id];
+        if (family_bits == 0)
+        {
+            continue;
+        }
+
         void* any_table = (family_id == FAMILY_THUMBS && has_star) ? g_thumbs_table_2 : g_all_tables[family_id];
         if (any_table)
         {
+            const uint8_t kind = g_family_to_kind_table[family_id];
             if (kind == KIND_LETTERS)
             {
                 uint8_t register_count = 0;
