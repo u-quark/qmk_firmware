@@ -28,6 +28,10 @@ Numbers are binary numbers (experimental) : you can stroke 2 numbers at the same
 
 ![Programmer Steno](programmer-steno.png)
 
+Home position :    
+    
+![Programmer Steno Home Position](programmer-steno-home-annotations.png)
+
 ### Lookup table for the left hand (Shelton table)
 
     A               =       A                   [1]
