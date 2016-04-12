@@ -240,17 +240,17 @@ const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
 KEYMAP(
                 // Left hand
                 NL_N0,  NL_B0,      NL_B1,      NL_B2,      NL_B3,      0,            0,
-                S_TAB,  USRL_1,     USRL_2,     USRL_3,     USRL_4,     USRL_5,       0,
-                C_UC,   USRL_0,     L_C,        L_W,        L_N,        SC_STAR,
+                0,      USRL_1,     USRL_2,     USRL_3,     USRL_4,     USRL_5,       0,
+                0,      USRL_0,     L_C,        L_W,        L_N,        SC_STAR,
                 C_IC,   L_A,        L_T,        L_H,        L_R,        S_SPC,        S_ENT,
-                0,      L_S,        0,          0,          0,
+                C_IC,   L_S,        0,          0,          0,
                                                                                            0,       0,
                                                                                                     0,
                                                                                     T_A,   T_O,     SC_PLUS,
                 // Right hand
                             0,     0,          NR_B3,      NR_B2,      NR_B1,      NR_B0,      NR_N0,
                             0,     USRR_0,     USRR_1,     USRR_2,     USRR_3,     USRR_4,     0,
-                                   S_SPC,      R_R,        R_L,        R_C,        USRR_5,     C_IC,
+                                   S_SPC,      R_R,        R_L,        R_C,        USRR_5,     C_UC,
                             0,     S_SPC,      R_N,        R_G,        R_H,        R_T,        RP_E,
                                                0,          0,          0,          R_S,        RP_Y,
                 0,          0,
@@ -312,19 +312,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [LAYER_STENO] = KEYMAP(
         // left hand
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
-        ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        KC_BSPC,
-        ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
+        KC_LALT,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        KC_BSPC,
+        KC_LCTL,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
-        KC_TRNS,      ST_ON,      KC_TRNS,    KC_TRNS,    KC_TRNS,
+        ST_ON,        ST_ON,      KC_NO,      KC_TRNS,    KC_TRNS,
                                                                                         KC_TRNS,    KC_TRNS,
                                                                                                     KC_TRNS,
                                                                             ST_ON,      ST_ON,      ST_ON,
         // right hand
                     ST_ON,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
-                    KC_DEL,         ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
+                    KC_DEL,         ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      KC_RCTL,
                                     ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
                     KC_TRNS,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
-                                                KC_TRNS,    KC_TRNS,    KC_RCTL,    ST_ON,      ST_ON,
+                                                KC_TRNS,    KC_TRNS,    KC_NO,      ST_ON,      ST_ON,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
         ST_ON,      ST_ON,      ST_ON    
