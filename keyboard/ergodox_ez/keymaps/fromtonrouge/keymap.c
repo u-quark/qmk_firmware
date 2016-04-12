@@ -196,7 +196,7 @@ void* g_all_tables[NB_FAMILY] =
     0,
     g_left_user_symbols_table,
     g_left_hand_table,
-    g_thumbs_table,
+    g_thumbs_table_1,
     g_right_hand_table,
     g_right_pinky_table,
     g_left_numbers,
@@ -413,7 +413,7 @@ void stroke(void)
     {
         const uint8_t family_bits = g_family_bits[family_id];
         const uint8_t kind = g_family_to_kind_table[family_id];
-        void* any_table = g_all_tables[family_id];
+        void* any_table = (family_id == FAMILY_THUMBS && has_star) ? g_thumbs_table_2 : g_all_tables[family_id];
         if (any_table)
         {
             if (kind == KIND_LETTERS)

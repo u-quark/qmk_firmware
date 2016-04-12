@@ -264,7 +264,8 @@ const uint8_t PROGMEM g_left_hand_table[256][MAX_LETTERS] =
     NO_ENTRY                                // [255]
 };
 
-const uint8_t PROGMEM g_thumbs_table[16][MAX_LETTERS] =
+// From Jackdaw (the 4 vowels version)
+const uint8_t PROGMEM g_thumbs_table_1[16][MAX_LETTERS] =
 {
     NO_ENTRY,                               // [0]
     _1(_A),                                 // [1]
@@ -273,15 +274,36 @@ const uint8_t PROGMEM g_thumbs_table[16][MAX_LETTERS] =
     _1(_E),                                 // [4]
     _2(_E, _A),                             // [5]
     _2(_I, _E),                             // [6]
-    _2(_E, _E),                             // [7]
+    _2(_E, _E),                             // [7]      DEPRECATED
     _1(_U),                                 // [8]
     _2(_A, _U),                             // [9]
     _2(_O, _U),                             // [10]
-    _2(_O, _O),                             // [11]
+    _2(_O, _O),                             // [11]     DEPRECATED
     _1(_I),                                 // [12]
     _2(_A, _I),                             // [13]
     _2(_O, _I),                             // [14]
     _2(_O, _A)                              // [15]
+};
+
+// Double single vowels and invert bigrams
+const uint8_t PROGMEM g_thumbs_table_2[16][MAX_LETTERS] =
+{
+    NO_ENTRY,                               // [0]
+    _2(_A, _A),                             // [1]
+    _2(_O, _O),                             // [2]
+    _2(_O, _I),                             // [3]
+    _2(_E, _E),                             // [4]
+    _2(_A, _E),                             // [5]
+    _2(_E, _I),                             // [6]
+    _2(_E, _Y),                             // [7]
+    _2(_U, _U),                             // [8]
+    _2(_U, _A),                             // [9]
+    _2(_U, _O),                             // [10]
+    _2(_O, _Y),                             // [11]
+    _2(_I, _I),                             // [12]
+    _2(_I, _A),                             // [13]
+    _2(_I, _O),                             // [14]
+    _2(_A, _O)                              // [15]
 };
 
 const uint8_t PROGMEM g_right_hand_table[256][MAX_LETTERS] =

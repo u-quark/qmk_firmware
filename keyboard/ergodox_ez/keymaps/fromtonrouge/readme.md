@@ -216,23 +216,41 @@ Home position :
     Y               =       H|N                 [96]
     Z               =       C|N                 [68]
 
-### Lookup table for thumbs 
+### Lookup table for thumbs 1
 
     A               =       A                   [1]
     AI              =       A|E|U               [13]
     AU              =       A|U                 [9]
     E               =       E                   [4]
     EA              =       A|E                 [5]
-    EE              =       A|O|E               [7]
+    EE              =       A|O|E               [7]     DEPRECATED
     I               =       E|U                 [12]
     IE              =       O|E                 [6]
     IO              =       A|O                 [3]
     O               =       O                   [2]
     OA              =       A|O|E|U             [15]
     OI              =       O|E|U               [14]
-    OO              =       A|O|U               [11]
+    OO              =       A|O|U               [11]    DEPRECATED
     OU              =       O|U                 [10]
     U               =       U                   [8]
+
+### Lookup table for thumbs 2 (when * is in the stroke)
+
+    AA              =       A                   [1]
+    IA              =       A|E|U               [13]
+    UA              =       A|U                 [9]
+    EE              =       E                   [4]
+    AE              =       A|E                 [5]
+    EY              =       A|O|E               [7]
+    II              =       E|U                 [12]
+    EI              =       O|E                 [6]
+    OI              =       A|O                 [3]
+    OO              =       O                   [2]
+    AO              =       A|O|E|U             [15]
+    IO              =       O|E|U               [14]
+    OY              =       A|O|U               [11]
+    UO              =       O|U                 [10]
+    UU              =       U                   [8]
 
 ### Lookup table for the right hand (Shelton table)
 
