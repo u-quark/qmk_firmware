@@ -223,14 +223,14 @@ Home position :
     AU              =       A|U                 [9]
     E               =       E                   [4]
     EA              =       A|E                 [5]
-    EE              =       A|O|E               [7]     DEPRECATED
+    EE              =       A|O|E               [7]
     I               =       E|U                 [12]
     IE              =       O|E                 [6]
     IO              =       A|O                 [3]
     O               =       O                   [2]
     OA              =       A|O|E|U             [15]
     OI              =       O|E|U               [14]
-    OO              =       A|O|U               [11]    DEPRECATED
+    OO              =       A|O|U               [11]
     OU              =       O|U                 [10]
     U               =       U                   [8]
 
