@@ -8,9 +8,9 @@ const uint16_t PROGMEM g_left_user_symbols_table[64][MAX_SYMBOLS] =
 {
     NO_ENTRY,                               // [0]
     _S1(KC_ESC),                            // [1]      0
-    _S1(_UNDS),                             // [2]      1
+    _S1(_EXLM),                             // [2]      1
     _S2(KC_ESC, _COLN),                     // [3]      0|1
-    _S1(_EXLM),                             // [4]      2
+    _S1(_UNDS),                             // [4]      2
     _S1(_APOS),                             // [5]      0|2
     _S1(_PLUS),                             // [6]      1|2
     NO_ENTRY,                               // [7]
@@ -24,9 +24,9 @@ const uint16_t PROGMEM g_left_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [15]
     _S1(_LPRN),                             // [16]     4
     NO_ENTRY,                               // [17]
-    NO_ENTRY,                               // [18]
+    _S2(_EXLM, _LPRN),                      // [18]     1|4
     NO_ENTRY,                               // [19]
-    _S2(_EXLM, _LPRN),                      // [20]     2|4
+    NO_ENTRY,                               // [20]
     NO_ENTRY,                               // [21]
     NO_ENTRY,                               // [22]
     NO_ENTRY,                               // [23]
