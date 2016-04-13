@@ -298,6 +298,7 @@ Home position :
     LB              =       R|N|L|G|C           [31]
     LBS             =       R|N|L|G|C|S         [159]
     LCH             =       R|N|L|C|H           [55]
+    LD              =       R|N|L|C|H|S         [183]
     LDS             =       R|N|L|C|H|T|S       [247]
     LF              =       L|G|C|H             [60]
     LG              =       L|G                 [12]
