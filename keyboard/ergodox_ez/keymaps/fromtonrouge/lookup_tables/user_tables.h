@@ -95,7 +95,7 @@ const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [18]
     NO_ENTRY,                               // [19]
     _S2(_MINS, _GRTR),                      // [20]     2|4
-    NO_ENTRY,                               // [21]
+    _S2(_APOS, _T),                         // [21]     0|2|4
     NO_ENTRY,                               // [22]
     NO_ENTRY,                               // [23]
     _S1(_RBRC),                             // [24]     3|4
