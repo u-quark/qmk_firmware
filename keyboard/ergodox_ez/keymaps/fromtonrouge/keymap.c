@@ -249,8 +249,8 @@ KEYMAP(
                                                                                     T_A,   T_O,     SC_PLUS,
                 // Right hand
                             0,     0,          NR_B3,      NR_B2,      NR_B1,      NR_B0,      NR_N0,
-                            0,     USRR_0,     USRR_1,     USRR_2,     USRR_3,     USRR_4,     0,
-                                   S_SPC,      R_R,        R_L,        R_C,        USRR_5,     C_UC,
+                            0,     USRR_5,     USRR_4,     USRR_3,     USRR_2,     USRR_1,     0,
+                                   S_SPC,      R_R,        R_L,        R_C,        USRR_0,     C_UC,
                             0,     S_SPC,      R_N,        R_G,        R_H,        R_T,        RP_E,
                                                0,          0,          0,          R_S,        RP_Y,
                 0,          0,
