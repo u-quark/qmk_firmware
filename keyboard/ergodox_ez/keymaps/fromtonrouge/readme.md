@@ -366,7 +366,7 @@ Home position :
     RK              =       R|G|T               [73]
     RKS             =       R|G|T|S             [201]
     RL              =       R|L                 [5]
-    RLD             =       R|L|G|H|S           [173]
+    RLD             =       R|L|C|H|S           [181]
     RLDS            =       R|L|C|H|T|S         [245]
     RLS             =       R|L|S               [133]
     RM              =       R|N|G|H             [43]
