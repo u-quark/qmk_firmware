@@ -316,18 +316,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
         ST_ON,        ST_ON,      ST_ON,      KC_TRNS,    KC_TRNS,
-                                                                                        KC_TRNS,    KC_TRNS,
-                                                                                                    KC_TRNS,
-                                                                            ST_ON,      ST_ON,      ST_ON,
+                                                                                        ST_ON,    ST_ON,
+                                                                                                  ST_ON,
+                                                                            ST_ON,      ST_ON,    ST_ON,
         // right hand
                     KC_NO,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      KC_TRNS,
                     ST_ON,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      KC_RALT,
                                     ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      KC_RCTL,   
                     ST_ON,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
                                                 KC_TRNS,    KC_TRNS,    ST_ON,      ST_ON,      ST_ON,
-        KC_TRNS,    KC_TRNS,
-        KC_TRNS,
-        ST_ON,      ST_ON,     KC_DEL 
+        ST_ON,    ST_ON,
+        ST_ON,
+        ST_ON,    ST_ON,     KC_DEL 
 ),
 
 // SHIFTED LAYER
