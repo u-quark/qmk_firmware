@@ -218,39 +218,71 @@ Home position :
 
 ### Lookup table for thumbs 1
 
-    A               =       A                   [1]
-    AI              =       A|E|U               [13]
-    AU              =       A|U                 [9]
-    E               =       E                   [4]
-    EA              =       A|E                 [5]
-    EE              =       A|O|E               [7]
-    I               =       E|U                 [12]
-    IE              =       O|E                 [6]
-    IO              =       A|O                 [3]
+    A               =       A                   [4]
+    AI              =       A|I                 [20]
+    AU              =       A|U                 [12]
+    AUI             =       A|U|I               [28]
+    E               =       E                   [1]
+    EA              =       E|A                 [5]
+    EAI             =       E|A|I               [21]
+    EAU             =       E|A|U               [13]
+    EAUI            =       E|A|U|I             [29]     Find something usefull here
+    EI              =       E|I                 [17]
+    EO              =       E|O                 [3]
+    EOA             =       E|O|A               [7]
+    EOAI            =       E|O|A|I             [23]     Find something usefull here
+    EOAU            =       E|O|A|U             [15]     Find something usefull here
+    EOAUI           =       E|O|A|U|I           [31]     Find something usefull here
+    EOI             =       E|O|I               [19]
+    EOU             =       E|O|U               [11]
+    EOUI            =       E|O|U|I             [27]     Find something usefull here
+    EU              =       E|U                 [9]
+    EUI             =       E|U|I               [25]
+    I               =       I                   [16]
     O               =       O                   [2]
-    OA              =       A|O|E|U             [15]
-    OI              =       O|E|U               [14]
-    OO              =       A|O|U               [11]
+    OA              =       O|A                 [6]
+    OAI             =       O|A|I               [22]
+    OAU             =       O|A|U               [14]
+    OAUI            =       O|A|U|I             [30]     Find something usefull here
+    OI              =       O|I                 [18]
     OU              =       O|U                 [10]
+    OUI             =       O|U|I               [26]
     U               =       U                   [8]
+    UI              =       U|I                 [24]
 
-### Lookup table for thumbs 2 (when * is in the stroke)
+### Lookup table for thumbs 2 (when * is used with vowels)
 
-    AA              =       A                   [1]
-    IA              =       A|E|U               [13]
-    UA              =       A|U                 [9]
-    EE              =       E                   [4]
+    AA              =       A|A                 [4]
     AE              =       A|E                 [5]
-    EY              =       A|O|E               [7]
-    II              =       E|U                 [12]
-    EI              =       O|E                 [6]
-    OI              =       A|O                 [3]
-    OO              =       O                   [2]
-    AO              =       A|O|E|U             [15]
-    IO              =       O|E|U               [14]
-    OY              =       A|O|U               [11]
-    UO              =       O|U                 [10]
-    UU              =       U                   [8]
+    AIU             =       A|I|U               [28]
+    AO              =       A|O                 [6]
+    EAIU            =       E|A|I|U             [29]     Find something usefull here
+    EAO             =       E|A|O               [7]
+    EE              =       E|E                 [1]
+    EIA             =       E|I|A               [21]
+    EIO             =       E|I|O               [19]
+    EIU             =       E|I|U               [25]
+    EOAIU           =       E|O|A|I|U           [31]     Find something usefull here
+    EOIA            =       E|O|I|A             [23]     Find something usefull here
+    EOIU            =       E|O|I|U             [27]     Find something usefull here
+    EOUA            =       E|O|U|A             [15]     Find something usefull here
+    EUA             =       E|U|A               [13]
+    EUO             =       E|U|O               [11]
+    IA              =       I|A                 [20]
+    IE              =       I|E                 [17]
+    II              =       I|I                 [16]
+    IO              =       I|O                 [18]
+    IU              =       I|U                 [24]
+    OAIU            =       O|A|I|U             [30]     Find something usefull here
+    OE              =       O|E                 [3]
+    OIA             =       O|I|A               [22]
+    OIU             =       O|I|U               [26]
+    OO              =       O|O                 [2]
+    OUA             =       O|U|A               [14]
+    UA              =       U|A                 [12]
+    UE              =       U|E                 [9]
+    UO              =       U|O                 [10]
+    UU              =       U|U                 [8]
 
 ### Lookup table for the right hand (Shelton table)
 

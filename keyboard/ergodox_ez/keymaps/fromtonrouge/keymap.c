@@ -57,15 +57,16 @@ enum key_family
 #define L_N (6 | (FAMILY_LEFT_HAND << 4) | STENO_BIT)
 #define L_R (7 | (FAMILY_LEFT_HAND << 4) | STENO_BIT)
 
-// 4 bits for the thumbs
+// 5 bits for thumbs
 #define OFFSET_THUMBS 10
-#define T_A (0 | (FAMILY_THUMBS << 4) | STENO_BIT)
+#define T_E (0 | (FAMILY_THUMBS << 4) | STENO_BIT)
 #define T_O (1 | (FAMILY_THUMBS << 4) | STENO_BIT)
-#define T_E (2 | (FAMILY_THUMBS << 4) | STENO_BIT)
+#define T_A (2 | (FAMILY_THUMBS << 4) | STENO_BIT)
 #define T_U (3 | (FAMILY_THUMBS << 4) | STENO_BIT)
+#define T_I (4 | (FAMILY_THUMBS << 4) | STENO_BIT)
 
 // 8 bits for the right hand
-#define OFFSET_RIGHT_HAND 14
+#define OFFSET_RIGHT_HAND 15
 #define R_R (0 | (FAMILY_RIGHT_HAND << 4) | STENO_BIT)
 #define R_N (1 | (FAMILY_RIGHT_HAND << 4) | STENO_BIT)
 #define R_L (2 | (FAMILY_RIGHT_HAND << 4) | STENO_BIT)
@@ -76,18 +77,18 @@ enum key_family
 #define R_S (7 | (FAMILY_RIGHT_HAND << 4) | STENO_BIT)
 
 // 2 bits for E and Y
-#define OFFSET_RIGHT_PINKY 22
+#define OFFSET_RIGHT_PINKY 23
 #define RP_E  (0 | (FAMILY_RIGHT_PINKY << 4) | STENO_BIT)
 #define RP_Y  (1 | (FAMILY_RIGHT_PINKY << 4) | STENO_BIT)
 
 // 3 bits for space control keys
-#define OFFSET_SPACE_CONTROLS 24
+#define OFFSET_SPACE_CONTROLS 25
 #define S_SPC  (0 | (FAMILY_SPACES << 4) | STENO_BIT)
 #define S_TAB  (1 | (FAMILY_SPACES << 4) | STENO_BIT)
 #define S_ENT  (2 | (FAMILY_SPACES << 4) | STENO_BIT)
 
 // 2 bits for case control keys (upper case, initial case)
-#define OFFSET_CASE_CONTROLS 27
+#define OFFSET_CASE_CONTROLS 28
 #define C_UC   (0 | (FAMILY_CASE_CONTROLS << 4) | STENO_BIT)
 #define C_IC  (1 | (FAMILY_CASE_CONTROLS << 4) | STENO_BIT)
 
@@ -244,9 +245,9 @@ KEYMAP(
                 0,      USRL_0,     USRL_1,     L_C,        L_W,        L_N,        
                 C_UC,   C_IC,       L_A,        L_T,        L_H,        L_R,          S_SPC,
                 C_UC,   C_IC,       L_S,        0,          0,
-                                                                                           SC_PLUS, SC_PLUS,
+                                                                                           SC_STAR, SC_STAR,
                                                                                                     T_O,
-                                                                                    S_ENT, T_A,     T_O,
+                                                                                    S_ENT, T_E,     T_A,
                 // Right hand
                             0,     NR_B3,      NR_B2,      NR_B1,      NR_B0,      NR_N0,      0,
                             S_SPC, USRR_5,     USRR_4,     USRR_3,     USRR_2,     0,          0,
@@ -254,8 +255,8 @@ KEYMAP(
                             S_SPC, R_N,        R_G,        R_H,        R_T,        RP_E,       C_IC,
                                                0,          0,          R_S,        RP_Y,       C_IC,
                 SC_PLUS,    SC_PLUS,
-                T_E,
-                T_E,        T_U,        0
+                T_U,
+                T_A,        T_I,       SC_PLUS 
 ),
 
 // SHIFT STENO MAP (when C_IC or C_UC are pressed)
@@ -312,7 +313,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [LAYER_STENO] = KEYMAP(
         // left hand
         KC_TRNS,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        KC_BSPC,
-        KC_LALT,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
+        KC_LALT,      KC_TAB,     ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
         KC_LCTL,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
         ST_ON,        ST_ON,      ST_ON,      KC_TRNS,    KC_TRNS,
@@ -320,14 +321,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                   ST_ON,
                                                                             ST_ON,      ST_ON,    ST_ON,
         // right hand
-                    KC_NO,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      KC_TRNS,
+                    KC_DEL,         ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      KC_TRNS,
                     ST_ON,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      KC_RALT,
                                     ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      KC_RCTL,   
                     ST_ON,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
                                                 KC_TRNS,    KC_TRNS,    ST_ON,      ST_ON,      ST_ON,
         ST_ON,    ST_ON,
         ST_ON,
-        ST_ON,    ST_ON,     KC_DEL 
+        ST_ON,    ST_ON,    ST_ON 
 ),
 
 // SHIFTED LAYER
