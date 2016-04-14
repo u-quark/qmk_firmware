@@ -239,23 +239,23 @@ const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
 // BASE STENO MAP
 KEYMAP(
                 // Left hand
-                NL_N0,  NL_B0,      NL_B1,      NL_B2,      NL_B3,      0,            0,
-                0,      USRL_1,     USRL_2,     USRL_3,     USRL_4,     USRL_5,       0,
-                0,      USRL_0,     L_C,        L_W,        L_N,        SC_STAR,
-                C_IC,   L_A,        L_T,        L_H,        L_R,        S_SPC,        S_ENT,
-                C_IC,   L_S,        0,          0,          0,
-                                                                                           0,       0,
-                                                                                                    0,
-                                                                                    T_A,   T_O,     SC_PLUS,
+                0,      NL_N0,      NL_B0,      NL_B1,      NL_B2,      NL_B3,        0,
+                0,      0,          USRL_2,     USRL_3,     USRL_4,     USRL_5,       SC_STAR,
+                0,      USRL_0,     USRL_1,     L_C,        L_W,        L_N,        
+                C_UC,   C_IC,       L_A,        L_T,        L_H,        L_R,          S_SPC,
+                C_UC,   C_IC,       L_S,        0,          0,
+                                                                                           SC_PLUS, SC_PLUS,
+                                                                                                    T_O,
+                                                                                    S_ENT, T_A,     T_O,
                 // Right hand
-                            0,     0,          NR_B3,      NR_B2,      NR_B1,      NR_B0,      NR_N0,
-                            0,     USRR_5,     USRR_4,     USRR_3,     USRR_2,     USRR_1,     0,
-                                   S_SPC,      R_R,        R_L,        R_C,        USRR_0,     C_UC,
-                            0,     S_SPC,      R_N,        R_G,        R_H,        R_T,        RP_E,
-                                               0,          0,          0,          R_S,        RP_Y,
-                0,          0,
-                0,
-                SC_PLUS,    T_E, T_U
+                            0,     NR_B3,      NR_B2,      NR_B1,      NR_B0,      NR_N0,      0,
+                            S_SPC, USRR_5,     USRR_4,     USRR_3,     USRR_2,     0,          0,
+                                   R_R,        R_L,        R_C,        USRR_1,     USRR_0,     0, 
+                            S_SPC, R_N,        R_G,        R_H,        R_T,        RP_E,       C_IC,
+                                               0,          0,          R_S,        RP_Y,       C_IC,
+                SC_PLUS,    SC_PLUS,
+                T_E,
+                T_E,        T_U,        0
 ),
 
 // SHIFT STENO MAP (when C_IC or C_UC are pressed)
@@ -288,22 +288,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // COLEMAK
 [LAYER_COLEMAK] = KEYMAP(
         // left hand
-        FR_AMP,         FR_LBRC,    FR_LCBR,    FR_RCBR,    FR_LPRN,    FR_EQL,         KC_INS,
+        MO(LAYER_FN),   FR_LBRC,    FR_LCBR,    FR_RCBR,    FR_LPRN,    FR_EQL,         KC_INS,
         FR_DLR,         FR_Q,       FR_W,       KC_F,       KC_P,       KC_G,           KC_ESC,
         KC_TAB,         FR_A,       KC_R,       KC_S,       KC_T,       KC_D,
         M(GO_SFT),      FR_Z,       KC_X,       KC_C,       KC_V,       KC_B,           KC_ESC,
         KC_LCTL,        FR_AMP,     KC_LALT,    KC_UP,      KC_DOWN,
-                                                                                    MO(LAYER_FN),       TG(LAYER_FN),
+                                                                                    KC_NO,              KC_NO,
                                                                                                         KC_PSCR,
                                                                             KC_ENT, KC_BSPC,            KC_LGUI,
         // right hand
-                    KC_CAPS,        FR_ASTR,    FR_RPRN,    FR_PLUS,    FR_RBRC,    FR_EXLM,    FR_HASH,
+                    FR_HASH,        FR_ASTR,    FR_RPRN,    FR_PLUS,    FR_RBRC,    FR_EXLM,    TG(LAYER_STENO),
                     KC_BSPC,        KC_J,       KC_L,       KC_U,       KC_Y,       FR_SCLN,    FR_SLSH,
                                     KC_H,       KC_N ,      KC_E,       KC_I,       KC_O,       FR_MINS,
                     KC_ENT,         KC_K,       FR_M,       FR_COMM,    FR_DOT,     FR_APOS,    M(GO_SFT),  
                                                 KC_LEFT,    KC_RIGHT,   FR_BSLS,    FR_AT,      KC_RCTL,
-        TG(LAYER_FN),     MO(LAYER_FN),
-        TG(LAYER_STENO),
+        KC_NO,      KC_NO,
+        KC_NO,
         KC_NO,      KC_DEL,     KC_SPC
 ),
 
@@ -311,28 +311,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define ST_ON M(STENO)
 [LAYER_STENO] = KEYMAP(
         // left hand
-        ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
-        KC_LALT,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        KC_BSPC,
+        KC_TRNS,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        KC_BSPC,
+        KC_LALT,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
         KC_LCTL,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
         ST_ON,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,        ST_ON,
-        ST_ON,        ST_ON,      KC_NO,      KC_TRNS,    KC_TRNS,
+        ST_ON,        ST_ON,      ST_ON,      KC_TRNS,    KC_TRNS,
                                                                                         KC_TRNS,    KC_TRNS,
                                                                                                     KC_TRNS,
                                                                             ST_ON,      ST_ON,      ST_ON,
         // right hand
-                    ST_ON,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,
-                    KC_DEL,         ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      KC_RCTL,
-                                    ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
-                    KC_TRNS,        ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
-                                                KC_TRNS,    KC_TRNS,    KC_NO,      ST_ON,      ST_ON,
+                    KC_NO,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      KC_TRNS,
+                    ST_ON,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      KC_RALT,
+                                    ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      KC_RCTL,   
+                    ST_ON,          ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,      ST_ON,   
+                                                KC_TRNS,    KC_TRNS,    ST_ON,      ST_ON,      ST_ON,
         KC_TRNS,    KC_TRNS,
         KC_TRNS,
-        ST_ON,      ST_ON,      ST_ON    
+        ST_ON,      ST_ON,     KC_DEL 
 ),
 
 // SHIFTED LAYER
 [LAYER_SHIFT_COLEMAK] = KEYMAP(
-        FR_UGRV,        KC_7,       KC_5,       KC_3,       KC_1,       KC_9,           KC_TRNS,
+        KC_TRNS,        KC_7,       KC_5,       KC_3,       KC_1,       KC_9,           KC_TRNS,
         M(SP_SFT),      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
@@ -341,7 +341,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                     KC_TRNS,
                                                                             KC_TRNS,    KC_TRNS,    KC_TRNS,
     // right hand
-                    KC_TRNS,        KC_0,       KC_2,       KC_4,           KC_6,           KC_8,           M(SP_SFT),   
+                    M(SP_SFT),      KC_0,       KC_2,       KC_4,           KC_6,           KC_8,           KC_TRNS,
                     KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,        M(SP_SFT),      FR_COMM,
                                     KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,        KC_TRNS,        M(SP_SFT),   
                     KC_TRNS,        KC_TRNS,    KC_TRNS,    M(SP_SFT),      M(SP_SFT),      M(SP_SFT),      KC_TRNS,
