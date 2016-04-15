@@ -461,7 +461,7 @@ Home position :
     EY              =       E|Y                 [3]
     Y               =       Y                   [2]
 
-### Lookup table for left user symbols (C++ operators in this example)
+### Lookup table for left user symbols and punctuations
 
     (WORK IN PROGRESS)
 
@@ -473,15 +473,20 @@ Home position :
     (                   =       5                   [32]
     [                   =       4|5                 [48]
 
-### Lookup table for right user symbols (C++ operators in this example)
+### Lookup table for right user symbols and punctuations
 
     (WORK IN PROGRESS)
 
-    .                   =       0                   [1]   
-    ;                   =       1                   [2]   
-    &                   =       2                   [4]   
+    ;                   =       0                   [1]   
+    's                  =       1                   [2]   
+    'm                  =       0|1                 [3]   
+    .                   =       2                   [4]   
+    n't                 =       1|2                 [6]
     ,                   =       3                   [8]   
+    'll                 =       1|3                 [10]   
     }                   =       4                   [16]
+    've                 =       1|4                 [18]
     )                   =       5                   [32]
+    'd                  =       1|5                 [34]
     ]                   =       4|5                 [48]
 

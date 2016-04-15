@@ -75,16 +75,16 @@ const uint16_t PROGMEM g_left_user_symbols_table[64][MAX_SYMBOLS] =
 const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
 {
     NO_ENTRY,                               // [0]
-    _S1(_DOT),                              // [1]      0
-    _S1(_SCLN),                             // [2]      1
-    NO_ENTRY,                               // [3]      0|1
-    _S1(_AMP),                              // [4]      2
+    _S1(_SCLN),                             // [1]      0
+    _S2(_APOS, _S),                         // [2]      1
+    _S2(_APOS, _M),                         // [3]      0|1
+    _S1(_DOT),                              // [4]      2
     NO_ENTRY,                               // [5]      0|2
-    NO_ENTRY,                               // [6]      1|2
+    _S3(_N, _APOS, _T),                     // [6]      1|2
     NO_ENTRY,                               // [7]      0|1|2
     _S1(_COMM),                             // [8]      3
     NO_ENTRY,                               // [9]      0|3
-    NO_ENTRY,                               // [10]     1|3
+    _S3(_APOS, _L, _L),                     // [10]     1|3
     NO_ENTRY,                               // [11]
     NO_ENTRY,                               // [12]     2|3
     NO_ENTRY,                               // [13]     0|2|3
@@ -92,7 +92,7 @@ const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [15]
     _S1(_RCBR),                             // [16]     4
     NO_ENTRY,                               // [17]     0|4
-    NO_ENTRY,                               // [18]
+    _S3(_APOS, _V, _E),                     // [18]     1|4
     NO_ENTRY,                               // [19]
     NO_ENTRY,                               // [20]     2|4
     NO_ENTRY,                               // [21]     0|2|4
@@ -108,7 +108,7 @@ const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [31]
     _S1(_RPRN),                             // [32]     5
     NO_ENTRY,                               // [33]     0|5
-    NO_ENTRY,                               // [34]
+    _S2(_APOS, _D),                         // [34]     1|5
     NO_ENTRY,                               // [35]     0|1|5
     NO_ENTRY,                               // [36]
     NO_ENTRY,                               // [37]
