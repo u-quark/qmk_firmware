@@ -388,6 +388,15 @@ void send_mods_and_code(uint8_t mods, uint8_t code)
     set_mods(original_mods);
 }
 
+bool is_letter(uint8_t code)
+{
+#ifdef AZERTY
+    return (code != FR_COMM) && (((code >= KC_A) && (code <= KC_Z)) || (code == FR_M));
+#else
+    return (code >= KC_A) && (code <= KC_Z);
+#endif
+}
+
 void stroke(void)
 {
     // Send characters for each key family
@@ -467,7 +476,16 @@ void stroke(void)
                     if (word)
                     {
                         const uint8_t code = (uint8_t)word;
-                        send_mods_and_code(word >> 8, code);
+                        if (is_letter(code))
+                        {
+                            // By doing this the shift mod can be applied on letter code
+                            register_code(code);
+                        }
+                        else
+                        {
+                            send_mods_and_code(word >> 8, code);
+                        }
+
                         unregister_code(code);
                         sent_count++;
 
