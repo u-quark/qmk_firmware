@@ -434,6 +434,7 @@ Home position :
     TH              =       H|T                 [96]
     THS             =       H|T|S               [224]
     TION            =       N|C|T               [82]
+    TIONS           =       N|C|T|S             [210]   NOT_OFFICIAL
     TS              =       T|S                 [192]
     V               =       N|H                 [34]
     VES             =       N|H|S               [162]

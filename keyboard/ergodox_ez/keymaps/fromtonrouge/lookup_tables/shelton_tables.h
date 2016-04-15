@@ -550,7 +550,7 @@ const uint8_t PROGMEM g_right_hand_table[256][MAX_LETTERS] =
     _3(_L, _K, _S),                         // [207]
     _3(_C, _T, _S),                         // [208]
     NO_ENTRY,                               // [209]
-    NO_ENTRY,                               // [210]
+    _5(_T, _I, _O, _N, _S),                 // [210]    NOT_OFFICIAL
     NO_ENTRY,                               // [211]
     NO_ENTRY,                               // [212]
     NO_ENTRY,                               // [213]
