@@ -289,12 +289,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // COLEMAK
 [LAYER_COLEMAK] = KEYMAP(
         // left hand
-        MO(LAYER_FN),   FR_LBRC,    FR_LCBR,    FR_RCBR,    FR_LPRN,    FR_EQL,         KC_INS,
-        FR_DLR,         FR_Q,       FR_W,       KC_F,       KC_P,       KC_G,           KC_ESC,
+        MO(LAYER_FN),   FR_LBRC,    FR_LCBR,    FR_RCBR,    FR_LPRN,    FR_EQL,         FR_AMP,
+        FR_DLR,         FR_Q,       FR_W,       KC_F,       KC_P,       KC_G,           KC_INS,
         KC_TAB,         FR_A,       KC_R,       KC_S,       KC_T,       KC_D,
         M(GO_SFT),      FR_Z,       KC_X,       KC_C,       KC_V,       KC_B,           KC_ESC,
         KC_LCTL,        FR_AMP,     KC_LALT,    KC_UP,      KC_DOWN,
-                                                                                    KC_NO,              KC_NO,
+                                                                                    MO(LAYER_FN),       TG(LAYER_FN),
                                                                                                         KC_PSCR,
                                                                             KC_ENT, KC_BSPC,            KC_LGUI,
         // right hand
@@ -303,9 +303,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                     KC_H,       KC_N ,      KC_E,       KC_I,       KC_O,       FR_MINS,
                     KC_ENT,         KC_K,       FR_M,       FR_COMM,    FR_DOT,     FR_APOS,    M(GO_SFT),  
                                                 KC_LEFT,    KC_RIGHT,   FR_BSLS,    FR_AT,      KC_RCTL,
-        KC_NO,      KC_NO,
+        TG(LAYER_FN),   MO(LAYER_FN),
         KC_NO,
-        KC_NO,      KC_DEL,     KC_SPC
+        KC_NO,          KC_DEL,     KC_SPC
 ),
 
 // STENO LAYER
@@ -333,7 +333,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // SHIFTED LAYER
 [LAYER_SHIFT_COLEMAK] = KEYMAP(
-        KC_TRNS,        KC_7,       KC_5,       KC_3,       KC_1,       KC_9,           KC_TRNS,
+        KC_TRNS,        KC_7,       KC_5,       KC_3,       KC_1,       KC_9,           FR_UGRV,
         M(SP_SFT),      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
         KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
@@ -364,7 +364,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                     KC_TRNS,
                                                                             KC_TRNS,    KC_TRNS,    KC_TRNS,
        // right hand
-                    KC_F7,          KC_F8,      KC_F9,      KC_F10,     KC_F11,         KC_F12,     KC_TRNS,
+                    KC_F7,          KC_F8,      KC_F9,      KC_F10,     KC_F11,         KC_F12,     KC_NO,
                     KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,    KC_TRNS,
                                     KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,    KC_TRNS,
                     KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,    KC_RSFT,
