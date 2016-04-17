@@ -241,20 +241,20 @@ const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
 KEYMAP(
                 // Left hand
                 0,      NL_N0,      NL_B0,      NL_B1,      NL_B2,      NL_B3,        0,
-                0,      0,          USRL_2,     USRL_3,     USRL_4,     USRL_5,       S_SPC,
+                0,      0,          USRL_2,     USRL_3,     USRL_4,     USRL_5,       S_ENT,
                 0,      USRL_0,     USRL_1,     L_C,        L_W,        L_N,        
                 C_UC,   C_IC,       L_A,        L_T,        L_H,        L_R,          SC_STAR,
                 C_UC,   C_IC,       L_S,        0,          0,
                                                                                            SC_STAR, SC_STAR,
                                                                                                     T_O,
-                                                                                    S_ENT, T_E,     T_A,
+                                                                                  SC_PLUS, T_E,     T_A,
                 // Right hand
                             0,     NR_B3,      NR_B2,      NR_B1,      NR_B0,      NR_N0,      0,
                             S_SPC, USRR_5,     USRR_4,     USRR_3,     USRR_2,     0,          0,
                                    R_R,        R_L,        R_C,        USRR_1,     USRR_0,     0, 
                             S_SPC, R_N,        R_G,        R_H,        R_T,        RP_E,       C_IC,
                                                0,          0,          R_S,        RP_Y,       C_IC,
-                SC_PLUS,    SC_PLUS,
+                SC_STAR,    SC_STAR,
                 T_A,
                 T_U,        T_I,       SC_PLUS 
 ),
