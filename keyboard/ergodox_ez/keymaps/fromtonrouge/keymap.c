@@ -255,8 +255,8 @@ KEYMAP(
                             S_SPC, R_N,        R_G,        R_H,        R_T,        RP_E,       C_IC,
                                                0,          0,          R_S,        RP_Y,       C_IC,
                 SC_STAR,    SC_STAR,
-                T_A,
-                T_U,        T_I,       SC_PLUS 
+                T_U,
+                T_A,        T_I,       SC_PLUS 
 ),
 
 // SHIFT STENO MAP (when C_IC or C_UC are pressed)
