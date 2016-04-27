@@ -265,7 +265,7 @@ const uint8_t PROGMEM g_left_hand_table[256][MAX_LETTERS] =
 };
 
 // From Jackdaw (the 5 vowels version)
-const uint8_t PROGMEM g_thumbs_table_1[32][MAX_LETTERS] =
+const uint8_t PROGMEM g_thumbs_table[32][MAX_LETTERS] =
 {
     NO_ENTRY,                               // [0]
     _1(_E),                                 // [1]
@@ -302,7 +302,7 @@ const uint8_t PROGMEM g_thumbs_table_1[32][MAX_LETTERS] =
 };
 
 // Double single vowels and invert bigrams
-const uint8_t PROGMEM g_thumbs_table_2[32][MAX_LETTERS] =
+const uint8_t PROGMEM g_thumbs_bigrams_table[32][MAX_LETTERS] =
 {
     NO_ENTRY,                               // [0]
     _2(_E, _E),                             // [1]

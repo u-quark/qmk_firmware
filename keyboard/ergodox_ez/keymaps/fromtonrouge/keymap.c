@@ -197,7 +197,7 @@ void* g_all_tables[NB_FAMILY] =
     0,
     g_left_user_symbols_table,
     g_left_hand_table,
-    g_thumbs_table_1,
+    g_thumbs_table,
     g_right_hand_table,
     g_right_pinky_table,
     g_left_numbers,
@@ -408,6 +408,7 @@ void stroke(void)
 
     // Get *, + and case controls info
     const uint8_t special_controls_bits = g_family_bits[FAMILY_SPECIAL_CONTROLS];
+    const uint8_t thumbs_bits = g_family_bits[FAMILY_THUMBS];
     const bool has_star = special_controls_bits & (1 << (SC_STAR & 0xF));
     const bool has_plus = special_controls_bits & (1 << (SC_PLUS & 0xF));
     const uint8_t case_controls_bits = g_family_bits[FAMILY_CASE_CONTROLS];
@@ -422,7 +423,7 @@ void stroke(void)
     bool can_undo = false;
     for (int family_id = 0; family_id < NB_FAMILY; ++family_id)
     {
-        const uint8_t family_bits = g_family_bits[family_id];
+        uint8_t family_bits = g_family_bits[family_id];
         if (family_bits == 0)
         {
             continue;
@@ -434,9 +435,15 @@ void stroke(void)
         uint8_t kind = g_family_to_kind_table[family_id];
         if (family_id == FAMILY_THUMBS && has_star)
         {
-            any_table = g_thumbs_table_2;
+            any_table = g_thumbs_bigrams_table;
         }
-        else if (family_id == FAMILY_RIGHT_HAND && has_star && !g_family_bits[FAMILY_THUMBS] && !g_family_bits[FAMILY_LEFT_HAND])
+        else if (family_id == FAMILY_LEFT_HAND && has_star && !thumbs_bits)
+        {
+            any_table = g_left_punctuations_table;
+            family_bits = family_bits >> 2;
+            kind = KIND_SYMBOLS;
+        }
+        else if (family_id == FAMILY_RIGHT_HAND && has_star && !thumbs_bits)
         {
             any_table = g_right_punctuations_table;
             kind = KIND_SYMBOLS;

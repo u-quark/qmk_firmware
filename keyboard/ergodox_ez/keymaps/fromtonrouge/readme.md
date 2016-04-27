@@ -216,7 +216,7 @@ Home position :
     Y               =       H|N                 [96]
     Z               =       C|N                 [68]
 
-### Lookup table for thumbs 1
+### Lookup table for thumbs vowels
 
     A               =       A                   [4]
     AI              =       A|I                 [20]
@@ -250,7 +250,7 @@ Home position :
     U               =       U                   [8]
     UI              =       U|I                 [24]
 
-### Lookup table for thumbs 2 (when * is used with vowels)
+### Lookup table for vowels bigrams (when * is used with vowels)
 
     AA              =       A                   [4]
     AE              =       E|A                 [5]
@@ -434,7 +434,7 @@ Home position :
     TH              =       H|T                 [96]
     THS             =       H|T|S               [224]
     TION            =       N|C|T               [82]
-    TIONS           =       N|C|T|S             [210]   NOT_OFFICIAL
+    TIONS           =       N|C|T|S             [210]   not in the original Shelton table
     TS              =       T|S                 [192]
     V               =       N|H                 [34]
     VES             =       N|H|S               [162]
@@ -461,6 +461,14 @@ Home position :
     E               =       E                   [1]
     EY              =       E|Y                 [3]
     Y               =       Y                   [2]
+
+### Lookup table for left punctuations
+
+    (WORK IN PROGRESS)
+
+### Lookup table for right punctuations
+
+    (WORK IN PROGRESS)
 
 ### Lookup table for left user symbols and punctuations
 
