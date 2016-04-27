@@ -212,8 +212,8 @@ const uint16_t PROGMEM g_right_punctuations_table[64][MAX_SYMBOLS] =
 {
     NO_ENTRY,                               // [0]
     _S1(_DOT),                              // [1]
-    _S1(_COMM),                             // [2]
-    _S1(_SCLN),                             // [3]
+    _S1(_DOT),                              // [2]
+    _S1(_COLN),                             // [3]
     _S1(_LPRN),                             // [4]
     _S1(_COLN),                             // [5]
     NO_ENTRY,                               // [6]
