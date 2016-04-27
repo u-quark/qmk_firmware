@@ -330,7 +330,7 @@ const uint8_t PROGMEM g_thumbs_bigrams_table[32][MAX_LETTERS] =
     _4(_E, _O, _I, _A),                     // [23]     Find something usefull here
     _2(_I, _U),                             // [24]
     _3(_E, _I, _U),                         // [25]
-    _3(_O, _I, _U),                         // [26]
+    _3(_I, _O, _U),                         // [26]
     _4(_E, _O, _I, _U),                     // [27]     Find something usefull here
     _3(_A, _I, _U),                         // [28]
     _4(_E, _A, _I, _U),                     // [29]     Find something usefull here
