@@ -4,7 +4,7 @@ It's a firmware-implemented custom Programmer Colemak layout and a firmware-impl
 
 ## Downloads
 
-You can directly download .hex files from the release page : https://github.com/FromtonRouge/qmk\_firmware/releases
+You can directly download .hex files from the release page : https://github.com/FromtonRouge/qmk_firmware/releases
 
 ## Programmer Colemak layout
 
