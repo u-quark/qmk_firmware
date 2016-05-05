@@ -12,6 +12,12 @@ It's basically a Colemak layout with the Programmer Dvorak numbers and symbols r
 
 ![Programmer Colemak](programmer-colemak.png)
 
+## Fn Layer
+
+The TEENSY key (RESET) is define in this layer
+
+![Fn Layer](fn-layer.png)
+
 ## Programmer Steno layout (experimental)
 
 (Inspired by the Jackdaw steno theory https://sites.google.com/site/ploverdoc/jackdaw)
