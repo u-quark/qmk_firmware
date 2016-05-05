@@ -21,7 +21,7 @@
 #define _SUP2   FR_SUP2
 #define _AMP    FR_AMP
 #define _EACU   FR_EACU
-#define _QUOT   FR_QUOT
+#define _DQUOT  FR_QUOT
 #define _APOS   FR_APOS
 #define _LPRN   FR_LPRN
 #define _MINS   FR_MINS
@@ -82,10 +82,10 @@
 #else
 
 #define _SUP2   KC_SUP2
-#define _AMP    KC_AMP
+#define _AMP    LSFT(KC_7)
 #define _EACU   KC_EACU
-#define _QUOT   KC_QUOT
-#define _APOS   KC_APOS
+#define _DQUOT  LSFT(KC_QUOT)
+#define _APOS   KC_QUOT
 #define _LPRN   KC_LPRN
 #define _MINS   KC_MINS
 #define _EGRV   KC_EGRV
@@ -101,7 +101,7 @@
 #define _M      KC_M 
 #define _UGRV   KC_UGRV
 #define _ASTR   KC_ASTR
-#define _LESS   KC_LESS
+#define _LESS   LSFT(KC_COMM)
 #define _W      KC_W
 #define _COMM   KC_COMM
 #define _SCLN   KC_SCLN
@@ -123,8 +123,8 @@
 #define _PND    KC_PND
 #define _PERC   KC_PERC
 #define _MU     KC_MU 
-#define _GRTR   KC_GRTR
-#define _QUES   KC_QUES
+#define _GRTR   LSFT(KC_DOT)
+#define _QUES   LSFT(KC_SLSH)
 #define _DOT    KC_DOT
 #define _SLSH   KC_SLSH
 #define _SECT   KC_SECT

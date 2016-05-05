@@ -1,21 +1,25 @@
 #include "ergodox_ez.h"
-
-#define AZERTY 1
-#include "lookup_tables/shelton_tables.h"
-#include "lookup_tables/misc_tables.h"
-#include "lookup_tables/user_tables.h"
-
 #include "debug.h"
 #include "action_layer.h"
 #include "action_util.h"
 #include "keymap_extras/keymap_french.h"
 #include "led.h"
 
+// By default my layouts are designed for an AZERTY OS
+// But if you want to build an .hex file for a QWERTY OS you just have to comment this line
+// This AZERTY define must be set before lookup tables
+#define AZERTY
+#include "lookup_tables/shelton_tables.h"
+#include "lookup_tables/misc_tables.h"
+#include "lookup_tables/user_tables.h"
+
+// Layer indexes
 #define LAYER_COLEMAK 0
 #define LAYER_STENO 1
 #define LAYER_SHIFT_COLEMAK 2
 #define LAYER_FN 3
 
+// Macro indexes
 #define GO_SFT 0
 #define SP_SFT 1
 #define STENO 2
@@ -207,7 +211,10 @@ void* g_all_tables[NB_FAMILY] =
 };
 
 // For the Programmer Colemak layout
+#ifdef AZERTY
 #define SPECIAL_SHIFT_TABLE_SIZE 18
+
+// This table was computed externally
 const uint16_t g_special_shift_table[SPECIAL_SHIFT_TABLE_SIZE] =
 {
     FR_COLN,    // [0] FR_SCLN
@@ -229,6 +236,34 @@ const uint16_t g_special_shift_table[SPECIAL_SHIFT_TABLE_SIZE] =
     FR_LESS,    // [16] FR_COMM
     FR_UNDS     // [17] FR_MINS
 };
+#else // QWERTY
+#define SPECIAL_SHIFT_TABLE_SIZE 20
+
+// This table was computed externally
+const uint16_t g_special_shift_table[SPECIAL_SHIFT_TABLE_SIZE] =
+{
+    KC_3,       // [0] KC_RCBR
+    0,          // [1]
+    KC_8,       // [2] KC_EXLM
+    LSFT(KC_6), // [3] KC_AT
+    0,          // [4]
+    0,          // [5]
+    KC_9,       // [6] KC_EQL
+    KC_7,       // [7] KC_LBRC
+    KC_6,       // [8] KC_RBRC
+    KC_0,       // [9] KC_ASTR
+    KC_1,       // [10] KC_LPRN
+    KC_2,       // [11] KC_RPRN
+    0,          // [12]
+    0,          // [13]
+    0,          // [14]
+    0,          // [15]
+    0,          // [16]
+    0,          // [17]
+    KC_4,       // [18] KC_PLUS
+    KC_5        // [19] KC_LCBR
+};
+#endif
 
 #define MAX_UNDO 100
 uint8_t g_undo_stack[MAX_UNDO] = {0};
@@ -289,20 +324,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // COLEMAK
 [LAYER_COLEMAK] = KEYMAP(
         // left hand
-        MO(LAYER_FN),   FR_LBRC,    FR_LCBR,    FR_RCBR,    FR_LPRN,    FR_EQL,         FR_AMP,
-        FR_DLR,         FR_Q,       FR_W,       KC_F,       KC_P,       KC_G,           KC_INS,
-        KC_TAB,         FR_A,       KC_R,       KC_S,       KC_T,       KC_D,
-        M(GO_SFT),      FR_Z,       KC_X,       KC_C,       KC_V,       KC_B,           KC_ESC,
-        KC_LCTL,        FR_AMP,     KC_LALT,    KC_UP,      KC_DOWN,
+        MO(LAYER_FN),   _LBRC,      _LCBR,      _RCBR,      _LPRN,      _EQL,           _AMP,
+        _DLR,           _Q,         _W,         _F,         _P,         _G,             KC_INS,
+        KC_TAB,         _A,         _R,         _S,         _T,         _D,  
+        M(GO_SFT),      _Z,         _X,         _C,         _V,         _B,             KC_ESC,
+        KC_LCTL,        _AMP,       KC_LALT,    KC_UP,      KC_DOWN,
                                                                                     MO(LAYER_FN),       TG(LAYER_FN),
                                                                                                         KC_PSCR,
                                                                             KC_ENT, KC_BSPC,            KC_LGUI,
         // right hand
-                    FR_HASH,        FR_ASTR,    FR_RPRN,    FR_PLUS,    FR_RBRC,    FR_EXLM,    TG(LAYER_STENO),
-                    KC_BSPC,        KC_J,       KC_L,       KC_U,       KC_Y,       FR_SCLN,    FR_SLSH,
-                                    KC_H,       KC_N ,      KC_E,       KC_I,       KC_O,       FR_MINS,
-                    KC_ENT,         KC_K,       FR_M,       FR_COMM,    FR_DOT,     FR_APOS,    M(GO_SFT),  
-                                                KC_LEFT,    KC_RIGHT,   FR_BSLS,    FR_AT,      KC_RCTL,
+                    _HASH,          _ASTR,      _RPRN,      _PLUS,      _RBRC,      _EXLM,    TG(LAYER_STENO),
+                    KC_BSPC,        _J,         _L,         _U,         _Y,         _SCLN,    _SLSH,
+                                    _H,         _N,         _E,         _I,         _O,       _MINS,
+                    KC_ENT,         _K,         _M,         _COMM,      _DOT,       _APOS,    M(GO_SFT),  
+                                                KC_LEFT,    KC_RIGHT,   _BSLS,      _AT,      KC_RCTL,
         TG(LAYER_FN),   MO(LAYER_FN),
         KC_NO,
         KC_NO,          KC_DEL,     KC_SPC
@@ -331,7 +366,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ST_ON,    ST_ON,    ST_ON 
 ),
 
-// SHIFTED LAYER
+#ifdef AZERTY
+// PROGRAMMER COLEMAK SHIFTED LAYER (for AZERTY OS)
 [LAYER_SHIFT_COLEMAK] = KEYMAP(
         KC_TRNS,        KC_7,       KC_5,       KC_3,       KC_1,       KC_9,           FR_UGRV,
         M(SP_SFT),      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
@@ -351,6 +387,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TRNS,
         KC_TRNS,    KC_TRNS,    KC_TRNS
 ),
+#else
+// PROGRAMMER COLEMAK SHIFTED LAYER (for QWERTY OS)
+[LAYER_SHIFT_COLEMAK] = KEYMAP(
+        KC_TRNS,        M(SP_SFT),  M(SP_SFT),  M(SP_SFT),  M(SP_SFT),  M(SP_SFT),      KC_5,
+        KC_GRV,         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
+        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
+        KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,
+        KC_TRNS,        KC_5,       KC_TRNS,    KC_TRNS,    KC_TRNS,
+                                                                                        KC_TRNS,    KC_TRNS,
+                                                                                                    KC_TRNS,
+                                                                            KC_TRNS,    KC_TRNS,    KC_TRNS,
+    // right hand
+                    M(SP_SFT),      M(SP_SFT),  M(SP_SFT),  M(SP_SFT),      M(SP_SFT),      M(SP_SFT),      KC_TRNS,
+                    KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,        KC_TRNS,        KC_TRNS,
+                                    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,        KC_TRNS,        KC_TRNS,   
+                    KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,        KC_TRNS,        KC_TRNS,
+                                                KC_TRNS,    KC_TRNS,        KC_TRNS,        M(SP_SFT),      KC_TRNS,
+        KC_TRNS,    KC_TRNS,
+        KC_TRNS,
+        KC_TRNS,    KC_TRNS,    KC_TRNS
+),
+#endif
 
 // F1-F12 Layer
 [LAYER_FN] = KEYMAP(
