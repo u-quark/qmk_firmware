@@ -7,7 +7,7 @@
 // By default my layouts are designed for an AZERTY OS
 // But if you want to build an .hex file for a QWERTY OS you can undefine AZERTY
 // This AZERTY define must be set before lookup tables
-//#define AZERTY
+#define AZERTY
 #include "lookup_tables/shelton_tables.h"
 #include "lookup_tables/misc_tables.h"
 #include "lookup_tables/user_tables.h"
