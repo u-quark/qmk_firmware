@@ -32,6 +32,10 @@ Home position :
     
 ![Programmer Steno Home Position](programmer-steno-home.png)
 
+Punctuations (when * is used with the left or/and right hand):
+
+![Programmer Steno Home Position](programmer-steno-punctuations.png)
+
 ### Lookup table for the left hand (Shelton table)
 
     A               =       A                   [1]
@@ -467,11 +471,11 @@ Home position :
     Y               =       Y                   [2]
     YS              =       Y|S                 [6]
 
-### Lookup table for left punctuations
+### Lookup table for user left punctuations (when * is used with the left hand)
 
     (WORK IN PROGRESS)
 
-### Lookup table for right punctuations
+### Lookup table for user right punctuations (when * is used with the right hand)
 
     (WORK IN PROGRESS)
 
