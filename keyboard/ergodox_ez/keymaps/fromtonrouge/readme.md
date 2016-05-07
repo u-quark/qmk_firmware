@@ -46,6 +46,7 @@ Home position :
     ACCL            =       A|C|H|N|R           [229]
     ACCR            =       A|C|H|R             [165]
     ACH             =       A|C|H               [37]
+    ACL             =       A|C|N|R             [197]    not in the original Shelton table
     ACKN            =       A|T|W|H|N           [121]
     ACQ             =       A|C|T|N|R           [205]
     ACR             =       A|C|R               [133]
