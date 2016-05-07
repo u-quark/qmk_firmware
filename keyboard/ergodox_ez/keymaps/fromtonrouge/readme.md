@@ -30,7 +30,7 @@ Numbers are binary numbers : you can stroke 2 numbers at the same time (from 0 t
 
 Home position :    
     
-![Programmer Steno Home Position](programmer-steno-home-annotations.png)
+![Programmer Steno Home Position](programmer-steno-home.png)
 
 ### Lookup table for the left hand (Shelton table)
 
@@ -457,11 +457,15 @@ Home position :
     Z               =       L|H                 [36]
     ZES             =       L|H|S               [164]
 
-### Lookup table for right E and Y
+### Lookup table for right pinky
 
     E               =       E                   [1]
+    ES              =       E|S                 [5]
     EY              =       E|Y                 [3]
+    EYS             =       E|Y|S               [7]
+    S               =       S                   [4]
     Y               =       Y                   [2]
+    YS              =       Y|S                 [6]
 
 ### Lookup table for left punctuations
 

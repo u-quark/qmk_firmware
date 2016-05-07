@@ -89,19 +89,20 @@ enum key_family
 #define R_T (6 | (FAMILY_RIGHT_HAND << 4) | STENO_BIT)
 #define R_S (7 | (FAMILY_RIGHT_HAND << 4) | STENO_BIT)
 
-// 2 bits for E and Y
+// 3 bits for E and Y and S
 #define OFFSET_RIGHT_PINKY 23
 #define RP_E  (0 | (FAMILY_RIGHT_PINKY << 4) | STENO_BIT)
 #define RP_Y  (1 | (FAMILY_RIGHT_PINKY << 4) | STENO_BIT)
+#define RP_S  (2 | (FAMILY_RIGHT_PINKY << 4) | STENO_BIT)
 
 // 3 bits for space control keys
-#define OFFSET_SPACE_CONTROLS 25
+#define OFFSET_SPACE_CONTROLS 26
 #define S_SPC  (0 | (FAMILY_SPACES << 4) | STENO_BIT)
 #define S_TAB  (1 | (FAMILY_SPACES << 4) | STENO_BIT)
 #define S_ENT  (2 | (FAMILY_SPACES << 4) | STENO_BIT)
 
 // 2 bits for case control keys (upper case, initial case)
-#define OFFSET_CASE_CONTROLS 28
+#define OFFSET_CASE_CONTROLS 29
 #define C_UC   (0 | (FAMILY_CASE_CONTROLS << 4) | STENO_BIT)
 #define C_IC  (1 | (FAMILY_CASE_CONTROLS << 4) | STENO_BIT)
 
@@ -296,8 +297,8 @@ KEYMAP(
                             0,     NR_B3,      NR_B2,      NR_B1,      NR_B0,      NR_N0,      0,
                             S_SPC, USRR_5,     USRR_4,     USRR_3,     USRR_2,     0,          0,
                                    R_R,        R_L,        R_C,        USRR_1,     USRR_0,     0, 
-                            S_SPC, R_N,        R_G,        R_H,        R_T,        RP_E,       C_IC,
-                                               0,          0,          R_S,        RP_Y,       C_IC,
+                            S_SPC, R_N,        R_G,        R_H,        R_T,        RP_E,       RP_S,
+                                               0,          0,          R_S,        RP_Y,       RP_S,
                 SC_STAR,    SC_STAR,
                 T_A,
                 T_U,        T_I,       SC_PLUS 
