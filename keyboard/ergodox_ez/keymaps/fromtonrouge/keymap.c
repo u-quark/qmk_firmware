@@ -521,7 +521,7 @@ void stroke(void)
     }
 
     // Evaluate stroke
-    bool can_undo = false;
+    bool undo_allowed = true;
     for (int family_id = 0; family_id < NB_FAMILY; ++family_id)
     {
         uint8_t family_bits = g_family_bits[family_id];
@@ -531,7 +531,7 @@ void stroke(void)
         }
 
         // Get the lookup table
-        can_undo = family_id != FAMILY_SPECIAL_CONTROLS;
+        undo_allowed = family_id == FAMILY_SPECIAL_CONTROLS;
         void* any_table = 0;
         uint8_t kind = g_family_to_kind_table[family_id];
         if (family_id == FAMILY_THUMBS && has_star)
@@ -638,7 +638,7 @@ void stroke(void)
 
         g_undo_stack[g_undo_stack_index++] = sent_count;
     }
-    else if (has_star && !can_undo)
+    else if (has_star && undo_allowed)
     {
         // Compute the previous index
         int8_t previous_index = g_undo_stack_index - 1;
