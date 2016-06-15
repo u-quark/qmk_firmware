@@ -19,18 +19,27 @@
 // Layer indexes
 #define LAYER_BASE 0
 #define LAYER_STENO 1
+
 #ifdef BASE_LAYER_COLEMAK
-#define LAYER_SHIFT_COLEMAK 2
-#define LAYER_FN 3
+    #define LAYER_SHIFT_COLEMAK 2
+    #ifdef AZERTY
+        #define LAYER_ACCENTS 3
+        #define LAYER_FN 4
+    #else
+        #define LAYER_FN 3
+    #endif
 #else
-#define LAYER_FN 2
+    #define LAYER_FN 2
 #endif
 
 // Macro indexes
 #define STENO 0
 #ifdef BASE_LAYER_COLEMAK
-#define GO_SFT 1
-#define SP_SFT 2
+    #define GO_SFT 1
+    #define SP_SFT 2
+    #ifdef AZERTY
+        #define ECIRC 3
+    #endif
 #endif
 
 // Keys family
@@ -352,7 +361,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                     KC_LEFT,    KC_RIGHT,   _BSLS,      _AT,      KC_RCTL,
         TG(LAYER_FN),   MO(LAYER_FN),
         KC_NO,
-        KC_NO,          KC_DEL,     KC_SPC
+#ifdef AZERTY
+        MO(LAYER_ACCENTS),  KC_DEL,     KC_SPC
+#else
+        KC_NO,              KC_DEL,     KC_SPC
+#endif
 ),
 #else
 // This is the default ErgoDox EZ Qwerty layout
@@ -424,6 +437,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TRNS,
         KC_TRNS,    KC_TRNS,    KC_TRNS
 ),
+
+// Accents Layer (for AZERTY OS)
+[LAYER_ACCENTS] = KEYMAP(
+       // left hand
+        KC_NO,          KC_NO,      KC_NO,      KC_NO,      KC_NO,          KC_NO,          KC_NO,
+        KC_NO,          KC_NO,      KC_NO,      KC_NO,      KC_NO,          KC_NO,          KC_NO,  
+        KC_NO,          KC_0,       KC_NO,      KC_NO,      KC_NO,          KC_NO,  
+        KC_NO,          KC_NO,      KC_NO,      KC_9,       KC_NO,          KC_NO,          KC_NO,  
+        KC_NO,          KC_NO,      KC_NO,      KC_NO,      KC_NO,
+                                                                                        KC_NO,      KC_NO,  
+                                                                                                    KC_NO,  
+                                                                            KC_NO,      KC_NO,      KC_NO,  
+       // right hand
+                    KC_NO,          KC_NO,      KC_NO,      KC_NO,      KC_NO,          KC_NO,      KC_NO,
+                    KC_NO,          KC_NO,      KC_NO,      KC_NO,      KC_NO,          KC_NO,      KC_NO,  
+                                    KC_NO,      KC_2,       M(ECIRC),   KC_7,           KC_NO,      KC_NO,  
+                    KC_NO,          KC_NO,      KC_NO,      KC_NO,      KC_NO,          KC_NO,      KC_NO,
+                                                KC_NO,      KC_NO,      KC_NO,          KC_NO,      KC_NO,  
+        KC_NO,      KC_NO,  
+        KC_NO,  
+        KC_TRNS,      KC_NO,      KC_NO
+),
+
 #else
 // PROGRAMMER COLEMAK SHIFTED LAYER (for QWERTY OS)
 [LAYER_SHIFT_COLEMAK] = KEYMAP(
@@ -795,6 +831,19 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
             }
             break;
         }
+#ifdef AZERTY
+    case ECIRC:
+        {
+            if (record->event.pressed)
+            {
+                register_code(KC_LBRC);
+                unregister_code(KC_LBRC);
+                register_code(KC_E);
+                unregister_code(KC_E);
+            }
+            break;
+        }
+#endif
 #endif
     }
     return MACRO_NONE;
