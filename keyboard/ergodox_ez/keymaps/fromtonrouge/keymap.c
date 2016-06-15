@@ -38,7 +38,7 @@
     #define GO_SFT 1
     #define SP_SFT 2
     #ifdef AZERTY
-        #define ECIRC 3
+        #define CIRC 3
     #endif
 #endif
 
@@ -345,14 +345,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // PROGRAMMER COLEMAK
 [LAYER_BASE ] = KEYMAP(
         // left hand
-        _AMP,           _LBRC,      _LCBR,      _RCBR,      _LPRN,      _EQL,           KC_NO,
+        _AMP,           _LBRC,      _LCBR,      _RCBR,      _LPRN,      _EQL,           KC_LGUI,
         _DLR,           _Q,         _W,         _F,         _P,         _G,             KC_INS,
         KC_TAB,         _A,         _R,         _S,         _T,         _D,  
         M(GO_SFT),      _Z,         _X,         _C,         _V,         _B,             KC_ESC,
         KC_LCTL,        _AMP,       KC_LALT,    KC_UP,      KC_DOWN,    
                                                                                     MO(LAYER_FN),       TG(LAYER_FN),
                                                                                                         KC_PSCR,
-                                                                            KC_ENT, KC_BSPC,            KC_LGUI,
+#ifdef AZERTY
+                                                                            KC_ENT, KC_BSPC,            MO(LAYER_ACCENTS),
+#else
+                                                                            KC_ENT, KC_BSPC,            KC_NO,
+#endif
         // right hand
                     TG(LAYER_STENO),    _ASTR,      _RPRN,      _PLUS,      _RBRC,      _EXLM,    _HASH,
                     KC_BSPC,            _J,         _L,         _U,         _Y,         _SCLN,    _SLSH,
@@ -448,11 +452,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_NO,          KC_NO,      KC_NO,      KC_NO,      KC_NO,
                                                                                         KC_NO,      KC_NO,  
                                                                                                     KC_NO,  
-                                                                            KC_NO,      KC_NO,      KC_NO,  
+                                                                            KC_NO,      KC_NO,      KC_TRNS,  
        // right hand
                     KC_NO,          KC_NO,      KC_NO,      KC_NO,      KC_NO,          KC_NO,      KC_NO,
-                    KC_NO,          KC_NO,      KC_NO,      KC_NO,      KC_NO,          KC_NO,      KC_NO,  
-                                    KC_NO,      KC_2,       M(ECIRC),   KC_7,           KC_NO,      KC_NO,  
+                    KC_NO,          KC_NO,      KC_NO,      FR_UGRV,    KC_NO,          KC_NO,      KC_NO,  
+                                    KC_2,       KC_7,       M(CIRC),    M(CIRC),        KC_NO,      KC_NO,  
                     KC_NO,          KC_NO,      KC_NO,      KC_NO,      KC_NO,          KC_NO,      KC_NO,
                                                 KC_NO,      KC_NO,      KC_NO,          KC_NO,      KC_NO,  
         KC_NO,      KC_NO,  
@@ -818,8 +822,8 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
         }
     case SP_SFT: // Handle special shift codes for the Programmer Colemak layout
         {
-            uint16_t keycode = keymap_key_to_keycode(LAYER_BASE , record->event.key);
-            uint16_t special_shift_code = g_special_shift_table[keycode % SPECIAL_SHIFT_TABLE_SIZE];
+            const uint16_t keycode = keymap_key_to_keycode(LAYER_BASE , record->event.key);
+            const uint16_t special_shift_code = g_special_shift_table[keycode % SPECIAL_SHIFT_TABLE_SIZE];
             const uint8_t code = (uint8_t)special_shift_code;
             if (record->event.pressed)
             {
@@ -832,14 +836,15 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
             break;
         }
 #ifdef AZERTY
-    case ECIRC:
+    case CIRC:
         {
             if (record->event.pressed)
             {
+				const uint16_t keycode = keymap_key_to_keycode(LAYER_BASE , record->event.key);
                 register_code(KC_LBRC);
                 unregister_code(KC_LBRC);
-                register_code(KC_E);
-                unregister_code(KC_E);
+                register_code(keycode);
+                unregister_code(keycode);
             }
             break;
         }
