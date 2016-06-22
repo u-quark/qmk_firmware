@@ -83,17 +83,17 @@ const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
     _S3(_N, _APOS, _T),                     // [6]      1|2
     NO_ENTRY,                               // [7]      0|1|2
     NO_ENTRY,                               // [8]      3
-    NO_ENTRY,                               // [9]      0|3
+    _S1(_R),                                // [9]      0|3
     _S3(_APOS, _L, _L),                     // [10]     1|3
-    NO_ENTRY,                               // [11]
+    _S1(_D),                                // [11]     0|1|3
     NO_ENTRY,                               // [12]     2|3
     NO_ENTRY,                               // [13]     0|2|3
     NO_ENTRY,                               // [14]     1|2|3
     NO_ENTRY,                               // [15]
     NO_ENTRY,                               // [16]     4
-    NO_ENTRY,                               // [17]     0|4
+    _S1(_R),                                // [17]     0|4
     _S3(_APOS, _V, _E),                     // [18]     1|4
-    NO_ENTRY,                               // [19]
+    _S1(_D),                                // [19]     0|1|4
     NO_ENTRY,                               // [20]     2|4
     NO_ENTRY,                               // [21]     0|2|4
     NO_ENTRY,                               // [22]
@@ -107,9 +107,9 @@ const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [30]
     NO_ENTRY,                               // [31]
     NO_ENTRY,                               // [32]     5
-    NO_ENTRY,                               // [33]     0|5
+    _S1(_R),                                // [33]     0|5
     _S2(_APOS, _D),                         // [34]     1|5
-    NO_ENTRY,                               // [35]     0|1|5
+    _S1(_D),                                // [35]     0|1|5
     NO_ENTRY,                               // [36]
     NO_ENTRY,                               // [37]
     NO_ENTRY,                               // [38]

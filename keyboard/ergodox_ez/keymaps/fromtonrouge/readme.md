@@ -493,11 +493,17 @@ Punctuations (when * is used with the left or/and right hand) [WORK IN PROGRESS]
 
     [WORK IN PROGRESS]
 
-    d                   =       0                   [1]     Usefull for words ending with ED
-    's                  =       1                   [2]     Main control key for english contractions ('s, n't, 'll etc...)
-    r                   =       0|1                 [3]     Usefull for words ending with TER THER
-    n't                 =       1|2                 [6]
-    'll                 =       1|3                 [10]   
-    've                 =       1|4                 [18]
-    'd                  =       1|5                 [34]
+    D                   =       0                   [1]     For words ending with ED
+    'S                  =       1                   [2]     Main control key for english contractions ('s, n't, 'll etc...)
+    R                   =       0|1                 [3]     For words ending with TER THER
+    N'T                 =       1|2                 [6]
+    R                   =       0|3                 [9]     For words ending with ER (variant 1)
+    'LL                 =       1|3                 [10]   
+    D                   =       0|1|3               [11]    For words ending with TED THED (variant 1)
+    R                   =       0|4                 [17]    For words ending with ER (variant 2)
+    'VE                 =       1|4                 [18]
+    D                   =       0|1|4               [19]    For words ending with TED THED (variant 2)
+    R                   =       0|5                 [33]    For words ending with ER (variant 3)
+    'D                  =       1|5                 [34]
+    D                   =       0|1|5               [35]    For words ending with TED THED (variant 3)
 
