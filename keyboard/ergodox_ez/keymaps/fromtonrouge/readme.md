@@ -32,7 +32,7 @@ Home position :
     
 ![Programmer Steno Home Position](programmer-steno-home.png)
 
-Punctuations (when * is used with the left or/and right hand):
+Punctuations (when * is used with the left or/and right hand) [WORK IN PROGRESS]:
 
 ![Programmer Steno Home Position](programmer-steno-punctuations.png)
 
@@ -473,38 +473,31 @@ Punctuations (when * is used with the left or/and right hand):
 
 ### Lookup table for user left punctuations (when * is used with the left hand)
 
-    (WORK IN PROGRESS)
+    [WORK IN PROGRESS]
 
 ### Lookup table for user right punctuations (when * is used with the right hand)
 
-    (WORK IN PROGRESS)
+    [WORK IN PROGRESS]
 
 ### Lookup table for left user symbols and punctuations
 
-    (WORK IN PROGRESS)
+    [WORK IN PROGRESS]
 
     !                   =       0                   [1]   
-    ESC                 =       1                   [2]   
+    ESC                 =       1                   [2]     For Vim
+    ESC:                =       0|1                 [3]     For Vim
     *                   =       2                   [4]
-    _                   =       3                   [8]
-    {                   =       4                   [16]
-    (                   =       5                   [32]
-    [                   =       4|5                 [48]
+    _                   =       3                   [8]     Usefull for prefixing an attribute member in C++ (ed: _p)       Usefull for prefixing an attribute member in C++ (ed: _p)
 
 ### Lookup table for right user symbols and punctuations
 
-    (WORK IN PROGRESS)
+    [WORK IN PROGRESS]
 
-    ;                   =       0                   [1]   
-    's                  =       1                   [2]   
-    'm                  =       0|1                 [3]   
-    .                   =       2                   [4]   
+    d                   =       0                   [1]     Usefull for words ending with ED
+    's                  =       1                   [2]     Main control key for english contractions ('s, n't, 'll etc...)
+    r                   =       0|1                 [3]     Usefull for words ending with TER THER
     n't                 =       1|2                 [6]
-    ,                   =       3                   [8]   
     'll                 =       1|3                 [10]   
-    }                   =       4                   [16]
     've                 =       1|4                 [18]
-    )                   =       5                   [32]
     'd                  =       1|5                 [34]
-    ]                   =       4|5                 [48]
 
