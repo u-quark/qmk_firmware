@@ -461,8 +461,8 @@ const uint8_t PROGMEM g_right_hand_table[256][MAX_LETTERS] =
     NO_ENTRY,                               // [118]
     NO_ENTRY,                               // [119]
     _2(_F, _T),                             // [120]
-    NO_ENTRY,                               // [121]
-    NO_ENTRY,                               // [122]
+    _4(_F, _T, _E, _R),                     // [121]    not in the original Shelton table
+    _4(_F, _T, _E, _N),                     // [122]    not in the original Shelton table
     NO_ENTRY,                               // [123]
     NO_ENTRY,                               // [124]
     NO_ENTRY,                               // [125]

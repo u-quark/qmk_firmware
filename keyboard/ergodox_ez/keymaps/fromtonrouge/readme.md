@@ -316,6 +316,8 @@ Punctuations (when * is used with the left or/and right hand) [WORK IN PROGRESS]
     DTHS            =       N|L|G|H|T|S         [238]
     F               =       G|C|H               [56]
     FT              =       G|C|H|T             [120]
+    FTEN            =       N|G|C|H|T           [122]   not in the original Shelton table 
+    FTER            =       R|G|C|H|T           [121]   not in the original Shelton table
     G               =       G                   [8]
     GG              =       N|G|C               [26]
     GGS             =       N|G|C|S             [154]
