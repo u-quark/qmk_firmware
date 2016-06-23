@@ -499,18 +499,15 @@ Punctuations (when * is used with the left or/and right hand) [WORK IN PROGRESS]
 
     D                   =       0                   [1]     For words ending with ED
     'S                  =       1                   [2]     Main control key for english contractions ('s, n't, 'll etc...)
-    R                   =       0|1                 [3]     For words ending with TER THER
+    D                   =       0|1                 [3]     For words ending with TED THED
     N'T                 =       1|2                 [6]
-    ING                 =       3                   [8]     For words ending with ING (variant 1)
-    R                   =       0|3                 [9]     For words ending with ER (variant 1)
+    ING                 =       3                   [8]     For words ending with ING
     'LL                 =       1|3                 [10]   
-    D                   =       0|1|3               [11]    For words ending with TED THED (variant 1)
-    ING                 =       4                   [16]    For words ending with ING (variant 2)
-    R                   =       0|4                 [17]    For words ending with ER (variant 2)
+    ER                  =       2|3                 [12]    For words ending with ER
+    ING                 =       4                   [16]    For words ending with ING
     'VE                 =       1|4                 [18]
-    D                   =       0|1|4               [19]    For words ending with TED THED (variant 2)
-    ING                 =       5                   [32]    For words ending with ING (variant 3)
-    R                   =       0|5                 [33]    For words ending with ER (variant 3)
+    ER                  =       3|4                 [24]    For words ending with ER
+    ING                 =       5                   [32]    For words ending with ING
     'D                  =       1|5                 [34]
-    D                   =       0|1|5               [35]    For words ending with TED THED (variant 3)
+    ER                  =       4|5                 [48]    For words ending with ER
 

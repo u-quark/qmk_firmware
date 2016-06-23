@@ -77,28 +77,28 @@ const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [0]
     _S1(_D),                                // [1]      0
     _S2(_APOS, _S),                         // [2]      1
-    _S1(_R),                                // [3]      0|1
+    _S1(_D),                                // [3]      0|1
     NO_ENTRY,                               // [4]      2
     NO_ENTRY,                               // [5]      0|2
     _S3(_N, _APOS, _T),                     // [6]      1|2
     NO_ENTRY,                               // [7]      0|1|2
     _S3(_I, _N, _G),                        // [8]      3
-    _S1(_R),                                // [9]      0|3
+    NO_ENTRY,                               // [9]      0|3
     _S3(_APOS, _L, _L),                     // [10]     1|3
-    _S1(_D),                                // [11]     0|1|3
-    NO_ENTRY,                               // [12]     2|3
+    NO_ENTRY,                               // [11]     0|1|3
+    _S2(_E, _R),                            // [12]     2|3
     NO_ENTRY,                               // [13]     0|2|3
     NO_ENTRY,                               // [14]     1|2|3
     NO_ENTRY,                               // [15]
     _S3(_I, _N, _G),                        // [16]     4
-    _S1(_R),                                // [17]     0|4
+    NO_ENTRY,                               // [17]     0|4
     _S3(_APOS, _V, _E),                     // [18]     1|4
-    _S1(_D),                                // [19]     0|1|4
+    NO_ENTRY,                               // [19]     0|1|4
     NO_ENTRY,                               // [20]     2|4
     NO_ENTRY,                               // [21]     0|2|4
     NO_ENTRY,                               // [22]
     NO_ENTRY,                               // [23]
-    NO_ENTRY,                               // [24]     3|4
+    _S2(_E, _R),                            // [24]     3|4
     NO_ENTRY,                               // [25]     0|3|4
     NO_ENTRY,                               // [26]     1|3|4
     NO_ENTRY,                               // [27]
@@ -107,9 +107,9 @@ const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [30]
     NO_ENTRY,                               // [31]
     _S3(_I, _N, _G),                        // [32]     5
-    _S1(_R),                                // [33]     0|5
+    NO_ENTRY,                               // [33]     0|5
     _S2(_APOS, _D),                         // [34]     1|5
-    _S1(_D),                                // [35]     0|1|5
+    NO_ENTRY,                               // [35]     0|1|5
     NO_ENTRY,                               // [36]
     NO_ENTRY,                               // [37]
     NO_ENTRY,                               // [38]
@@ -122,7 +122,7 @@ const uint16_t PROGMEM g_right_user_symbols_table[64][MAX_SYMBOLS] =
     NO_ENTRY,                               // [45]
     NO_ENTRY,                               // [46]
     NO_ENTRY,                               // [47]
-    NO_ENTRY,                               // [48]     4|5
+    _S2(_E, _R),                            // [48]     4|5
     NO_ENTRY,                               // [49]
     _S2(_APOS, _M),                         // [50]     1|4|5
     NO_ENTRY,                               // [51]
