@@ -491,7 +491,7 @@ Punctuations (when * is used with the left or/and right hand) [WORK IN PROGRESS]
     ESC                 =       1                   [2]     For Vim
     ESC:                =       0|1                 [3]     For Vim
     *                   =       2                   [4]
-    _                   =       3                   [8]     Usefull for prefixing an attribute member in C++ (ed: _p)       Usefull for prefixing an attribute member in C++ (ed: _p)
+    _                   =       3                   [8]     Usefull for prefixing an attribute member in C++ (eg: _p)       Usefull for prefixing an attribute member in C++ (ed: _p)
 
 ### Lookup table for right user symbols and punctuations
 
