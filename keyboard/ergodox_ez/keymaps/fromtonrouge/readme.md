@@ -355,6 +355,8 @@ Punctuations (when * is used with the left or/and right hand) [WORK IN PROGRESS]
     LVES            =       R|N|L|H|S           [167]
     M               =       N|G|H               [42]
     MB              =       N|G|C|H             [58]
+    MBER            =       R|N|G|C|H           [59]    not in the original Shelton table
+    MBERS           =       R|N|G|C|H|S         [187]   not in the original Shelton table
     MBS             =       N|G|C|H|S           [186]
     MP              =       N|L|G|C|H           [62]
     MPS             =       N|L|G|C|H|S         [190]

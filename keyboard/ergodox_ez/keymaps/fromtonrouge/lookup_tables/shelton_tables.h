@@ -399,7 +399,7 @@ const uint8_t PROGMEM g_right_hand_table[256][MAX_LETTERS] =
     _1(_F),                                 // [56]
     _2(_R, _F),                             // [57]
     _2(_M, _B),                             // [58]
-    NO_ENTRY,                               // [59]
+    _4(_M, _B, _E, _R),                     // [59]     not in the original Shelton table
     _2(_L, _F),                             // [60]
     NO_ENTRY,                               // [61]
     _2(_M, _P),                             // [62]
@@ -527,7 +527,7 @@ const uint8_t PROGMEM g_right_hand_table[256][MAX_LETTERS] =
     _2(_D, _G),                             // [184]
     NO_ENTRY,                               // [185]
     _3(_M, _B, _S),                         // [186]
-    NO_ENTRY,                               // [187]
+    _5(_M, _B, _E, _R, _S),                 // [187]     not in the original Shelton table
     NO_ENTRY,                               // [188]
     NO_ENTRY,                               // [189]
     _3(_M, _P, _S),                         // [190]
