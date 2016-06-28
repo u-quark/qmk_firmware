@@ -808,14 +808,15 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t macroId, uint8_t op
 #ifdef BASE_LAYER_COLEMAK
     case GO_SFT: // Apply SHIFT and go to LAYER_SHIFT_COLEMAK
         {
+			const uint8_t shift_key = record->event.key.row == 0 ? KC_LSFT : KC_RSFT;
             if (record->event.pressed)
             {
-                register_code(KC_LSFT);
+				register_code(shift_key);
                 layer_on(LAYER_SHIFT_COLEMAK);
             }
             else
             {
-                unregister_code(KC_LSFT);
+				unregister_code(shift_key);
                 layer_off(LAYER_SHIFT_COLEMAK);
             }
             break;
