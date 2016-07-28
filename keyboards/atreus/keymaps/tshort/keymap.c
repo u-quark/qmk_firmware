@@ -80,10 +80,10 @@ enum key_family
 
 // 3 bits for space control keys
 #define OFFSET_SPACE_CONTROLS 26
-#define S_SPC  (0 | (FAMILY_SPACES << 4) | STENO_BIT)
-#define S_DOT  (1 | (FAMILY_SPACES << 4) | STENO_BIT)
-#define S_ENT  (2 | (FAMILY_SPACES << 4) | STENO_BIT)
-#define S_COMM (3 | (FAMILY_SPACES << 4) | STENO_BIT)
+#define S_NOSPC (0 | (FAMILY_SPACES << 4) | STENO_BIT)
+#define S_DOT   (1 | (FAMILY_SPACES << 4) | STENO_BIT)
+#define S_ENT   (2 | (FAMILY_SPACES << 4) | STENO_BIT)
+#define S_COMM  (3 | (FAMILY_SPACES << 4) | STENO_BIT)
 
 // 2 bits for case control keys (upper case, initial case)
 #define OFFSET_CASE_CONTROLS 30
@@ -239,10 +239,10 @@ int8_t g_undo_stack_index = 0;
 const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
 // BASE STENO MAP
 {
-  {L_A,   L_C, L_W, L_N, S_SPC,             KC_TRNS, USRR_5, R_R, R_L, R_C, R_T},
+  {L_A,   L_C, L_W, L_N, S_NOSPC,           KC_TRNS, USRR_5, R_R, R_L, R_C, R_T},
   {L_S,   L_T, L_H, L_R, S_DOT,             KC_TRNS, USRR_4, R_N, R_G, R_H, R_S},
   {C_UC,  USRL_3, S_COMM, SC_PLUS, SC_STAR, T_A,     SC_STAR, USRR_1, RP_Y, RP_E, RP_S},
-  {KC_TRNS, KC_TRNS, KC_TRNS, C_IC, T_E,    T_O,     T_U, T_I, S_SPC, USRR_0, S_ENT}
+  {KC_TRNS, KC_TRNS, KC_TRNS, C_IC, T_E,    T_O,     T_U, T_I, S_NOSPC, USRR_0, S_ENT}
 },
 // SHIFT STENO MAP
 {
@@ -347,6 +347,7 @@ void stroke(void)
     const uint8_t thumbs_bits = g_family_bits[FAMILY_THUMBS];
     const bool has_star = special_controls_bits & (1 << (SC_STAR & 0xF));
     const bool has_plus = special_controls_bits & (1 << (SC_PLUS & 0xF));
+    const bool has_nospace = g_family_bits[FAMILY_SPACES] & (1 << (S_NOSPC & 0xF));
     const uint8_t case_controls_bits = g_family_bits[FAMILY_CASE_CONTROLS];
     if (case_controls_bits)
     {
@@ -401,6 +402,12 @@ void stroke(void)
                     const uint8_t byte = pgm_read_byte(&(letters_table[family_bits][code_pos]));
                     if (byte)
                     {
+                        if (sent_count == 0 && !has_nospace) {
+                            register_code(KC_SPC);
+                            unregister_code(KC_SPC);
+                            register_count++;
+                            sent_count++;
+                        }
                         register_code(byte);
                         unregister_code(byte);
                         last_byte = byte;

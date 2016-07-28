@@ -6,7 +6,8 @@
 const uint16_t PROGMEM g_spaces_ctl_table[16][MAX_SYMBOLS] =
 {
     NO_ENTRY,                               // [0]
-    _S1(KC_SPC),                            // [1]
+    // _S1(KC_SPC),                            // [1]
+    NO_ENTRY,                               // [1]
     _S1(KC_DOT),                            // [2]
     _S2(KC_DOT, KC_SPC),                    // [3]
     _S1(KC_ENT),                            // [4]
