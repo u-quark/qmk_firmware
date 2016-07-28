@@ -9,11 +9,10 @@
 #define _4(c1, c2, c3, c4) {c1, c2, c3, c4, 0}
 #define _5(c1, c2, c3, c4, c5) {c1, c2, c3, c4, c5}
 
-#define MAX_SYMBOLS 4
-#define _S1(c1) {c1, 0, 0, 0}
-#define _S2(c1, c2) {c1, c2, 0, 0}
-#define _S3(c1, c2, c3) {c1, c2, c3, 0}
-#define _S4(c1, c2, c3, c4) {c1, c2, c3, c4}
+#define MAX_SYMBOLS 3
+#define _S1(c1) {c1, 0, 0}
+#define _S2(c1, c2) {c1, c2, 0}
+#define _S3(c1, c2, c3) {c1, c2, c3}
 
 #ifdef AZERTY
 
