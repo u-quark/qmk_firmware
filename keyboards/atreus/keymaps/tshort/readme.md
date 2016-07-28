@@ -26,6 +26,5 @@ See that page for more information on key combinations.
 
 Here is a cheat sheet with some of the nonobvious [Shelton chords](http://www.google.com/patents/US3970185) included ([pdf](jackdaw-cheatsheet.pdf)).
 
-![Steno cheat sheet](jackdaw-cheatsheet.svg)
-
+![Steno cheat sheet](https://cdn.rawgit.com/tshort/qmk_firmware/master/keyboards/atreus/keymaps/tshort/jackdaw-cheatsheet.svg)
 
