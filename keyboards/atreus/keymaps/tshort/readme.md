@@ -20,7 +20,8 @@ The TEENSY key (RESET) is define in this layer
 
 This was derived from the great work by Vissale Neang (GitHub user FromtonRouge) on his [Ergodox
 layout](https://github.com/FromtonRouge/qmk_firmware/tree/master/keyboard/ergodox_ez/keymaps/fromtonrouge).
-See that page for more information on key combinations.
+See that page for more complete information on key combinations. 
+Jackdaw was developed mainly by [Jennifer Brien](https://groups.google.com/forum/?fromgroups#!topic/ploversteno/C42uhF0P8WI). 
 
 ![Steno layer](steno.png)
 
