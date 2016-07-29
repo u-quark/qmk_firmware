@@ -428,6 +428,9 @@ void stroke(void)
                             sent_count++;
                             sent_space = true;
                             space_in_last = true;
+                        } 
+                        else if (sent_count == 0) {
+                            space_in_last = false;
                         }
                         register_code(byte);
                         unregister_code(byte);
@@ -463,6 +466,9 @@ void stroke(void)
                     const uint16_t word = pgm_read_word(&(symbols_table[family_bits][code_pos]));
                     if (word)
                     {
+                        if (sent_count == 0) {
+                            space_in_last = false;
+                        }
                         const uint8_t code = (uint8_t)word;
                         if (is_letter(code))
                         {
@@ -498,7 +504,7 @@ void stroke(void)
         sent_count++;
         space_in_last = true;
     }
-    else if (sent_count == 0 && has_nospace && has_star)   // "no space" with star - toggle space
+    else if (sent_count == 0 && has_nospace && has_star)   // "no space" with star - toggle leading space
     {
         int8_t previous_index = g_undo_stack_index - 1;
         // back up
@@ -512,7 +518,8 @@ void stroke(void)
             register_code(KC_DEL);
             unregister_code(KC_DEL);
             g_undo_stack[previous_index]--;
-        } else 
+        } 
+        else 
         {
             register_code(KC_SPC);
             unregister_code(KC_SPC);
