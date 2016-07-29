@@ -234,6 +234,7 @@ const uint16_t g_special_shift_table[SPECIAL_SHIFT_TABLE_SIZE] =
 #define MAX_UNDO 100
 uint8_t g_undo_stack[MAX_UNDO] = {0};
 int8_t g_undo_stack_index = 0;
+bool space_in_last = false;
 
 // Steno keymap
 const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
@@ -333,6 +334,22 @@ bool is_letter(uint8_t code)
 #endif
 }
 
+bool is_one_family(void)
+{
+    int count = 0;
+    for (int family_id = FAMILY_LEFT_HAND; family_id < NB_FAMILY; ++family_id)
+    {
+        uint8_t family_bits = g_family_bits[family_id];
+        if (family_bits != 0) {
+            count++;
+            if (count > 1) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 void stroke(void)
 {
     // Send characters for each key family
@@ -340,6 +357,7 @@ void stroke(void)
     del_mods(MOD_LSFT|MOD_RSFT);
     bool initial_case_1 = false;
     bool initial_case_2 = false;
+    bool sent_space = false;
     uint8_t sent_count = 0;
 
     // Get *, + and case controls info
@@ -348,6 +366,7 @@ void stroke(void)
     const bool has_star = special_controls_bits & (1 << (SC_STAR & 0xF));
     const bool has_plus = special_controls_bits & (1 << (SC_PLUS & 0xF));
     const bool has_nospace = g_family_bits[FAMILY_SPACES] & (1 << (S_NOSPC & 0xF));
+    const bool is_one = is_one_family();
     const uint8_t case_controls_bits = g_family_bits[FAMILY_CASE_CONTROLS];
     if (case_controls_bits)
     {
@@ -402,11 +421,13 @@ void stroke(void)
                     const uint8_t byte = pgm_read_byte(&(letters_table[family_bits][code_pos]));
                     if (byte)
                     {
-                        if (sent_count == 0 && !has_nospace) {
+                        if (sent_count == 0 && !has_nospace && !is_one) {
                             register_code(KC_SPC);
                             unregister_code(KC_SPC);
                             register_count++;
                             sent_count++;
+                            sent_space = true;
+                            space_in_last = true;
                         }
                         register_code(byte);
                         unregister_code(byte);
@@ -414,7 +435,7 @@ void stroke(void)
                         register_count++;
                         sent_count++;
 
-                        if ((initial_case_1 && sent_count == 1) || (initial_case_2 && sent_count == 2))
+                        if ((initial_case_1 && sent_count - sent_space == 1) || (initial_case_2 && sent_count - sent_space == 2))
                         {
                             del_mods(MOD_LSFT);
                         }
@@ -470,17 +491,42 @@ void stroke(void)
         }
     }
 
-    if (sent_count > 0)
+    if (sent_count == 0 && has_nospace && !has_star)   // single "no space" produces a space
     {
-        // Undo history
-        if (g_undo_stack_index == MAX_UNDO)
-        {
-            g_undo_stack_index = 0;
-        }
-
-        g_undo_stack[g_undo_stack_index++] = sent_count;
+        register_code(KC_SPC);
+        unregister_code(KC_SPC);
+        sent_count++;
+        space_in_last = true;
     }
-    else if (has_star && undo_allowed)
+    else if (sent_count == 0 && has_nospace && has_star)   // "no space" with star - toggle space
+    {
+        int8_t previous_index = g_undo_stack_index - 1;
+        // back up
+        for (uint8_t i = 0; i < g_undo_stack[previous_index]; ++i)
+        {
+            register_code(KC_LEFT);
+            unregister_code(KC_LEFT);
+        }
+        if (space_in_last) 
+        {
+            register_code(KC_DEL);
+            unregister_code(KC_DEL);
+            g_undo_stack[previous_index]--;
+        } else 
+        {
+            register_code(KC_SPC);
+            unregister_code(KC_SPC);
+            g_undo_stack[previous_index]++;
+        }
+        // move forward
+        for (uint8_t i = 0; i < g_undo_stack[previous_index] - !space_in_last; ++i)
+        {
+            register_code(KC_RIGHT);
+            unregister_code(KC_RIGHT);
+        }
+        space_in_last = !space_in_last;
+    } 
+    else if (sent_count == 0 && has_star && undo_allowed)
     {
         // Compute the previous index
         int8_t previous_index = g_undo_stack_index - 1;
@@ -504,6 +550,16 @@ void stroke(void)
             g_undo_stack[previous_index] = 0;
             g_undo_stack_index = previous_index;
         }
+    }
+    if (sent_count > 0)
+    {
+        // Undo history
+        if (g_undo_stack_index == MAX_UNDO)
+        {
+            g_undo_stack_index = 0;
+        }
+
+        g_undo_stack[g_undo_stack_index++] = sent_count;
     }
 
     // Restore original mods
