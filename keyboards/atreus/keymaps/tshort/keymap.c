@@ -235,6 +235,7 @@ const uint16_t g_special_shift_table[SPECIAL_SHIFT_TABLE_SIZE] =
 uint8_t g_undo_stack[MAX_UNDO] = {0};
 int8_t g_undo_stack_index = 0;
 bool space_in_last = false;
+bool space_in_before_last = false;
 
 // Steno keymap
 const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
@@ -337,7 +338,7 @@ bool is_letter(uint8_t code)
 bool is_one_family(void)
 {
     int count = 0;
-    for (int family_id = FAMILY_LEFT_HAND; family_id < NB_FAMILY; ++family_id)
+    for (int family_id = FAMILY_LEFT_HAND; family_id <= FAMILY_RIGHT_USER_SYMBOLS; ++family_id)
     {
         uint8_t family_bits = g_family_bits[family_id];
         if (family_bits != 0) {
@@ -357,7 +358,6 @@ void stroke(void)
     del_mods(MOD_LSFT|MOD_RSFT);
     bool initial_case_1 = false;
     bool initial_case_2 = false;
-    bool sent_space = false;
     uint8_t sent_count = 0;
 
     // Get *, + and case controls info
@@ -421,24 +421,24 @@ void stroke(void)
                     const uint8_t byte = pgm_read_byte(&(letters_table[family_bits][code_pos]));
                     if (byte)
                     {
-                        if (sent_count == 0 && !has_nospace && !is_one) {
-                            register_code(KC_SPC);
-                            unregister_code(KC_SPC);
-                            register_count++;
-                            sent_count++;
-                            sent_space = true;
-                            space_in_last = true;
+                        if (sent_count == 0) 
+                        {
+                            space_in_before_last = space_in_last;
                         } 
-                        else if (sent_count == 0) {
-                            space_in_last = false;
-                        }
+                        if (sent_count == 0 && space_in_last && (is_one != has_nospace)) 
+                        {
+                            register_code(KC_BSPC);
+                            unregister_code(KC_BSPC);
+                            g_undo_stack[g_undo_stack_index - 1]--;
+                            space_in_before_last = false;
+                        } 
                         register_code(byte);
                         unregister_code(byte);
                         last_byte = byte;
                         register_count++;
                         sent_count++;
 
-                        if ((initial_case_1 && sent_count - sent_space == 1) || (initial_case_2 && sent_count - sent_space == 2))
+                        if ((initial_case_1 && sent_count == 1) || (initial_case_2 && sent_count == 2))
                         {
                             del_mods(MOD_LSFT);
                         }
@@ -466,9 +466,17 @@ void stroke(void)
                     const uint16_t word = pgm_read_word(&(symbols_table[family_bits][code_pos]));
                     if (word)
                     {
-                        if (sent_count == 0) {
-                            space_in_last = false;
-                        }
+                        if (sent_count == 0) 
+                        {
+                            space_in_before_last = space_in_last;
+                        } 
+                        if (sent_count == 0 && space_in_last && (is_one != has_nospace)) 
+                        {
+                            register_code(KC_BSPC);
+                            unregister_code(KC_BSPC);
+                            g_undo_stack[g_undo_stack_index - 1]--;
+                            space_in_before_last = false;
+                        } 
                         const uint8_t code = (uint8_t)word;
                         if (is_letter(code))
                         {
@@ -497,26 +505,43 @@ void stroke(void)
         }
     }
 
-    if (sent_count == 0 && has_nospace && !has_star)   // single "no space" produces a space
+    int8_t previous_index = g_undo_stack_index - 1;
+    if (sent_count > 0)   // insert a trailing space for a regular chord
     {
         register_code(KC_SPC);
         unregister_code(KC_SPC);
         sent_count++;
         space_in_last = true;
     }
-    else if (sent_count == 0 && has_nospace && has_star)   // "no space" with star - toggle leading space
+    else if (sent_count == 0 && has_nospace && !has_star)   // single "no space" toggles a space
     {
-        int8_t previous_index = g_undo_stack_index - 1;
+        if (space_in_last) 
+        {
+            register_code(KC_BSPC);
+            unregister_code(KC_BSPC);
+            space_in_last = false;
+            g_undo_stack[previous_index]--;
+        }
+        else
+        {
+            register_code(KC_SPC);
+            unregister_code(KC_SPC);
+            sent_count++;
+            space_in_last = false; // kludge: allow repeated spaces
+        }
+    }
+    else if (sent_count == 0 && has_nospace && has_star)   // "no space" with star - toggle prior space
+    {
         // back up
         for (uint8_t i = 0; i < g_undo_stack[previous_index]; ++i)
         {
             register_code(KC_LEFT);
             unregister_code(KC_LEFT);
         }
-        if (space_in_last) 
+        if (space_in_before_last) 
         {
-            register_code(KC_DEL);
-            unregister_code(KC_DEL);
+            register_code(KC_BSPC);
+            unregister_code(KC_BSPC);
             g_undo_stack[previous_index]--;
         } 
         else 
@@ -526,17 +551,16 @@ void stroke(void)
             g_undo_stack[previous_index]++;
         }
         // move forward
-        for (uint8_t i = 0; i < g_undo_stack[previous_index] - !space_in_last; ++i)
+        for (uint8_t i = 0; i < g_undo_stack[previous_index]; ++i)
         {
             register_code(KC_RIGHT);
             unregister_code(KC_RIGHT);
         }
-        space_in_last = !space_in_last;
+        space_in_before_last = !space_in_before_last;
     } 
     else if (sent_count == 0 && has_star && undo_allowed)
     {
         // Compute the previous index
-        int8_t previous_index = g_undo_stack_index - 1;
         if (previous_index < 0)
         {
             previous_index = MAX_UNDO - 1;
@@ -556,6 +580,8 @@ void stroke(void)
             // Reset data and update the undo stack index
             g_undo_stack[previous_index] = 0;
             g_undo_stack_index = previous_index;
+            space_in_before_last = false;
+            space_in_last = space_in_before_last;
         }
     }
     if (sent_count > 0)
