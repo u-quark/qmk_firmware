@@ -366,6 +366,7 @@ void stroke(void)
     const bool has_star = special_controls_bits & (1 << (SC_STAR & 0xF));
     const bool has_plus = special_controls_bits & (1 << (SC_PLUS & 0xF));
     const bool has_nospace = g_family_bits[FAMILY_SPACES] & (1 << (S_NOSPC & 0xF));
+    const bool has_enter = g_family_bits[FAMILY_SPACES] & (1 << (S_ENT & 0xF));
     const bool is_one = is_one_family();
     const uint8_t case_controls_bits = g_family_bits[FAMILY_CASE_CONTROLS];
     if (case_controls_bits)
@@ -506,12 +507,19 @@ void stroke(void)
     }
 
     int8_t previous_index = g_undo_stack_index - 1;
-    if (sent_count > 0)   // insert a trailing space for a regular chord
+    if (sent_count > 0)
     {
-        register_code(KC_SPC);
-        unregister_code(KC_SPC);
-        sent_count++;
-        space_in_last = true;
+        if (!has_enter)   // insert a trailing space for a regular chord
+        {
+            register_code(KC_SPC);
+            unregister_code(KC_SPC);
+            sent_count++;
+            space_in_last = true;
+        }
+        else
+        {
+            space_in_last = false;
+        }
     }
     else if (sent_count == 0 && has_nospace && !has_star)   // single "no space" toggles a space
     {
@@ -542,13 +550,13 @@ void stroke(void)
         {
             register_code(KC_BSPC);
             unregister_code(KC_BSPC);
-            g_undo_stack[previous_index]--;
+            g_undo_stack[previous_index - 1]--;
         } 
         else 
         {
             register_code(KC_SPC);
             unregister_code(KC_SPC);
-            g_undo_stack[previous_index]++;
+            g_undo_stack[previous_index - 1]++;
         }
         // move forward
         for (uint8_t i = 0; i < g_undo_stack[previous_index]; ++i)
