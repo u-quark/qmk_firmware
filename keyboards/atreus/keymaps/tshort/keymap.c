@@ -241,7 +241,7 @@ bool space_in_before_last = false;
 const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
 // BASE STENO MAP
 {
-  {C_UC,  USRL_3, S_COMM, S_DOT, SC_PLUS,   KC_TRNS, SC_STAR, USRR_1, RP_Y, RP_E, RP_S},
+  {C_UC,  USRL_3, S_COMM, S_DOT, SC_PLUS,   KC_TRNS, SC_STAR, USRR_1, RP_E, RP_Y, RP_S},
   {L_A,   L_C, L_W, L_N, S_NOSPC,           KC_TRNS, USRR_5, R_R, R_L, R_C, R_T},
   {L_S,   L_T, L_H, L_R, SC_STAR,           T_A,     USRR_4, R_N, R_G, R_H, R_S},
   {KC_TRNS, KC_TRNS, KC_TRNS, C_IC, T_E,    T_O,     T_U, T_I, S_NOSPC, USRR_0, S_ENT}
