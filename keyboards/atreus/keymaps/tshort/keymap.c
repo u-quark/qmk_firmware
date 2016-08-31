@@ -80,7 +80,7 @@ enum key_family
 
 // 3 bits for space control keys
 #define OFFSET_SPACE_CONTROLS 26
-#define S_NOSPC (0 | (FAMILY_SPACES << 4) | STENO_BIT)
+#define S_MSPC  (0 | (FAMILY_SPACES << 4) | STENO_BIT)
 #define S_DOT   (1 | (FAMILY_SPACES << 4) | STENO_BIT)
 #define S_ENT   (2 | (FAMILY_SPACES << 4) | STENO_BIT)
 #define S_COMM  (3 | (FAMILY_SPACES << 4) | STENO_BIT)
@@ -234,17 +234,16 @@ const uint16_t g_special_shift_table[SPECIAL_SHIFT_TABLE_SIZE] =
 #define MAX_UNDO 100
 uint8_t g_undo_stack[MAX_UNDO] = {0};
 int8_t g_undo_stack_index = 0;
-bool space_in_last = false;
-bool space_in_before_last = false;
+bool space_mode = true;
 
 // Steno keymap
 const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
 // BASE STENO MAP
 {
-  {C_UC,  USRL_3, S_COMM, S_DOT, SC_PLUS,   KC_TRNS, SC_STAR, USRR_1, RP_E, RP_Y, RP_S},
-  {L_A,   L_C, L_W, L_N, S_NOSPC,           KC_TRNS, USRR_5, R_R, R_L, R_C, R_T},
-  {L_S,   L_T, L_H, L_R, SC_STAR,           T_A,     USRR_4, R_N, R_G, R_H, R_S},
-  {KC_TRNS, KC_TRNS, KC_TRNS, C_IC, T_E,    T_O,     T_U, T_I, S_NOSPC, USRR_0, S_ENT}
+  {KC_TRNS, USRL_3, S_COMM, S_DOT, SC_PLUS,   KC_TRNS, USRR_1, USRR_0, RP_E, RP_Y, RP_S},
+  {L_A,     L_C, L_W, L_N, S_MSPC,            KC_TRNS, USRR_5, R_R, R_L, R_C, R_T},
+  {L_S,     L_T, L_H, L_R, SC_STAR,           T_A,     USRR_4, R_N, R_G, R_H, R_S},
+  {KC_TRNS, KC_TRNS, KC_TRNS, C_IC, T_E,    T_O,     T_U, T_I, RP_E, USRR_0, S_ENT}
 },
 // SHIFT STENO MAP
 {
@@ -253,7 +252,6 @@ const uint32_t PROGMEM g_steno_keymap[2][MATRIX_ROWS][MATRIX_COLS] = {
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 }};
-
 
 #define STENO 0
 #define ST_ON M(STENO)
@@ -272,13 +270,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   {KC_EQL,  KC_GRV,  KC_TRNS, KC_TRNS, KC_LSFT, CTL_T(KC_ESC), KC_SPC, KC_TRNS, KC_0, KC_DOT, KC_ENT  }
 },
 [_FN] = {
-  {KC_F1,  KC_F2,  KC_F3, KC_F4, KC_F5,   KC_TRNS, KC_HOME, KC_PGUP, KC_PGDN, KC_END,  KC_TRNS},
-  {KC_F6,  KC_F7,  KC_F8, KC_F9, KC_F10,  KC_TRNS, KC_LEFT, KC_DOWN, KC_UP,  KC_RIGHT, KC_TRNS},
-  {KC_F11, KC_F12, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_DEL, KC_TRNS,  RESET},
+  {KC_F1,  KC_F2,  KC_F3, KC_F4, KC_F5,   KC_TRNS, KC_HOME, KC_PGUP, KC_PGDN, KC_END,  KC_WH_U},
+  {KC_F6,  KC_F7,  KC_F8, KC_F9, KC_F10,  KC_TRNS, KC_LEFT, KC_DOWN, KC_UP,  KC_RIGHT, KC_WH_D},
+  {KC_F11, KC_F12, KC_BTN1, KC_TRNS, KC_TRNS, KC_TRNS, KC_WH_L, KC_WH_R, KC_DEL, KC_TRNS,  RESET},
   {KC_TRNS,  KC_TRNS, GUI_T(KC_TAB), KC_TRNS, KC_LSFT, CTL_T(KC_ESC), KC_SPC, KC_BSPC, KC_TRNS, KC_SCLN, KC_ENT  },
 },
 [_STENO] = {
-  {ST_ON,       ST_ON, ST_ON, ST_ON, ST_ON, KC_TRNS, ST_ON, ST_ON, ST_ON, ST_ON, ST_ON},
+  {KC_CAPS,     ST_ON, ST_ON, ST_ON, ST_ON, KC_TRNS, ST_ON, ST_ON, ST_ON, ST_ON, ST_ON},
   {ST_ON,       ST_ON, ST_ON, ST_ON, ST_ON, KC_TRNS, ST_ON, ST_ON, ST_ON, ST_ON, ST_ON},
   {ST_ON,       ST_ON, ST_ON, ST_ON, ST_ON, ST_ON,   ST_ON, ST_ON, ST_ON, ST_ON, ST_ON},
   {DF(_QWERTY), OSL(_FN), OSL(_SYM), ST_ON, ST_ON, ST_ON,   ST_ON, ST_ON, ST_ON, ST_ON, ST_ON}
@@ -335,22 +333,6 @@ bool is_letter(uint8_t code)
 #endif
 }
 
-bool is_one_family(void)
-{
-    int count = 0;
-    for (int family_id = FAMILY_LEFT_HAND; family_id <= FAMILY_RIGHT_USER_SYMBOLS; ++family_id)
-    {
-        uint8_t family_bits = g_family_bits[family_id];
-        if (family_bits != 0) {
-            count++;
-            if (count > 1) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
 void stroke(void)
 {
     // Send characters for each key family
@@ -365,9 +347,8 @@ void stroke(void)
     const uint8_t thumbs_bits = g_family_bits[FAMILY_THUMBS];
     const bool has_star = special_controls_bits & (1 << (SC_STAR & 0xF));
     const bool has_plus = special_controls_bits & (1 << (SC_PLUS & 0xF));
-    const bool has_nospace = g_family_bits[FAMILY_SPACES] & (1 << (S_NOSPC & 0xF));
+    const bool has_metaspace = g_family_bits[FAMILY_SPACES] & (1 << (S_MSPC & 0xF));
     const bool has_enter = g_family_bits[FAMILY_SPACES] & (1 << (S_ENT & 0xF));
-    const bool is_one = is_one_family();
     const uint8_t case_controls_bits = g_family_bits[FAMILY_CASE_CONTROLS];
     if (case_controls_bits)
     {
@@ -422,17 +403,6 @@ void stroke(void)
                     const uint8_t byte = pgm_read_byte(&(letters_table[family_bits][code_pos]));
                     if (byte)
                     {
-                        if (sent_count == 0) 
-                        {
-                            space_in_before_last = space_in_last;
-                        } 
-                        if (sent_count == 0 && space_in_last && (is_one != has_nospace)) 
-                        {
-                            register_code(KC_BSPC);
-                            unregister_code(KC_BSPC);
-                            g_undo_stack[g_undo_stack_index - 1]--;
-                            space_in_before_last = false;
-                        } 
                         register_code(byte);
                         unregister_code(byte);
                         last_byte = byte;
@@ -467,17 +437,6 @@ void stroke(void)
                     const uint16_t word = pgm_read_word(&(symbols_table[family_bits][code_pos]));
                     if (word)
                     {
-                        if (sent_count == 0) 
-                        {
-                            space_in_before_last = space_in_last;
-                        } 
-                        if (sent_count == 0 && space_in_last && (is_one != has_nospace)) 
-                        {
-                            register_code(KC_BSPC);
-                            unregister_code(KC_BSPC);
-                            g_undo_stack[g_undo_stack_index - 1]--;
-                            space_in_before_last = false;
-                        } 
                         const uint8_t code = (uint8_t)word;
                         if (is_letter(code))
                         {
@@ -507,64 +466,25 @@ void stroke(void)
     }
 
     int8_t previous_index = g_undo_stack_index - 1;
-    if (sent_count > 0)
+    if (sent_count > 0 && space_mode != has_metaspace && !has_enter)   // insert a trailing space in space mode
     {
-        if (!has_enter)   // insert a trailing space for a regular chord
+        register_code(KC_SPC);
+        unregister_code(KC_SPC);
+        sent_count++;
+    }
+    else if (sent_count == 0 && has_metaspace && !has_star)   // single "no space" toggles space mode
+    {
+        space_mode = !space_mode;
+        if (space_mode) // insert a space after entering space mode
         {
             register_code(KC_SPC);
             unregister_code(KC_SPC);
             sent_count++;
-            space_in_last = true;
-        }
-        else
-        {
-            space_in_last = false;
         }
     }
-    else if (sent_count == 0 && has_nospace && !has_star)   // single "no space" toggles a space
+    else if (sent_count == 0 && has_metaspace && has_star)  
     {
-        if (space_in_last) 
-        {
-            register_code(KC_BSPC);
-            unregister_code(KC_BSPC);
-            space_in_last = false;
-            g_undo_stack[previous_index]--;
-        }
-        else
-        {
-            register_code(KC_SPC);
-            unregister_code(KC_SPC);
-            sent_count++;
-            space_in_last = false; // kludge: allow repeated spaces
-        }
-    }
-    else if (sent_count == 0 && has_nospace && has_star)   // "no space" with star - toggle prior space
-    {
-        // back up
-        for (uint8_t i = 0; i < g_undo_stack[previous_index]; ++i)
-        {
-            register_code(KC_LEFT);
-            unregister_code(KC_LEFT);
-        }
-        if (space_in_before_last) 
-        {
-            register_code(KC_BSPC);
-            unregister_code(KC_BSPC);
-            g_undo_stack[previous_index - 1]--;
-        } 
-        else 
-        {
-            register_code(KC_SPC);
-            unregister_code(KC_SPC);
-            g_undo_stack[previous_index - 1]++;
-        }
-        // move forward
-        for (uint8_t i = 0; i < g_undo_stack[previous_index]; ++i)
-        {
-            register_code(KC_RIGHT);
-            unregister_code(KC_RIGHT);
-        }
-        space_in_before_last = !space_in_before_last;
+        // nothing for now
     } 
     else if (sent_count == 0 && has_star && undo_allowed)
     {
@@ -588,8 +508,6 @@ void stroke(void)
             // Reset data and update the undo stack index
             g_undo_stack[previous_index] = 0;
             g_undo_stack_index = previous_index;
-            space_in_before_last = false;
-            space_in_last = space_in_before_last;
         }
     }
     if (sent_count > 0)

@@ -29,11 +29,12 @@ Here is a cheat sheet with some of the nonobvious [Shelton chords](http://www.go
 
 ![Steno cheat sheet](https://cdn.rawgit.com/tshort/qmk_firmware/master/keyboards/atreus/keymaps/tshort/jackdaw-cheatsheet.svg)
 
-This layer includes a "No-Space" key similar to that in a Veyboard/Velotype. This reduces use relative to a space key. The logic with this implementation is:
+I added a few chords on the right side that are not in the Shelton spec: LD = LGCHS, LDS = LGCHTS, and NL = NLGC.
 
-* Normal chords produce a trailing space. 
-* If a new chord involves more the one family (e.g. left family and a vowel), it is entered normally. 
-* If a new chord is within one family (e.g. just vowels), the trailing space from the previous chord is removed, as the new chord is appended. 
-* No-Space by itself: if there is a trailing space in the previous chord, remove it, otherwise, add a space.
-* If the No-Space key is included in a chord, it reverses the two actions above. So, a chord involving multiple families is appended, and a chord within a family is kept separate. 
-* No-Space with the * key toggles the trailing space on the previous chord.
+Two spacing modes are provided that control entry of spaces:
+
+* *Space mode* -- The default mode. A trailing space is added after each chord. This is useful because most common words can be typed in one chord. 
+* *No-space mode* -- No spaces are added.
+
+Used alone, the "Meta-Space" key toggles between these two spacing modes. If the Meta-Space key is used with a chord, it toggles the spacing mode just for that chord. When the Meta-Space key is used alone to enable Space mode, a space is inserted. 
+
