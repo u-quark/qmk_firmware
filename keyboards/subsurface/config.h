@@ -31,12 +31,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* key matrix size */
 #define MATRIX_ROWS 3
-#define MATRIX_COLS 28
+#define MATRIX_COLS 29
 
 // Change this to how you wired your keyboard
 // COLS: Left to right, ROWS: Top to bottom
 #   define MATRIX_ROW_PINS { C2, C1, C0}
-#   define MATRIX_COL_PINS { C7, C6, C5, C4, C3,   F3, F4, F5, F6, F7,   D7, D5, D4, D3, D2, D1, D0, B7,    B6, B5, B4, B3, B2, B1, B0, E6,   F0, F1}
+#   define MATRIX_COL_PINS { C7, C6, C5, C4, C3,   F3, F4, F5, F6, F7,   D7, D5, D4, D3, D2, D1, D0, B7,    B6, B5, B4, B3, B2, B1, B0, E6,   F0, F1, F2}
 #   define UNUSED_PINS
 
 /* COL2ROW or ROW2COL */

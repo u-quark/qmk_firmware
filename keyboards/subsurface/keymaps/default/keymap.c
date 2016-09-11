@@ -246,7 +246,7 @@ KEYMAP(
   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, T_E, SC_STAR, 
   T_O, SC_STAR, T_A, T_U,
   SC_STAR, T_I, KC_TRNS, KC_TRNS, RP_E, S_ENT, 
-  C_IC, S_MSPC),
+  C_IC, S_MSPC, KC_TRNS),
 // SHIFT STENO MAP
 KEYMAP(
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -255,7 +255,7 @@ KEYMAP(
   0, 0, 0, 0, 0, 0,
   0, 0, 0, 0,
   0, 0, 0, 0, 0, 0,
-  0, 0)
+  0, 0, 0)
 };
 
 #define STENO 0
@@ -269,7 +269,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_GRV,  DF(_STENO), GUI_T(KC_TAB), OSL(_FN), KC_LSFT, CTL_T(KC_ESC), 
   KC_LEFT, KC_UP, KC_DOWN, KC_RIGHT, 
   KC_LALT, KC_SPC, KC_BSPC, KC_SCLN, KC_MINS, KC_ENT,
-  OSL(_SYM), OSL(_SYM)),
+  OSL(_SYM), OSL(_SYM), KC_BTN1),
 [_SYM] = KEYMAP(
   KC_PIPE, KC_EXLM, KC_LCBR, KC_RCBR, KC_AT,   KC_PLUS,  KC_7, KC_8, KC_9, KC_CIRC,
   KC_AMPR, KC_HASH, KC_LPRN, KC_RPRN, KC_DLR,  KC_EQL,   KC_4, KC_5, KC_6, KC_ASTR,
@@ -277,7 +277,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_GRV,  KC_TRNS, GUI_T(KC_TAB), OSL(_FN), KC_LSFT, CTL_T(KC_ESC), 
   KC_LEFT, KC_UP, KC_DOWN, KC_RIGHT, 
   KC_LALT, KC_SPC, KC_BSPC, KC_DOT, KC_0, KC_ENT,
-  OSL(_SYM), OSL(_SYM)),
+  OSL(_SYM), OSL(_SYM), KC_BTN2),
 [_FN] = KEYMAP(
   KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_TRNS, KC_HOME, KC_PGUP, KC_PGDN, KC_END,  KC_WH_U,
   KC_F5,  KC_F6,  KC_F7,  KC_F8,  KC_TRNS, KC_LEFT, KC_DOWN, KC_UP,  KC_RIGHT, KC_WH_D,
@@ -285,7 +285,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_GRV, KC_TRNS, GUI_T(KC_TAB), OSL(_FN), KC_LSFT, CTL_T(KC_ESC), 
   KC_LEFT, KC_UP, KC_DOWN, KC_RIGHT, 
   KC_LALT, KC_SPC, KC_BSPC, KC_TRNS, KC_TRNS, KC_ENT,
-  OSL(_SYM), OSL(_SYM)),
+  OSL(_SYM), OSL(_SYM), KC_BTN3),
 [_STENO] = KEYMAP(
   ST_ON, ST_ON, ST_ON, ST_ON, ST_ON,   ST_ON, ST_ON, ST_ON, ST_ON, ST_ON,
   ST_ON, ST_ON, ST_ON, ST_ON, ST_ON,   ST_ON, ST_ON, ST_ON, ST_ON, ST_ON,
@@ -293,7 +293,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_CAPS, DF(_QWERTY), OSL(_FN), OSL(_SYM), ST_ON, ST_ON, 
   ST_ON, ST_ON, ST_ON, ST_ON, 
   ST_ON, ST_ON, KC_SPC, KC_BSPC, ST_ON, ST_ON, 
-  ST_ON, ST_ON)
+  ST_ON, ST_ON, KC_BTN1)
 };
 
 // void dance_eql_steno (qk_tap_dance_state_t *state, void *user_data) {
