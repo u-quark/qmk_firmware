@@ -15,7 +15,6 @@
 #ifdef RGBLIGHT_ENABLE
   #include "rgblight.h"
 #endif
-
 #include "action_layer.h"
 #include "eeconfig.h"
 #include <stddef.h>
@@ -25,6 +24,7 @@
 #include "led.h"
 #include "action_util.h"
 #include <stdlib.h>
+#include "print.h"
 
 
 extern uint32_t default_layer_state;
@@ -56,7 +56,23 @@ extern uint32_t default_layer_state;
 	#include "process_unicode.h"
 #endif
 
+#ifdef UCIS_ENABLE
+	#include "process_ucis.h"
+#endif
+
+#ifdef UNICODEMAP_ENABLE
+	#include "process_unicodemap.h"
+#endif
+
 #include "process_tap_dance.h"
+
+#ifdef PRINTING_ENABLE
+	#include "process_printer.h"
+#endif
+
+#ifdef COMBO_ENABLE
+	#include "process_combo.h"
+#endif
 
 #define SEND_STRING(str) send_string(PSTR(str))
 void send_string(const char *str);
@@ -77,11 +93,17 @@ bool process_action_kb(keyrecord_t *record);
 bool process_record_kb(uint16_t keycode, keyrecord_t *record);
 bool process_record_user(uint16_t keycode, keyrecord_t *record);
 
+void reset_keyboard(void);
+
 void startup_user(void);
 void shutdown_user(void);
 
+void register_code16 (uint16_t code);
+void unregister_code16 (uint16_t code);
+
 #ifdef BACKLIGHT_ENABLE
 void backlight_init_ports(void);
+void backlight_task(void);
 
 #ifdef BACKLIGHT_BREATHING
 void breathing_enable(void);
@@ -100,8 +122,15 @@ void breathing_speed_dec(uint8_t value);
 #endif
 
 #endif
+void send_dword(uint32_t number);
+void send_word(uint16_t number);
+void send_byte(uint8_t number);
+void send_nibble(uint8_t number);
+uint16_t hex_to_keycode(uint8_t hex);
 
 void led_set_user(uint8_t usb_led);
 void led_set_kb(uint8_t usb_led);
+
+void api_send_unicode(uint32_t unicode);
 
 #endif

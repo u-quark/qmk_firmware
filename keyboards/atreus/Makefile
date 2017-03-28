@@ -1,5 +1,6 @@
 
 
+
 ifdef TEENSY2
     OPT_DEFS += -DATREUS_TEENSY2
     ATRUES_UPLOAD_COMMAND = teensy_loader_cli -w -mmcu=$(MCU) $(TARGET).hex
@@ -81,9 +82,3 @@ UNICODE_ENABLE ?= YES 		# Unicode
 ifndef QUANTUM_DIR
 	include ../../Makefile
 endif
-
-USB ?= /dev/cu.usbmodem1411
-
-upload: build
-	$(ATRUES_UPLOAD_COMMAND)
-	
