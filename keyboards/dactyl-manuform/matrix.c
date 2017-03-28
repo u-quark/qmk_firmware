@@ -29,20 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "util.h"
 #include "matrix.h"
 #include "split_util.h"
+#include "pro_micro.h"
 #include "config.h"
-// #include "pro_micro.h"
-#include <avr/pgmspace.h>
-#define TX_RX_LED_INIT  DDRD |= (1<<5), DDRB |= (1<<0)
-#define TXLED0          PORTD |= (1<<5)
-#define TXLED1          PORTD &= ~(1<<5)
-
-#if (MATRIX_COLS <= 8)
-#    define ROW_SHIFTER ((uint8_t)1)
-#elif (MATRIX_COLS <= 16)
-#    define ROW_SHIFTER ((uint16_t)1)
-#elif (MATRIX_COLS <= 32)
-#    define ROW_SHIFTER  ((uint32_t)1)
-#endif
 
 #ifdef USE_I2C
 #  include "i2c.h"
@@ -310,7 +298,7 @@ static matrix_row_t read_cols(void)
 {
     matrix_row_t result = 0;
     for(int x = 0; x < MATRIX_COLS; x++) {
-        result |= (_SFR_IO8(col_pins[x] >> 4) & _BV(col_pins[x] & 0xF)) ? 0 : (ROW_SHIFTER << x);
+        result |= (_SFR_IO8(col_pins[x] >> 4) & _BV(col_pins[x] & 0xF)) ? 0 : (1 << x);
     }
     return result;
 }

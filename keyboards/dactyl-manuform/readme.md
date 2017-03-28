@@ -1,49 +1,46 @@
-Let's Split
+Dactyl-ManuForm 
 ======
+
+This code was adapted from the Let's Split code. 
 
 This readme and most of the code are from https://github.com/ahtn/tmk_keyboard/
 
 Split keyboard firmware for Arduino Pro Micro or other ATmega32u4
 based boards.
 
-
 ## First Time Setup
 
-Download or clone the whole firmware and navigate to the keyboards/dactyl-manuform directory. Once your dev env is setup, you'll be able to generate the default .hex using:
+Download or clone the whole firmware and navigate to the keyboards/dactyl-manuform directory. Once your dev env is setup, you'll be able to generate the default .hex firmware files using:
 
 ```
-$ make rev2
+$ make 
 ```
 
-You will see a lot of output and if everything worked correctly you will see the built hex files:
+You will see a lot of output and if everything worked correctly, you will see the built hex files:
 
 ```
-dactyl-manuform_rev2_serial.hex
-dactyl-manuform_rev2_i2c.hex
+dactyl-manuform-4x5-default.hex
+dactyl-manuform-5x6-default.hex
 ```
 
-If you would like to use one of the alternative keymaps, or create your own, copy one of the existing [keymaps](keymaps/) and run make like so:
+If you would like to use an alternative keymaps, copy and adjust one of the existing [keymaps](keymaps/), and run make like so:
 
 
 ```
-$ make rev2-YOUR_KEYMAP_NAME
+$ make YOUR_KEYMAP_NAME
 ```
 
 If everything worked correctly you will see a file:
 
 ```
-dactyl-manuform_rev2_YOUR_KEYMAP_NAME.hex
+dactyl-manuform-YOUR_KEYMAP_NAME.hex
 ```
 
 For more information on customizing keymaps, take a look at the primary documentation for [Customizing Your Keymap](/readme.md##customizing-your-keymap) in the main readme.md.
 
-### Let's split 1.0
-If you have a first generation Let's Split you will need to use the revision 1 code. To do so, use `rev1` in all your commands instead.
 
 Features
---------
-
-For the full Quantum Mechanical Keyboard feature list, see [the parent readme.md](/readme.md).
+========
 
 Some features supported by the firmware:
 
@@ -72,7 +69,7 @@ cable with at least 4 wires and 2x 4.7kΩ pull-up resistors
 Optional Hardware
 -----------------
 
-A speaker can be hooked-up to either side to the `5` (`C6`) pin and `GND`, and turned on via `AUDIO_ENABLE`.
+A speaker can be hooked-up to either side to the `5` (`C6`) pin and `GND`, and turned on via `AUDIO_ENABLE`. **This is not tested with the Dactyl-ManuForm.**
 
 Wiring
 ------
@@ -108,8 +105,8 @@ not be very difficult to adapt it to support more if required.
 
 Flashing
 -------
-From the keymap directory run `make SUBPROJECT-KEYMAP-avrdude` for automatic serial port resolution and flashing.
-Example: `make rev2-serial-avrdude`
+From the keymap directory run `make KEYMAP-avrdude` for automatic serial port resolution and flashing.
+Example: `make default-4x5-avrdude`
 
 
 Choosing which board to plug the USB cable into (choosing Master)
